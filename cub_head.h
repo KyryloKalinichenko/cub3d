@@ -22,6 +22,7 @@ typedef struct		s_map
 	short       height;
     short       width;
     char        **map;
+    int         color;
 }					t_map;
 
 typedef struct		s_sq

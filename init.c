@@ -4,7 +4,7 @@
 static void init_mlx(t_data *mlx_s)
 {
     mlx_s->mlx = mlx_init();
-    mlx_s->mlx_win = mlx_new_window(mlx_s->mlx, 1920, 1080, "Hello world!");
+    mlx_s->mlx_win = mlx_new_window(mlx_s->mlx, (mlx_s->width + 5), (mlx_s->height + 5), "Hello world!");
     mlx_s->img = mlx_new_image(mlx_s->mlx, 1920, 1080);
     mlx_s->addr = mlx_get_data_addr(mlx_s->img, &mlx_s->bits_per_pixel, &mlx_s->line_length,
                                  &mlx_s->endian);
@@ -18,10 +18,10 @@ static int read_r(short fd, t_data *mlx_s)
     if (!(get_next_line(fd, &line)))
         return (1);
     width_heiht = ft_split(line, ' ');
-    mlx_s->width = ft_atoi(width_heiht[0]);
+    mlx_s->width = (ft_atoi(width_heiht[0]) - 5);
     mlx_s->height = ft_atoi(width_heiht[1]);
-    printf("%d", mlx_s->width);
-    printf("%d", mlx_s->height);
+    //printf("%d", mlx_s->width);
+    //printf("%d", mlx_s->height);
     return (0);
 }
 
@@ -52,15 +52,20 @@ static int parsing_map(char *file, t_data *mlx_s)
 {
     int fd;
     int i;
+    int height;
     char **map;
 
     i = 0;
     fd = open(file, O_RDONLY);
-    map = malloc(sizeof(char*) * height_count(file, mlx_s));
+    height = height_count(file, mlx_s);
+    mlx_s->map_s->height = mlx_s->height / height;
+    map = malloc(sizeof(char*) * height);
     mlx_s->map_s->map = map;
     while(get_next_line(fd, &map[i]) && ft_strchr(map[i], 'R'))
         free(map[i]);
-    while(get_next_line(fd, &map[i++]))
+    get_next_line(fd, &map[i]);
+    mlx_s->map_s->width = mlx_s->width / ft_strlen(map[i]);
+    while(get_next_line(fd, &map[++i]))
         ;
     map[i] = NULL;
     return (0);
