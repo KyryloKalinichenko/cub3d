@@ -3,6 +3,11 @@ SRCS			=	cub3d.c \
 					get_next_line/get_next_line_bonus.c \
 					get_next_line/get_next_line_utils_bonus.c \
 					init.c \
+					ft_atoi.c \
+					ft_split.c \
+					ft_isdigit.c \
+					ft_strlcpy.c \
+					draw.c \
 
 OBJS			= $(SRCS:.c=.o)
 

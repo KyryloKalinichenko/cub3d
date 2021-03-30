@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "cub_head.h"
 
 static int					ft_isotherwhitespace(char c)
 {

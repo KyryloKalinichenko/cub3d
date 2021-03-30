@@ -1,5 +1,5 @@
 #include "cub_head.h"
-#include <fcntl.h>
+
 
 static void init_mlx(t_data *mlx_s)
 {
@@ -10,60 +10,71 @@ static void init_mlx(t_data *mlx_s)
                                  &mlx_s->endian);
 }
 
-static int rear_r(short fd, t_map *map_s)
+static int read_r(short fd, t_data *mlx_s)
 {
     char *line;
     char **width_heiht;
 
-    if (!(get_next_line(fd, &line))
+    if (!(get_next_line(fd, &line)))
         return (1);
     width_heiht = ft_split(line, ' ');
-    map_s->width = ft_atoi(width_heiht[0]);
-    map_s->width = ft_atoi(width_heiht[1]);
-
+    mlx_s->width = ft_atoi(width_heiht[0]);
+    mlx_s->height = ft_atoi(width_heiht[1]);
+    printf("%d", mlx_s->width);
+    printf("%d", mlx_s->height);
+    return (0);
 }
 
-
-static int height_count(short fd, t_map *map_s)
+static int height_count(char *file, t_data *mlx_s)
 {
     short height;
     int i;
+    int fd;
     char buff[BUFFER_SIZE + 1];
     
     height  = 0;
-	while ((i = read(fd, buff, BUFFER_SIZE)) > 0)
+    fd = open(file, O_RDONLY);
+    while ((i = read(fd, buff, BUFFER_SIZE)) > 0)
 	{
 		buff[i] = '\0';
         if (ft_strchr(buff, 'R'))
         {
-            read_r(fd, map_s);
+            read_r(fd, mlx_s);
+            height--;
         }
-		else if (ft_strchr(buff, '\n'))
+		if (ft_strchr(buff, '\n'))
 			height++;
 	}
 	return (height + 1);
 }
 
-static int parsing_map(char *file, t_map *map_s)
+static int parsing_map(char *file, t_data *mlx_s)
 {
-    short fd;
+    int fd;
+    int i;
     char **map;
 
+    i = 0;
     fd = open(file, O_RDONLY);
-    map = map_s->map;
-    while (get_next_line(fd, map))
-    {
-
-    }
+    map = malloc(sizeof(char*) * height_count(file, mlx_s));
+    mlx_s->map_s->map = map;
+    while(get_next_line(fd, &map[i]) && ft_strchr(map[i], 'R'))
+        free(map[i]);
+    while(get_next_line(fd, &map[i++]))
+        ;
+    map[i] = NULL;
+    return (0);
 }
 
-int     init(/*t_main *main_str, */t_data *mlx_s, char *file)
+int     init(t_data *mlx_s, char *file)
 {
-    static t_map map_s;
+    t_map *map_s;
 
-    mlx_s->map = &map_s; 
-    parsing_map(file, &map_s);
+    map_s = malloc(sizeof(t_map));
+    mlx_s->map_s = map_s;
+    parsing_map(file, mlx_s);
     init_mlx(mlx_s);
+    print_map(mlx_s);
 
     return (0);
 }
