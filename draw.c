@@ -45,6 +45,11 @@ static void            print_sq(t_data *mlx_s, int x, int y)
             mlx_s->map_s->color = 0x00FF0000;
             print_sq(mlx_s, x, y);
         }
+        else
+        {
+            mlx_s->map_s->color = 0x000000FF;
+            print_sq(mlx_s, x, y);
+        }
         x += mlx_s->map_s->width;
     }
 }
@@ -64,6 +69,7 @@ void            print_map(t_data *mlx_s)
         //print_sq(mlx_s, 100, 100);
         y += mlx_s->map_s->height;
     }
+    //print_sq(mlx_s, 0, 0);
     printf("%d\n", mlx_s->map_s->height);
     printf("%d\n", mlx_s->map_s->width);
 }
