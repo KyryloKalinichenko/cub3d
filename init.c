@@ -1,5 +1,8 @@
 #include "cub_head.h"
-
+/*
+** init_mlx make a connection to the display and create a window with all necessary variables by mlx_lib. 
+**
+*/
 
 static void init_mlx(t_data *mlx_s)
 {
@@ -8,6 +11,13 @@ static void init_mlx(t_data *mlx_s)
     mlx_s->img = mlx_new_image(mlx_s->mlx, mlx_s->width, mlx_s->height);
     mlx_s->addr = mlx_get_data_addr(mlx_s->img, &mlx_s->bits_per_pixel, &mlx_s->line_length,
                                  &mlx_s->endian);
+   // mlx_s->player.x = START_X;
+   // mlx_s->player.y = START_Y;
+    mlx_s->player.x = 100;
+	mlx_s->player.y = 100;
+    mlx_s->player.a = 0;
+    mlx_s->player.dx = cos(mlx_s->player.a) * 5;
+    mlx_s->player.dy = sin(mlx_s->player.a) * 5;
 }
 
 static int read_r(short fd, t_data *mlx_s)
@@ -80,6 +90,7 @@ int     init(t_data *mlx_s, char *file)
     parsing_map(file, mlx_s);
     init_mlx(mlx_s);
     print_map(mlx_s);
+    //print_player(mlx_s);
 
     return (0);
 }

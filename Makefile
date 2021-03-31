@@ -8,6 +8,7 @@ SRCS			=	cub3d.c \
 					ft_isdigit.c \
 					ft_strlcpy.c \
 					draw.c \
+					print_player.c \
 
 OBJS			= $(SRCS:.c=.o)
 
