@@ -20,11 +20,18 @@
 #include <unistd.h>
 #include <fcntl.h>
 
+/*
+** Structure for GNL.
+*/
 typedef struct		s_list
 {
 	void	*con;
 	char	*tmp;
 }					t_list;
+
+/*
+** The structure to store the map, its width and height.
+*/
 
 typedef struct		s_map
 {
@@ -34,6 +41,10 @@ typedef struct		s_map
     int         color;
 }					t_map;
 
+/*
+** The structure to print a square and save its width and height (calculated up to proportion of the map).
+*/
+
 typedef struct		s_sq
 {
 	short       height;
@@ -42,14 +53,45 @@ typedef struct		s_sq
     int         y;
 }					t_sq;
 
+/*
+** The structure to print a vector and save its coordinates.
+*/
 
-typedef struct  s_pl {
+typedef struct  s_line {
     double         x;
     double         y;
     double         dx;
     double         dy;
+}               t_line;
+
+/*
+** The structure to store data for rays.
+*/
+
+typedef struct  s_ray {
+    double         rx;
+    double         ry;
+    double         yo;
+    double         xo;
+}               t_ray;
+
+/*
+** The structure to print the player and save its coordinates.
+*/
+
+
+typedef struct  s_pl {
+    int         x;
+    int         y;
+    int         dx;
+    int         dy;
     double      a;
 }               t_pl;
+
+/*
+** The main structure to store all necessary data for displaying an image.
+*/
+
 
 typedef struct  s_data {
     void        *mlx;
@@ -63,6 +105,8 @@ typedef struct  s_data {
     short       width;
     t_map       *map_s;
     t_pl        player;
+    t_line      line;
+    t_ray       ray_s;
 }               t_data;
 
 int					get_next_line(int fd, char **line);

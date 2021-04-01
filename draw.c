@@ -12,7 +12,7 @@ static void print_line(t_data *mlx_s, int x, int y)
 {
     int goal_x;
 
-    goal_x = x + mlx_s->map_s->height;
+    goal_x = x + mlx_s->map_s->width;
     while(x <= goal_x && x < mlx_s->width)
     {
         my_mlx_pixel_put(mlx_s, x, y, mlx_s->map_s->color);
@@ -38,7 +38,7 @@ void            print_sq(t_data *mlx_s, int x, int y)
     int x;
 
     x = 0;
-    while(s && *s != '\n' && x < mlx_s->width)
+    while(s && *s != '\n')
     {
         if (*s == '1')
         {
@@ -62,7 +62,7 @@ void            print_map(t_data *mlx_s)
 
     i = 0;
     y = 0;
-    while(mlx_s->map_s->map[i] && y < mlx_s->height)
+    while(mlx_s->map_s->map[i])
     {
         printf("%s\n", mlx_s->map_s->map[i]);
         print_string(mlx_s, mlx_s->map_s->map[i++], y);

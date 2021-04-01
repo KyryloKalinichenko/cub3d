@@ -35,9 +35,8 @@ int    move(int keycode, t_data *mlx_s)
         mlx_s->player.dy = sin(mlx_s->player.a) * 10;
     }
     print_player(mlx_s);
-    print_v(mlx_s);
     mlx_put_image_to_window(mlx_s->mlx, mlx_s->mlx_win, mlx_s->img, 0, 0);
-    return(printf("%i\n", mlx_s->height));
+    return(0);
 }
 
 int main(int argc, char **argv)
