@@ -62,19 +62,20 @@ static int parsing_map(char *file, t_data *mlx_s)
 {
     int fd;
     int i;
-    int height;
     char **map;
 
     i = 0;
     fd = open(file, O_RDONLY);
-    height = height_count(file, mlx_s);
-    mlx_s->map_s->height = mlx_s->height / height;
-    map = malloc(sizeof(char*) * height);
+    mlx_s->map_s->mapY = height_count(file, mlx_s);
+    mlx_s->map_s->height = mlx_s->height / mlx_s->map_s->mapY;
+    map = malloc(sizeof(char*) * mlx_s->map_s->mapY);
     mlx_s->map_s->map = map;
     while(get_next_line(fd, &map[i]) && ft_strchr(map[i], 'R'))
         free(map[i]);
     get_next_line(fd, &map[i]);
-    mlx_s->map_s->width = mlx_s->width / ft_strlen(map[i]);
+    mlx_s->map_s->mapX = ft_strlen(map[i]);
+    mlx_s->map_s->mapS = mlx_s->map_s->mapX * mlx_s->map_s->mapY;
+    mlx_s->map_s->width = mlx_s->width / mlx_s->map_s->mapX;
     while(get_next_line(fd, &map[++i]))
         ;
     map[i] = NULL;

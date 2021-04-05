@@ -29,6 +29,11 @@ typedef struct		s_list
 	char	*tmp;
 }					t_list;
 
+typedef struct		s_point
+{
+	double      x;
+	double      y;
+}					t_point;
 /*
 ** The structure to store the map, its width and height.
 */
@@ -39,6 +44,9 @@ typedef struct		s_map
     short       width;
     char        **map;
     int         color;
+    short       mapX;
+    short       mapY;
+    short       mapS;
 }					t_map;
 
 /*
@@ -69,10 +77,18 @@ typedef struct  s_line {
 */
 
 typedef struct  s_ray {
-    double         rx;
-    double         ry;
-    double         yo;
-    double         xo;
+    double          camera_x;
+    t_point         *ray_dir;
+    t_point         *dir;
+    t_point         *direction;
+    t_point         *on_map;
+    t_point         *step;
+    t_point         *side_dist;
+    t_point         *delta_dist;
+    t_point         *plane;
+    t_point         *pos;
+    short           side;
+    short           hit;
 }               t_ray;
 
 /*
@@ -105,7 +121,7 @@ typedef struct  s_data {
     short       width;
     t_map       *map_s;
     t_pl        player;
-    t_line      line;
+    //t_line      line;
     t_ray       ray_s;
 }               t_data;
 
@@ -127,8 +143,9 @@ void                print_map(t_data *mlx_s);
 void                print_player(t_data *mlx_s);
 int		            create_trgb(int t, int r, int g, int b);
 void                print_sq(t_data *mlx_s, int x, int y);
-void                print_v(t_data *mlx_s);
+void                print_v(t_data *mlx_s, t_line vector);
 void                my_mlx_pixel_put(t_data *data, int x, int y, int color);
+void                ray_fun(t_data *mlx_s);
 
 
 #endif 
