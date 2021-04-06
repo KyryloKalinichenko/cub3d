@@ -12,7 +12,9 @@
 #define START_X 200
 #define START_Y 200
 #define PI 3.14159
-
+#define FOV (PI / 4)
+#define SPEED 0.1
+ 
 #include <math.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -146,6 +148,8 @@ void                print_v(t_data *mlx_s, t_line vector);
 void                my_mlx_pixel_put(t_data *data, int x, int y, int color);
 void                ray_fun(t_data *mlx_s, t_ray *ray);
 void                init_ray(t_ray  *ray, t_data *mlx_s);
+void                turn_l(t_ray *ray);
+void                turn_r(t_ray *ray);
 
 
 #endif 

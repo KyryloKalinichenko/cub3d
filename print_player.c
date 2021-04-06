@@ -104,5 +104,8 @@ void    print_player(t_data *mlx_s)
 	vector.dy = vector.y + (mlx_s->player.dy * 20);
 	print_v(mlx_s, vector);
 	
+	//mlx_s->ray->pos->x = mlx_s->player.x /*+ (mlx_s->map_s->width / 2)*/;
+    //mlx_s->ray->pos->y = mlx_s->player.y /*+ (mlx_s->map_s->height / 2)*/;
+	
 	ray_fun(mlx_s, mlx_s->ray);
 }
