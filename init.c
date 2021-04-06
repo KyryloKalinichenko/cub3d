@@ -85,6 +85,7 @@ static int parsing_map(char *file, t_data *mlx_s)
 int     init(t_data *mlx_s, char *file)
 {
     t_map *map_s;
+    t_ray   *ray = malloc(sizeof(t_ray));
 
     map_s = malloc(sizeof(t_map));
     mlx_s->map_s = map_s;
@@ -92,6 +93,9 @@ int     init(t_data *mlx_s, char *file)
     init_mlx(mlx_s);
     print_map(mlx_s);
     //print_player(mlx_s);
+    mlx_s->ray = ray;
+    init_ray(ray, mlx_s);
+    
 
     return (0);
 }

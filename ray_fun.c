@@ -118,9 +118,19 @@ void	dda(t_ray *ray, t_data *mlx_s)
 	        vector.dx = ;
 	        vector.dy = vector.y + (mlx_s->player.dy * 20);
 	        print_v(mlx_s, vector);*/
+            printf("----------------------------------------------------------\n");
+            printf("ray_dirX  x -------> %f\n ray_dirY  y -------> %f\n ", ray->ray_dir->x, ray->ray_dir->y);
+            printf("----------------------------------------------------------\n");
+            printf("map  x -------> %f\n map  y -------> %f\n ", ray->on_map->x, ray->on_map->y);
+            printf("----------------------------------------------------------\n");
             printf("size of sq = (height) %i * (width) %i \n ", mlx_s->map_s->height, mlx_s->map_s->width);
+            printf("----------------------------------------------------------\n");
             printf("step  x -------> %f\n step  y -------> %f\n ", ray->step->x, ray->step->y);
-            printf("boom  x -------> %f\n boom  y -------> %f\n ", ray->on_map->x, ray->on_map->y);
+            printf("----------------------------------------------------------\n");
+            printf("delta_dist  x -------> %f\n boom  y -------> %f\n ", ray->delta_dist->x, ray->delta_dist->y);
+            printf("----------------------------------------------------------\n");
+            printf("side_dist  x -------> %f\n boom  y -------> %f\n ", ray->side_dist->x, ray->side_dist->y);
+            printf("/////////////////////////////////////////////////////////////\n");
         }
 		//if (BONUS == 1)
 		//	if (mlx_s->map[(int)(ray->on_map->x)][(int)(ray->on_map->y)] == '4')
@@ -132,7 +142,6 @@ void    init_ray(t_ray  *ray, t_data *mlx_s)
 {
     ray->ray_dir = malloc(sizeof(t_point));
     ray->dir = malloc(sizeof(t_point));
-    ray->direction = malloc(sizeof(t_point));
     ray->on_map = malloc(sizeof(t_point));
     ray->step = malloc(sizeof(t_point));
     ray->side_dist = malloc(sizeof(t_point));
@@ -141,32 +150,43 @@ void    init_ray(t_ray  *ray, t_data *mlx_s)
     ray->pos = malloc(sizeof(t_point));
 
 
-    ray->pos->x = mlx_s->player.x;
-    ray->pos->y = mlx_s->player.y;
-    ray->dir->x = PI / 4;
-    ray->dir->y = 0;
+    ray->pos->x = (mlx_s->player.x / mlx_s->map_s->width);
+    ray->pos->y = (mlx_s->player.y / mlx_s->map_s->height);
+
+    ray->dir->x = cos(mlx_s->player.a);
+    ray->dir->y = sin(mlx_s->player.a);
+
     ray->plane->x = 0;
     ray->plane->y = 0.66;
 }
 
-void    ray_fun(t_data *mlx_s)
+void    ray_fun(t_data *mlx_s, t_ray *ray)
 {
-    t_ray   *ray = malloc(sizeof(t_ray));
+   // t_ray   *ray = malloc(sizeof(t_ray));
     int     i;
+    t_line  vector;
 
     i = -1;
     init_ray(ray, mlx_s);
-    while (++i < mlx_s->player.x)
+    while (++i < 30)
     {
-        ray->camera_x = 2 * i / ray->pos->x - 1;
+        ray->camera_x = 2 * i / (double)ray->pos->x - 1;
+        printf(" --------%f----------> \n", ray->camera_x);
 	    ray->ray_dir->x = ray->dir->x + ray->plane->x * ray->camera_x;
 	    ray->ray_dir->y = ray->dir->y + ray->plane->y * ray->camera_x;
-	    ray->on_map->x = (int)(ray->pos->x / mlx_s->map_s->width);
-	    ray->on_map->y = (int)(ray->pos->y / mlx_s->map_s->height);
+
+	    ray->on_map->x = (int)(ray->pos->x);
+	    ray->on_map->y = (int)(ray->pos->y);
+
 	    ray->delta_dist->x = fabs(1 / ray->ray_dir->x);
 	    ray->delta_dist->y = fabs(1 / ray->ray_dir->y);
 	    ray->hit = 0;
         first_step(ray);
+        vector.x = mlx_s->player.x;
+	    vector.y = mlx_s->player.y; 
+	    vector.dx = vector.x + (ray->dir->x * 5) + ray->plane->x;
+	    vector.dy = vector.y + (ray->dir->y * 5) + ray->plane->y;
+	    print_v(mlx_s, vector);
         //printf(" --------%f----------> \n", ray->side_dist->x);
         dda(ray, mlx_s);
     }

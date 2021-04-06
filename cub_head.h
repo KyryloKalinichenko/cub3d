@@ -80,7 +80,6 @@ typedef struct  s_ray {
     double          camera_x;
     t_point         *ray_dir;
     t_point         *dir;
-    t_point         *direction;
     t_point         *on_map;
     t_point         *step;
     t_point         *side_dist;
@@ -121,7 +120,7 @@ typedef struct  s_data {
     short       width;
     t_map       *map_s;
     t_pl        player;
-    //t_line      line;
+    t_ray       *ray;
     t_ray       ray_s;
 }               t_data;
 
@@ -145,7 +144,8 @@ int		            create_trgb(int t, int r, int g, int b);
 void                print_sq(t_data *mlx_s, int x, int y);
 void                print_v(t_data *mlx_s, t_line vector);
 void                my_mlx_pixel_put(t_data *data, int x, int y, int color);
-void                ray_fun(t_data *mlx_s);
+void                ray_fun(t_data *mlx_s, t_ray *ray);
+void                init_ray(t_ray  *ray, t_data *mlx_s);
 
 
 #endif 

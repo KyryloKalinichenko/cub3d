@@ -103,5 +103,6 @@ void    print_player(t_data *mlx_s)
 	vector.dx = vector.x + (mlx_s->player.dx * 20);
 	vector.dy = vector.y + (mlx_s->player.dy * 20);
 	print_v(mlx_s, vector);
-	ray_fun(mlx_s);
+	
+	ray_fun(mlx_s, mlx_s->ray);
 }
