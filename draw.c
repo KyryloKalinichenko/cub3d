@@ -12,7 +12,10 @@ void    print_ver_line(int drawStart, int drawEnd, int x, t_data *mlx_s)
 {
     while(drawStart <= drawEnd)
     {
-        my_mlx_pixel_put(mlx_s, x, drawStart, 0x00F0F000);
+        if (mlx_s->ray->side == 0)
+            my_mlx_pixel_put(mlx_s, x, drawStart, 0x00F0F000);
+        else
+            my_mlx_pixel_put(mlx_s, x, drawStart, (0x00F0F000 / 2));
         drawStart++;
     }
 }
@@ -47,7 +50,7 @@ void            print_sq(t_data *mlx_s, int x, int y)
     int x;
 
     x = 0;
-    while(s && *s != '\n')
+    while(*s)
     {
         if (*s == '1')
         {
@@ -73,13 +76,13 @@ void            print_map(t_data *mlx_s)
     y = 0;
     while(mlx_s->map_s->map[i])
     {
-        printf("%s\n", mlx_s->map_s->map[i]);
+        //printf("%s\n", mlx_s->map_s->map[i]);
         print_string(mlx_s, mlx_s->map_s->map[i++], y);
       // mlx_s->map_s->color = 0x00FF0000;
         //print_sq(mlx_s, 100, 100);
         y += mlx_s->map_s->height;
     }
-    //print_sq(mlx_s, 0, 0);
+    printf("height %i\n", i);
     //printf("%d\n", mlx_s->map_s->height);
     //printf("%d\n", mlx_s->map_s->width);
 }

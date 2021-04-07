@@ -95,6 +95,7 @@ void    print_player(t_data *mlx_s)
 {
 	t_line vector;
 
+	
     mlx_s->map_s->color = 0x0000FF00;
 	//printf("-------%i--%i-----\n", mlx_s->map_s->width, mlx_s->map_s->height);
     print_sq(mlx_s, mlx_s->player.x, mlx_s->player.y);
@@ -103,9 +104,9 @@ void    print_player(t_data *mlx_s)
 	vector.dx = vector.x + (mlx_s->player.dx * 20);
 	vector.dy = vector.y + (mlx_s->player.dy * 20);
 	print_v(mlx_s, vector);
-	
+	//ray_fun(mlx_s, mlx_s->ray);
 	//mlx_s->ray->pos->x = mlx_s->player.x /*+ (mlx_s->map_s->width / 2)*/;
     //mlx_s->ray->pos->y = mlx_s->player.y /*+ (mlx_s->map_s->height / 2)*/;
 	
-	ray_fun(mlx_s, mlx_s->ray);
+	//ray_fun(mlx_s, mlx_s->ray);
 }
