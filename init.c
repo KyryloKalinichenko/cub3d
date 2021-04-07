@@ -15,7 +15,7 @@ static void init_mlx(t_data *mlx_s)
    // mlx_s->player.y = START_Y;
     mlx_s->player.x = 100;
 	mlx_s->player.y = 100;
-    mlx_s->player.a = FOV;
+    mlx_s->player.a = FOV / 2;
     mlx_s->player.dx = cos(mlx_s->player.a) * 5;
     mlx_s->player.dy = sin(mlx_s->player.a) * 5;
 }

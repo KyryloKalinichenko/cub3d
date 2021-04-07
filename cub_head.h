@@ -150,6 +150,7 @@ void                ray_fun(t_data *mlx_s, t_ray *ray);
 void                init_ray(t_ray  *ray, t_data *mlx_s);
 void                turn_l(t_ray *ray);
 void                turn_r(t_ray *ray);
+void                print_ver_line(int drawStart, int drawEnd, int x, t_data *mlx_s);
 
 
 #endif 

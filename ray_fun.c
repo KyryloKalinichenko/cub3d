@@ -94,6 +94,7 @@ static void	first_step(t_ray *ray)
 
 void	dda(t_ray *ray, t_data *mlx_s)
 {
+    //t_line  vector;
 	while (ray->hit == 0)
 	{
 		if (ray->side_dist->x < ray->side_dist->y)
@@ -111,12 +112,11 @@ void	dda(t_ray *ray, t_data *mlx_s)
 		if (mlx_s->map_s->map[(int)(ray->on_map->x)][(int)(ray->on_map->y)] == '1')
 			ray->hit = 1;
         if (ray->hit == 1)
-        {
-           /* t_line vector;
-            vector.x = mlx_s->player.x;
-	        vector.y = mlx_s->player.y; 
-	        vector.dx = ;
-	        vector.dy = vector.y + (mlx_s->player.dy * 20);
+        {/*
+            vector.x = mlx_s->player.x + (mlx_s->map_s->width / 2);
+	        vector.y = mlx_s->player.y + (mlx_s->map_s->height / 2); 
+	        vector.dx = ray->on_map->x * mlx_s->map_s->width;
+	        vector.dy = ray->on_map->y * mlx_s->map_s->height;
 	        print_v(mlx_s, vector);
             printf("----------------------------------------------------------\n");
             printf("ray_dirX  x -------> %f\n ray_dirY  y -------> %f\n ", ray->ray_dir->x, ray->ray_dir->y);
@@ -199,18 +199,18 @@ void    ray_fun(t_data *mlx_s, t_ray *ray)
 {
    // t_ray   *ray = malloc(sizeof(t_ray));
     int     i;
-    t_line  vector;
+   // t_line  vector;
     
 
     i = -1;
    // init_ray(ray, mlx_s);
     while (++i < mlx_s->width)
     {
-        ray->camera_x = 2 * i / (double)ray->pos->x - 1;
-        //printf(" --------%f----------> \n", ray->camera_x);
+        ray->camera_x = 2 * i / (double)(mlx_s->width) - 1;
+        printf(" --------%i----------> \n", i);
 	    ray->ray_dir->x = ray->dir->x + ray->plane->x * ray->camera_x;
 	    ray->ray_dir->y = ray->dir->y + ray->plane->y * ray->camera_x;
-        printf(" --------%f----------> \n", ray->ray_dir->y);
+        //printf(" --------%f----------> \n", ray->ray_dir->y);
 
 	    ray->on_map->x = (int)(ray->pos->x);
 	    ray->on_map->y = (int)(ray->pos->y);
@@ -222,10 +222,24 @@ void    ray_fun(t_data *mlx_s, t_ray *ray)
         //printf(" --------%f----------> \n", ray->side_dist->x);
         dda(ray, mlx_s);
         // -------------> Display rays
-        vector.x = mlx_s->player.x + (mlx_s->map_s->width / 2);
+        /*vector.x = mlx_s->player.x + (mlx_s->map_s->width / 2);
 	    vector.y = mlx_s->player.y + (mlx_s->map_s->height / 2); 
 	    vector.dx = ray->on_map->x * mlx_s->map_s->width;
 	    vector.dy = ray->on_map->y * mlx_s->map_s->height;
-        print_v(mlx_s, vector);
+        print_v(mlx_s, vector);*/
+        int perpWallDist;
+        if (ray->side == 0) 
+            perpWallDist = (ray->on_map->x - ray->pos->x + (1 - ray->step->x) / 2) / ray->ray_dir->x;
+        else           
+            perpWallDist = (ray->on_map->y - ray->pos->y + (1 - ray->step->y) / 2) / ray->ray_dir->y;
+        int lineHeight = (int)(mlx_s->height / perpWallDist);
+        printf(" --------%i----------> \n", lineHeight);
+        int drawStart = -lineHeight / 2 + mlx_s->height / 2;
+        if(drawStart < 0)
+            drawStart = 0;
+        int drawEnd = lineHeight / 2 + mlx_s->height / 2;
+        if(drawEnd >= mlx_s->height)
+            drawEnd = mlx_s->height - 1;
+        print_ver_line(drawStart, drawEnd, i, mlx_s);
     }
 }

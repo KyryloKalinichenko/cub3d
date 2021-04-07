@@ -8,6 +8,15 @@ void            my_mlx_pixel_put(t_data *data, int x, int y, int color)
     *(unsigned int*)dst = color;
 }
 
+void    print_ver_line(int drawStart, int drawEnd, int x, t_data *mlx_s)
+{
+    while(drawStart <= drawEnd)
+    {
+        my_mlx_pixel_put(mlx_s, x, drawStart, 0x00F0F000);
+        drawStart++;
+    }
+}
+
 static void print_line(t_data *mlx_s, int x, int y)
 {
     int goal_x;
