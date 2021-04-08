@@ -7,16 +7,24 @@
 int    move(int keycode, t_data *mlx_s)
 {
     //printf("/////%i/////\n", keycode);
-    print_map(mlx_s);
+    //print_map(mlx_s);
     if (keycode == FORTH)
     {
         mlx_s->player.y += mlx_s->player.dy;
         mlx_s->player.x += mlx_s->player.dx;
+        /*if(mlx_s->map_s->map[(int)(mlx_s->ray->pos->x + mlx_s->ray->dir->x * MSPEED)][(int)(mlx_s->ray->pos->y)] == '0')
+            mlx_s->ray->pos->x += mlx_s->ray->dir->x * MSPEED;
+        if(mlx_s->map_s->map[(int)(mlx_s->ray->pos->x)][(int)(mlx_s->ray->pos->y + mlx_s->ray->dir->y * MSPEED)] == '0')
+            mlx_s->ray->pos->y += mlx_s->ray->dir->y * MSPEED;*/
     }
     if (keycode == BACK)
-    {
+    {   
         mlx_s->player.y -= mlx_s->player.dy;
         mlx_s->player.x -= mlx_s->player.dx;
+        /*if(mlx_s->map_s->map[(int)(mlx_s->ray->pos->x - mlx_s->ray->dir->x * MSPEED)][(int)(mlx_s->ray->pos->y)] == '0')
+            mlx_s->ray->pos->x -= mlx_s->ray->dir->x * MSPEED;
+        if(mlx_s->map_s->map[(int)(mlx_s->ray->pos->x)][(int)(mlx_s->ray->pos->y - mlx_s->ray->dir->y * MSPEED)] == '0')
+            mlx_s->ray->pos->y -= mlx_s->ray->dir->y * MSPEED;*/
     }
     if (keycode == LEFT)
     {
@@ -26,6 +34,8 @@ int    move(int keycode, t_data *mlx_s)
         mlx_s->player.dx = cos(mlx_s->player.a) * 5;
         mlx_s->player.dy = sin(mlx_s->player.a) * 5;
         turn_l(mlx_s->ray);
+        /*mlx_s->player.dx = mlx_s->ray->dir->x * 5;
+        mlx_s->player.dy = mlx_s->ray->dir->y * 5;*/
     }
     if (keycode == RIGHT)
     {
@@ -35,6 +45,8 @@ int    move(int keycode, t_data *mlx_s)
         mlx_s->player.dx = cos(mlx_s->player.a) * 5;
         mlx_s->player.dy = sin(mlx_s->player.a) * 5;
         turn_r(mlx_s->ray);
+        /*mlx_s->player.dx = mlx_s->ray->dir->x * 5;
+        mlx_s->player.dy = mlx_s->ray->dir->y * 5;*/
     }
     //printf("boom  x ------->\n");
    // mlx_s->ray->dir->x = cos(mlx_s->player.a);

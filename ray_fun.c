@@ -49,18 +49,18 @@ void	dda(t_ray *ray, t_data *mlx_s)
         if (ray->hit == 1)
         {/*
             printf("----------------------------------------------------------\n");
-            printf("ray_dirX  x -------> %f\n ray_dirY  y -------> %f\n ", ray->ray_dir->x, ray->ray_dir->y);
+            printf("ray_pos  x -------> %f\n ray_pos  y -------> %f\n ", ray->pos->x, ray->pos->y);
             printf("----------------------------------------------------------\n");
             printf("map  x -------> %f\n map  y -------> %f\n ", ray->on_map->x, ray->on_map->y);
             printf("----------------------------------------------------------\n");
             printf("size of sq = (height) %i * (width) %i \n ", mlx_s->map_s->height, mlx_s->map_s->width);
-            printf("----------------------------------------------------------\n");
-            printf("step  x -------> %f\n step  y -------> %f\n ", ray->step->x, ray->step->y);
-            printf("----------------------------------------------------------\n");
-            printf("delta_dist  x -------> %f\n boom  y -------> %f\n ", ray->delta_dist->x, ray->delta_dist->y);
-            printf("----------------------------------------------------------\n");
-            printf("side_dist  x -------> %f\n boom  y -------> %f\n ", ray->side_dist->x, ray->side_dist->y);
-            printf("/////////////////////////////////////////////////////////////\n");*/
+            printf("----------------------------------------------------------\n");*/
+            //printf("step  x -------> %f\n step  y -------> %f\n ", ray->step->x, ray->step->y);
+            //printf("----------------------------------------------------------\n");
+            //printf("delta_dist  x -------> %f\n boom  y -------> %f\n ", ray->delta_dist->x, ray->delta_dist->y);
+            //printf("----------------------------------------------------------\n");
+            //printf("side_dist  x -------> %f\n boom  y -------> %f\n ", ray->side_dist->x, ray->side_dist->y);
+            //printf("/////////////////////////////////////////////////////////////\n");
             
         }
 	}
@@ -125,12 +125,13 @@ void    init_ray(t_ray  *ray, t_data *mlx_s)
 void    ray_fun(t_data *mlx_s, t_ray *ray)
 {
     int     i;
-    t_line  vector;
+    //t_line  vector;
     
 
     i = -1;
     while (++i < mlx_s->width)
     {
+		print_back(0, mlx_s->height, i, mlx_s);
         ray->camera_x = 2 * i / (double)(mlx_s->width) - 1;
         //printf(" --------%i----------> \n", i);
 	    ray->ray_dir->x = ray->dir->x + ray->plane->x * ray->camera_x;
@@ -148,11 +149,11 @@ void    ray_fun(t_data *mlx_s, t_ray *ray)
         //printf(" --------%f----------> \n", ray->side_dist->x);
         dda(ray, mlx_s);
         // -------------> Display rays
-        vector.x = mlx_s->player.x + (mlx_s->map_s->width / 2);
+        /*vector.x = mlx_s->player.x + (mlx_s->map_s->width / 2);
 	    vector.y = mlx_s->player.y + (mlx_s->map_s->height / 2); 
-	    vector.dx = ray->on_map->x * mlx_s->map_s->width;
+	    vector.dx = vector.x ;
 	    vector.dy = ray->on_map->y * mlx_s->map_s->height;
-        print_v(mlx_s, vector);
+        print_v(mlx_s, vector);*/
         
         int perpWallDist;
         if (ray->side == 0) 

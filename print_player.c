@@ -98,11 +98,14 @@ void    print_player(t_data *mlx_s)
 	
     mlx_s->map_s->color = 0x0000FF00;
 	//printf("-------%i--%i-----\n", mlx_s->map_s->width, mlx_s->map_s->height);
+	ray_fun(mlx_s, mlx_s->ray);
+	print_map(mlx_s);
     print_sq(mlx_s, mlx_s->player.x, mlx_s->player.y);
+	//print_sq(mlx_s, mlx_s->ray->pos->x, mlx_s->ray->pos->y);
 	vector.x = mlx_s->player.x + (mlx_s->map_s->width / 2);
 	vector.y = mlx_s->player.y + (mlx_s->map_s->height / 2); 
-	vector.dx = vector.x + (mlx_s->player.dx * 20);
-	vector.dy = vector.y + (mlx_s->player.dy * 20);
+	vector.dx = vector.x + (mlx_s->player.dx * 5);
+	vector.dy = vector.y + (mlx_s->player.dy * 5);
 	print_v(mlx_s, vector);
 	//ray_fun(mlx_s, mlx_s->ray);
 	//mlx_s->ray->pos->x = mlx_s->player.x /*+ (mlx_s->map_s->width / 2)*/;

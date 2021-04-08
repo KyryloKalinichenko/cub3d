@@ -20,6 +20,15 @@ void    print_ver_line(int drawStart, int drawEnd, int x, t_data *mlx_s)
     }
 }
 
+void    print_back(int drawStart, int drawEnd, int x, t_data *mlx_s)
+{
+    while(drawStart <= drawEnd)
+    {
+        my_mlx_pixel_put(mlx_s, x, drawStart, 0x00000000);
+        drawStart++;
+    }
+}
+
 static void print_line(t_data *mlx_s, int x, int y)
 {
     int goal_x;

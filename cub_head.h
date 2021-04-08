@@ -15,6 +15,7 @@
 #define PI 3.14159
 #define FOV (PI / 4)
 #define SPEED 0.1
+#define MSPEED 5
  
 #include <math.h>
 #include <stdlib.h>
@@ -152,6 +153,7 @@ void                init_ray(t_ray  *ray, t_data *mlx_s);
 void                turn_l(t_ray *ray);
 void                turn_r(t_ray *ray);
 void                print_ver_line(int drawStart, int drawEnd, int x, t_data *mlx_s);
+void                print_back(int drawStart, int drawEnd, int x, t_data *mlx_s);
 
 
 #endif 
