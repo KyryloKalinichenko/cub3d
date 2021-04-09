@@ -31,6 +31,8 @@ static int read_r(short fd, t_data *mlx_s)
     if (!(get_next_line(fd, &line)))
         return (1);
     width_heiht = ft_split(line, ' ');
+    if (!width_heiht)
+        malloc_error();
     mlx_s->width = ft_atoi(width_heiht[0]);
     mlx_s->height = ft_atoi(width_heiht[1]);
     return (0);
@@ -83,7 +85,8 @@ static int parsing_map(char *file, t_data *mlx_s)
     mlx_s->map_s->map = map;
     while(get_next_line(fd, &map[i]) && ft_strchr(map[i], 'R'))
         free(map[i]);
-    get_next_line(fd, &map[i]);
+    if (!(get_next_line(fd, &map[i])))
+        malloc_error();
     mlx_s->map_s->mapX = ft_strlen(map[i]);
     mlx_s->map_s->mapS = mlx_s->map_s->mapX * mlx_s->map_s->mapY;
     mlx_s->map_s->width = mlx_s->width / (mlx_s->map_s->mapX * 4);
@@ -96,10 +99,11 @@ static int parsing_map(char *file, t_data *mlx_s)
 int     init(t_data *mlx_s, char *file)
 {
     t_map *map_s;
-    t_ray   *ray = malloc(sizeof(t_ray));
+    t_ray   *ray;
 
+    ray = malloc(sizeof(t_ray));
     map_s = malloc(sizeof(t_map));
-    if (!map_s)
+    if (!map_s || !ray) 
         malloc_error();
     mlx_s->map_s = map_s;
     parsing_map(file, mlx_s);
