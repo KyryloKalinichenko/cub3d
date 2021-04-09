@@ -115,8 +115,8 @@ void    init_ray(t_ray  *ray, t_data *mlx_s)
     ray->pos->x = ((mlx_s->player.x + (mlx_s->map_s->width / 2)) / mlx_s->map_s->width);
     ray->pos->y = ((mlx_s->player.y + (mlx_s->map_s->height / 2)) / mlx_s->map_s->height);
 
-    ray->dir->x = FOV;
-    ray->dir->y = FOV;
+    ray->dir->x = mlx_s->player.a;
+    ray->dir->y = mlx_s->player.a;
 
     ray->plane->x = 0;
     ray->plane->y = 0.66;
@@ -133,7 +133,7 @@ void    ray_fun(t_data *mlx_s, t_ray *ray)
     {
 		print_back(0, mlx_s->height, i, mlx_s);
         ray->camera_x = 2 * i / (double)(mlx_s->width) - 1;
-        //printf(" --------%i----------> \n", i);
+        //printf(" --------%f----------> \n", ray->camera_x);
 	    ray->ray_dir->x = ray->dir->x + ray->plane->x * ray->camera_x;
 	    ray->ray_dir->y = ray->dir->y + ray->plane->y * ray->camera_x;
         //printf(" --------%f----------> \n", ray->ray_dir->y);
@@ -155,14 +155,14 @@ void    ray_fun(t_data *mlx_s, t_ray *ray)
 	    vector.dy = ray->on_map->y * mlx_s->map_s->height;
         print_v(mlx_s, vector);*/
         
-        int perpWallDist;
+        double perpWallDist;
         if (ray->side == 0) 
             perpWallDist = (ray->on_map->x - ray->pos->x + (1 - ray->step->x) / 2) / ray->ray_dir->x;
         else           
             perpWallDist = (ray->on_map->y - ray->pos->y + (1 - ray->step->y) / 2) / ray->ray_dir->y;
         
-        int lineHeight = (int)(mlx_s->height / perpWallDist);
-       // printf(" --------%i----------> \n", lineHeight);
+        double lineHeight = (int)(mlx_s->height / perpWallDist);
+        printf(" --------%f----------> \n", perpWallDist);
 
         int drawStart = -lineHeight / 2 + mlx_s->height / 2;
         if(drawStart < 0)

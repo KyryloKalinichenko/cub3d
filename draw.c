@@ -91,7 +91,7 @@ void            print_map(t_data *mlx_s)
         //print_sq(mlx_s, 100, 100);
         y += mlx_s->map_s->height;
     }
-    printf("height %i\n", i);
+    //printf("height %i\n", i);
     //printf("%d\n", mlx_s->map_s->height);
     //printf("%d\n", mlx_s->map_s->width);
 }
