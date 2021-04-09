@@ -162,7 +162,7 @@ void    ray_fun(t_data *mlx_s, t_ray *ray)
             perpWallDist = (ray->on_map->y - ray->pos->y + (1 - ray->step->y) / 2) / ray->ray_dir->y;
         
         double lineHeight = (int)(mlx_s->height / perpWallDist);
-        printf(" --------%f----------> \n", perpWallDist);
+        //printf(" --------%f----------> \n", perpWallDist);
 
         int drawStart = -lineHeight / 2 + mlx_s->height / 2;
         if(drawStart < 0)

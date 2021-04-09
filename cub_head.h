@@ -16,6 +16,7 @@
 #define FOV (PI / 4)
 #define SPEED 0.1
 #define MSPEED 5
+#define ESC 53
  
 #include <math.h>
 #include <stdlib.h>
@@ -141,19 +142,25 @@ char				**ft_split(char const *s, char c);
 int					ft_atoi(const char *str);
 size_t	            ft_strlcpy(char *dest, const char *src, size_t size);
 int		            ft_isdigit(int c);
+
 int                 main(int argc, char **argv);
+
 void                print_map(t_data *mlx_s);
 void                print_player(t_data *mlx_s);
 int		            create_trgb(int t, int r, int g, int b);
 void                print_sq(t_data *mlx_s, int x, int y);
 void                print_v(t_data *mlx_s, t_line vector);
 void                my_mlx_pixel_put(t_data *data, int x, int y, int color);
+
 void                ray_fun(t_data *mlx_s, t_ray *ray);
 void                init_ray(t_ray  *ray, t_data *mlx_s);
 void                turn_l(t_ray *ray);
 void                turn_r(t_ray *ray);
 void                print_ver_line(int drawStart, int drawEnd, int x, t_data *mlx_s);
 void                print_back(int drawStart, int drawEnd, int x, t_data *mlx_s);
+
+void                malloc_error(void);
+void                just_exit(void);
 
 
 #endif 

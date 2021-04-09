@@ -72,7 +72,7 @@ void    print_v(t_data *mlx_s, t_line vector)
 	
     delta = fabs(vector.y - vector.dy) - fabs(vector.x - vector.dx);
 	//printf("-------%i--%f-----\n", vector.dx, delta);
-	my_mlx_pixel_put(mlx_s, vector.x, vector.y, mlx_s->map_s->color);
+	//my_mlx_pixel_put(mlx_s, vector.x, vector.y, mlx_s->map_s->color);
 	if (delta > 0)
 	{
 		delta = (vector.x - vector.dx) / (vector.y - vector.dy);

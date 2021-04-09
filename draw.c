@@ -85,13 +85,7 @@ void            print_map(t_data *mlx_s)
     y = 0;
     while(mlx_s->map_s->map[i])
     {
-        //printf("%s\n", mlx_s->map_s->map[i]);
         print_string(mlx_s, mlx_s->map_s->map[i++], y);
-      // mlx_s->map_s->color = 0x00FF0000;
-        //print_sq(mlx_s, 100, 100);
         y += mlx_s->map_s->height;
     }
-    //printf("height %i\n", i);
-    //printf("%d\n", mlx_s->map_s->height);
-    //printf("%d\n", mlx_s->map_s->width);
 }

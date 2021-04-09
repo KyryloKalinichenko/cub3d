@@ -11,14 +11,17 @@ static void init_mlx(t_data *mlx_s)
     mlx_s->img = mlx_new_image(mlx_s->mlx, mlx_s->width, mlx_s->height);
     mlx_s->addr = mlx_get_data_addr(mlx_s->img, &mlx_s->bits_per_pixel, &mlx_s->line_length,
                                  &mlx_s->endian);
-   // mlx_s->player.x = START_X;
-   // mlx_s->player.y = START_Y;
     mlx_s->player.x = mlx_s->map_s->width * 2;
 	mlx_s->player.y = mlx_s->map_s->height * 2;
     mlx_s->player.a = FOV;
     mlx_s->player.dx = cos(mlx_s->player.a) * 5;
     mlx_s->player.dy = sin(mlx_s->player.a) * 5;
 }
+
+/*
+** Read resolution and conver it into two int. 
+**
+*/
 
 static int read_r(short fd, t_data *mlx_s)
 {
@@ -30,10 +33,13 @@ static int read_r(short fd, t_data *mlx_s)
     width_heiht = ft_split(line, ' ');
     mlx_s->width = ft_atoi(width_heiht[0]);
     mlx_s->height = ft_atoi(width_heiht[1]);
-    //printf("%d", mlx_s->width);
-    //printf("%d", mlx_s->height);
     return (0);
 }
+
+/*
+** Count height of the map. Return int. 
+**
+*/
 
 static int height_count(char *file, t_data *mlx_s)
 {
@@ -57,6 +63,11 @@ static int height_count(char *file, t_data *mlx_s)
 	}
 	return (height + 1);
 }
+
+/*
+** The main parsing function. 
+**
+*/
 
 static int parsing_map(char *file, t_data *mlx_s)
 {
@@ -88,6 +99,8 @@ int     init(t_data *mlx_s, char *file)
     t_ray   *ray = malloc(sizeof(t_ray));
 
     map_s = malloc(sizeof(t_map));
+    if (!map_s)
+        malloc_error();
     mlx_s->map_s = map_s;
     parsing_map(file, mlx_s);
     init_mlx(mlx_s);

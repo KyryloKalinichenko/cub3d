@@ -10,6 +10,7 @@ SRCS			=	cub3d.c \
 					draw.c \
 					print_player.c \
 					ray_fun.c \
+					errors_f.c \
 
 OBJS			= $(SRCS:.c=.o)
 
