@@ -12,19 +12,6 @@ static void check_first_last(char *line)
     
 }
 /*
-static int base_check(char *line, int i)
-{
-    while(line[i++])
-    {
-        if (line[i] == '1')
-            continue;
-        if (line[i] == '0' || line[i] == '2')
-            continue;
-        
-    }
-    return (i);
-}
-*/
 static int skip_(char *line, int i, char to_skip)
 {
     while(line[i])
@@ -66,35 +53,53 @@ static void check_mid(char *line)
                 else
                     map_err();
             }
-           // while(line[i] == '1')
-            //    i++;
             continue;
         }
-        /*else
-        {
-            printf("%i\n", i);
-            printf("%c\n", line[i]);
-            map_err();
-        }*/
     }
+}
+*/
+
+static void point_check(char **map, int i, int j)
+{
+    if (map[i][j] == '0')
+    {
+        if (map[i][j + 1] == ' ' || map[i][j - 1] == ' ')
+            map_err();
+        if (map[i + 1][j + 1] == ' ' || map[i - 1][j - 1] == ' ')
+            map_err();
+        if (map[i - 1][j + 1] == ' ' || map[i + 1][j - 1] == ' ')
+            map_err();
+        if (map[i + 1][j] == ' ' || map[i - 1][j] == ' ')
+            map_err();
+    }
+}
+
+void        check_col(char **map, int last)
+{
+    int i;
+    int j;
+
+    i = 0;
+    j = 0;
+    check_first_last(map[i++]);
+    while(map[i] && map[i][j] && i < (last - 2))
+    {
+        //printf("//////%i///////////%i\n", i, last);
+        while(map[i][j])
+        {
+            //printf("j = %i\n", j);
+            point_check(map, i, j);
+            j++;
+        }
+        j = 0;
+        i++;
+    }
+    check_first_last(map[i]);
 }
 
 void        check_map(char **map, int last)
 {
-    int i;
-    (void)last;
-
-    i = -1;
-    while(map[++i])
-    {
-        printf("%s\n", map[i]);
-        if (!i)
-        {
-            check_first_last(map[i]);
-            continue;
-        }
-        check_mid(map[i]);
-        //if (i == last)
-          //  check_first_last(map[i]);
-    }
+    //check_row(map, last);
+   // printf("----------\n");
+    check_col(map, last);
 }

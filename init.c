@@ -81,7 +81,7 @@ static int parsing_map(char *file, t_data *mlx_s)
     fd = open(file, O_RDONLY);
     if (!fd)
         no_file();
-    mlx_s->map_s->mapY = height_count(file, mlx_s);
+    mlx_s->map_s->mapY = (height_count(file, mlx_s));
     mlx_s->map_s->height = mlx_s->height / (mlx_s->map_s->mapY * MINIMAP_S);
     map = malloc(sizeof(char*) * mlx_s->map_s->mapY);
     if (!map)
