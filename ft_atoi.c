@@ -6,28 +6,28 @@
 /*   By: kkalinic <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/20 12:28:52 by kkalinic          #+#    #+#             */
-/*   Updated: 2020/12/11 18:14:10 by kkalinic         ###   ########.fr       */
+/*   Updated: 2021/04/12 14:13:53 by kkalinic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub_head.h"
 
-static int					ft_isotherwhitespace(char c)
+static int	ft_isotherwhitespace(char c)
 {
 	return (c == '\v' || c == '\f' || c == '\r');
 }
 
-static int					ft_isstrwhitespace(char c)
+static int	ft_isstrwhitespace(char c)
 {
 	return (c == ' ' || c == '\t' || c == '\n');
 }
 
-static int					ft_iswhitespace(char c)
+static int	ft_iswhitespace(char c)
 {
 	return (ft_isstrwhitespace(c) || ft_isotherwhitespace(c));
 }
 
-int							ft_atoi(const char *str)
+int	ft_atoi(const char *str)
 {
 	int						i;
 	unsigned long long int	nbr;
@@ -38,10 +38,9 @@ int							ft_atoi(const char *str)
 	sign = 1;
 	while (ft_iswhitespace(str[i]))
 		i++;
-	if (str[i] == '+' || str[i] == '-')
+	if (str[i] == '-')
 	{
-		if (str[i] == '-')
-			sign = -1;
+		sign = -1;
 		i++;
 	}
 	while (str[i] && ft_isdigit(str[i]))

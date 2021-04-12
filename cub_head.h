@@ -16,7 +16,7 @@
 #define PI 3.14159
 #define FOV (PI / 4)
 #define SPEED 0.1
-#define MSPEED 5
+#define MSPEED 0.1
 #define MINIMAP_S 4
 
  

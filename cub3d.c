@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cub3d.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kkalinic <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/04/12 14:01:16 by kkalinic          #+#    #+#             */
+/*   Updated: 2021/04/12 14:01:21 by kkalinic         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub_head.h"
 
 /*
@@ -8,13 +20,21 @@ int    move(int keycode, t_data *mlx_s)
 {
     if (keycode == FORTH)
     {
-        mlx_s->player.y += mlx_s->player.dy;
-        mlx_s->player.x += mlx_s->player.dx;
+        /*mlx_s->player.y += mlx_s->player.dy;
+        mlx_s->player.x += mlx_s->player.dx;*/
+        if (mlx_s->map_s->map[(int)(mlx_s->ray->pos->x + mlx_s->ray->dir->x * MSPEED)][(int)(mlx_s->ray->pos->y)] == '0')
+            mlx_s->ray->pos->x += mlx_s->ray->dir->x * MSPEED;
+        if (mlx_s->map_s->map[(int)(mlx_s->ray->pos->x)][(int)(mlx_s->ray->pos->y + mlx_s->ray->dir->y * MSPEED)] == '0')
+            mlx_s->ray->pos->y += mlx_s->ray->dir->y * MSPEED;
     }
     if (keycode == BACK)
-    {   
+    {   /*
         mlx_s->player.y -= mlx_s->player.dy;
-        mlx_s->player.x -= mlx_s->player.dx;
+        mlx_s->player.x -= mlx_s->player.dx;*/
+        if(mlx_s->map_s->map[(int)(mlx_s->ray->pos->x + mlx_s->ray->dir->x * MSPEED)][(int)(mlx_s->ray->pos->y)] == '0')
+            mlx_s->ray->pos->x -= mlx_s->ray->dir->x * MSPEED;
+        if(mlx_s->map_s->map[(int)(mlx_s->ray->pos->x)][(int)(mlx_s->ray->pos->y + mlx_s->ray->dir->y * MSPEED)] == '0')
+            mlx_s->ray->pos->y -= mlx_s->ray->dir->y * MSPEED;
     }
     if (keycode == LEFT)
     {
@@ -31,8 +51,8 @@ int    move(int keycode, t_data *mlx_s)
     if (keycode == ESC)
         just_exit();
     //printf("%i\n", keycode);
-    mlx_s->ray->pos->x = ((mlx_s->player.x + (mlx_s->map_s->width / 2)) / mlx_s->map_s->width);
-    mlx_s->ray->pos->y = ((mlx_s->player.y + (mlx_s->map_s->height / 2)) / mlx_s->map_s->height);
+    //mlx_s->ray->pos->x = ((mlx_s->player.x + (mlx_s->map_s->width / 2)) / mlx_s->map_s->width);
+    //mlx_s->ray->pos->y = ((mlx_s->player.y + (mlx_s->map_s->height / 2)) / mlx_s->map_s->height);
     print_player(mlx_s);
     mlx_put_image_to_window(mlx_s->mlx, mlx_s->mlx_win, mlx_s->img, 0, 0);
     return(0);
