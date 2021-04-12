@@ -9,6 +9,7 @@
 #define BACK 125
 #define LEFT 123
 #define RIGHT 124
+#define ESC 53
 
 #define START_X 200
 #define START_Y 200
@@ -16,7 +17,8 @@
 #define FOV (PI / 4)
 #define SPEED 0.1
 #define MSPEED 5
-#define ESC 53
+#define MINIMAP_S 4
+
  
 #include <math.h>
 #include <stdlib.h>
@@ -161,6 +163,7 @@ void                print_back(int drawStart, int drawEnd, int x, t_data *mlx_s)
 
 void                malloc_error(void);
 void                just_exit(void);
+void                no_file(void);
 
 
 #endif 

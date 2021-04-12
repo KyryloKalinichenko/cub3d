@@ -79,9 +79,13 @@ static int parsing_map(char *file, t_data *mlx_s)
 
     i = 0;
     fd = open(file, O_RDONLY);
+    if (!fd)
+        no_file();
     mlx_s->map_s->mapY = height_count(file, mlx_s);
-    mlx_s->map_s->height = mlx_s->height / (mlx_s->map_s->mapY * 4);
+    mlx_s->map_s->height = mlx_s->height / (mlx_s->map_s->mapY * MINIMAP_S);
     map = malloc(sizeof(char*) * mlx_s->map_s->mapY);
+    if (!map)
+        malloc_error();
     mlx_s->map_s->map = map;
     while(get_next_line(fd, &map[i]) && ft_strchr(map[i], 'R'))
         free(map[i]);
@@ -107,6 +111,7 @@ int     init(t_data *mlx_s, char *file)
         malloc_error();
     mlx_s->map_s = map_s;
     parsing_map(file, mlx_s);
+    check_map(mlx_s->map_s->map);
     init_mlx(mlx_s);
     print_map(mlx_s);
     //print_player(mlx_s);
