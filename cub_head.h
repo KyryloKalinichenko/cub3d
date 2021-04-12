@@ -164,6 +164,8 @@ void                print_back(int drawStart, int drawEnd, int x, t_data *mlx_s)
 void                malloc_error(void);
 void                just_exit(void);
 void                no_file(void);
+void                check_map(char **map, int last);
+void                map_err(void);
 
 
 #endif 

@@ -111,7 +111,7 @@ int     init(t_data *mlx_s, char *file)
         malloc_error();
     mlx_s->map_s = map_s;
     parsing_map(file, mlx_s);
-    check_map(mlx_s->map_s->map);
+    check_map(mlx_s->map_s->map, mlx_s->map_s->mapY);
     init_mlx(mlx_s);
     print_map(mlx_s);
     //print_player(mlx_s);
