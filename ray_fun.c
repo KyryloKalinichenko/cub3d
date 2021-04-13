@@ -44,7 +44,7 @@ void	dda(t_ray *ray, t_data *mlx_s)
 			ray->on_map->y += ray->step->y;
 			ray->side = 1;
 		}
-		if (mlx_s->map_s->map[(int)(ray->on_map->x)][(int)(ray->on_map->y)] == '1')
+		if (mlx_s->map_s->map[(int)(ray->on_map->y)][(int)(ray->on_map->x)] == '1')
 			ray->hit = 1;
         if (ray->hit == 1)
         {/*
@@ -144,15 +144,15 @@ void	main_image(t_data *mlx_s, t_ray *ray, int i)
 void    ray_fun(t_data *mlx_s, t_ray *ray)
 {
     int     i;
-	t_line vector;
+//	t_line vector;
 
     i = -1;
     while (++i < mlx_s->width)
     {
 		print_back(0, mlx_s->height, i, mlx_s);
         ray->camera_x = 2 * i / (double)(mlx_s->width) - 1;
-	    ray->ray_dir->x = ray->dir->y + ray->plane->x * ray->camera_x;
-	    ray->ray_dir->y = ray->dir->x + ray->plane->y * ray->camera_x;
+	    ray->ray_dir->x = ray->dir->x + ray->plane->x * ray->camera_x;
+	    ray->ray_dir->y = ray->dir->y + ray->plane->y * ray->camera_x;
 	    ray->on_map->x = (int)(ray->pos->x);
 	    ray->on_map->y = (int)(ray->pos->y);
 	    ray->delta_dist->x = fabs(1 / ray->ray_dir->x);
@@ -161,10 +161,10 @@ void    ray_fun(t_data *mlx_s, t_ray *ray)
         first_step(ray);
         dda(ray, mlx_s);
 		main_image(mlx_s, ray, i);
-		vector.x = mlx_s->ray->pos->x * mlx_s->map_s->width;
-		vector.y = mlx_s->ray->pos->y * mlx_s->map_s->height; 
-		vector.dx = ray->on_map->x * mlx_s->map_s->width;
-		vector.dy = ray->on_map->y * mlx_s->map_s->height;
-		print_v(mlx_s, vector);
+		/*vector.x = mlx_s->ray->pos->x * mlx_s->map_s->width ;
+		vector.y = mlx_s->ray->pos->y * mlx_s->map_s->height + mlx_s->map_s->height / 2; 
+		vector.dx = ray->on_map->x + (mlx_s->ray->dir->x * 10);
+		vector.dy = ray->on_map->y + (mlx_s->ray->dir->y * 10);
+		print_v(mlx_s, vector);*/
     }
 }

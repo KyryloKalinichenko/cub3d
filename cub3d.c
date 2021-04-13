@@ -23,19 +23,19 @@ int    move(int keycode, t_data *mlx_s)
     {
         /*mlx_s->player.y += mlx_s->player.dy;
         mlx_s->player.x += mlx_s->player.dx;*/
-        if (mlx_s->map_s->map[(int)(mlx_s->ray->pos->x + mlx_s->ray->dir->x * (MSPEED + 0.2))][(int)(mlx_s->ray->pos->y)] == '0')
-            mlx_s->ray->pos->x += mlx_s->ray->dir->x * MSPEED;
-        if (mlx_s->map_s->map[(int)(mlx_s->ray->pos->x)][(int)(mlx_s->ray->pos->y + mlx_s->ray->dir->y * (MSPEED + 0.2))] == '0')
+        if (mlx_s->map_s->map[(int)(mlx_s->ray->pos->y + mlx_s->ray->dir->y * (MSPEED + 0.2))][(int)(mlx_s->ray->pos->x)] == '0')
             mlx_s->ray->pos->y += mlx_s->ray->dir->y * MSPEED;
+        if (mlx_s->map_s->map[(int)(mlx_s->ray->pos->y)][(int)(mlx_s->ray->pos->x + mlx_s->ray->dir->x * (MSPEED + 0.2))] == '0')
+            mlx_s->ray->pos->x += mlx_s->ray->dir->x * MSPEED;
     }
     if (keycode == BACK)
     {   /*
         mlx_s->player.y -= mlx_s->player.dy;
         mlx_s->player.x -= mlx_s->player.dx;*/
-        if(mlx_s->map_s->map[(int)(mlx_s->ray->pos->x - mlx_s->ray->dir->x * (MSPEED + 0.2))][(int)(mlx_s->ray->pos->y)] == '0')
-            mlx_s->ray->pos->x -= mlx_s->ray->dir->x * MSPEED;
-        if(mlx_s->map_s->map[(int)(mlx_s->ray->pos->x)][(int)(mlx_s->ray->pos->y - mlx_s->ray->dir->y * (MSPEED + 0.2))] == '0')
+        if(mlx_s->map_s->map[(int)(mlx_s->ray->pos->y - mlx_s->ray->dir->y * (MSPEED + 0.2))][(int)(mlx_s->ray->pos->x)] == '0')
             mlx_s->ray->pos->y -= mlx_s->ray->dir->y * MSPEED;
+        if(mlx_s->map_s->map[(int)(mlx_s->ray->pos->y)][(int)(mlx_s->ray->pos->x - mlx_s->ray->dir->x * (MSPEED + 0.2))] == '0')
+            mlx_s->ray->pos->x -= mlx_s->ray->dir->x * MSPEED;
     }
     if (keycode == LEFT)
     {

@@ -100,7 +100,7 @@ void    print_player(t_data *mlx_s)
 	
 	
 	ray_fun(mlx_s, mlx_s->ray);
-	//print_map(mlx_s);
+	print_map(mlx_s);
 	//printf("-------%f--%f-----\n", mlx_s->ray->pos->y, mlx_s->ray->pos->y);
 	print_sq(mlx_s, (mlx_s->ray->pos->x * mlx_s->map_s->width), (mlx_s->ray->pos->y * mlx_s->map_s->height));
 	vector.x = mlx_s->ray->pos->x * mlx_s->map_s->width + mlx_s->map_s->width / 2;
