@@ -100,7 +100,7 @@ void    turn_r(t_ray *ray)
 					+ ray->plane->y * cos(SPEED);
 }
 
-void    init_ray(t_ray  *ray, t_data *mlx_s)
+void    init_ray(t_ray  *ray/*, t_data *mlx_s*/)
 {
     ray->ray_dir = malloc(sizeof(t_point));
     ray->dir = malloc(sizeof(t_point));
@@ -111,10 +111,12 @@ void    init_ray(t_ray  *ray, t_data *mlx_s)
     ray->plane = malloc(sizeof(t_point));
     ray->pos = malloc(sizeof(t_point));
 
-    ray->pos->x = ((mlx_s->player.x + (mlx_s->map_s->width / 2)) / mlx_s->map_s->width);
-    ray->pos->y = ((mlx_s->player.y + (mlx_s->map_s->height / 2)) / mlx_s->map_s->height);
-    ray->dir->x = mlx_s->player.a;
-    ray->dir->y = mlx_s->player.a;
+    //ray->pos->x = /*((mlx_s->player.x + (mlx_s->map_s->width / 2))*/mlx_s->player.x / mlx_s->map_s->width;
+    //ray->pos->y = /*((mlx_s->player.y + (mlx_s->map_s->height / 2))*/mlx_s->player.y / mlx_s->map_s->height;
+	ray->pos->x = 2;
+	ray->pos->y = 2;
+	ray->dir->x = FOV;
+    ray->dir->y = FOV;
     ray->plane->x = 0;
     ray->plane->y = 0.66;
 }
@@ -142,14 +144,15 @@ void	main_image(t_data *mlx_s, t_ray *ray, int i)
 void    ray_fun(t_data *mlx_s, t_ray *ray)
 {
     int     i;
+	t_line vector;
 
     i = -1;
     while (++i < mlx_s->width)
     {
 		print_back(0, mlx_s->height, i, mlx_s);
         ray->camera_x = 2 * i / (double)(mlx_s->width) - 1;
-	    ray->ray_dir->x = ray->dir->x + ray->plane->x * ray->camera_x;
-	    ray->ray_dir->y = ray->dir->y + ray->plane->y * ray->camera_x;
+	    ray->ray_dir->x = ray->dir->y + ray->plane->x * ray->camera_x;
+	    ray->ray_dir->y = ray->dir->x + ray->plane->y * ray->camera_x;
 	    ray->on_map->x = (int)(ray->pos->x);
 	    ray->on_map->y = (int)(ray->pos->y);
 	    ray->delta_dist->x = fabs(1 / ray->ray_dir->x);
@@ -158,5 +161,10 @@ void    ray_fun(t_data *mlx_s, t_ray *ray)
         first_step(ray);
         dda(ray, mlx_s);
 		main_image(mlx_s, ray, i);
+		vector.x = mlx_s->ray->pos->x * mlx_s->map_s->width;
+		vector.y = mlx_s->ray->pos->y * mlx_s->map_s->height; 
+		vector.dx = ray->on_map->x * mlx_s->map_s->width;
+		vector.dy = ray->on_map->y * mlx_s->map_s->height;
+		print_v(mlx_s, vector);
     }
 }

@@ -19,6 +19,8 @@
 #define MSPEED 0.1
 #define MINIMAP_S 4
 
+#define TEXTWIDTH 64
+#define TEXTHEIGHT 64
  
 #include <math.h>
 #include <stdlib.h>
@@ -155,7 +157,7 @@ void                print_v(t_data *mlx_s, t_line vector);
 void                my_mlx_pixel_put(t_data *data, int x, int y, int color);
 
 void                ray_fun(t_data *mlx_s, t_ray *ray);
-void                init_ray(t_ray  *ray, t_data *mlx_s);
+void                init_ray(t_ray  *ray/*, t_data *mlx_s*/);
 void                turn_l(t_ray *ray);
 void                turn_r(t_ray *ray);
 void                print_ver_line(int drawStart, int drawEnd, int x, t_data *mlx_s);

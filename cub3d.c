@@ -18,38 +18,41 @@
 
 int    move(int keycode, t_data *mlx_s)
 {
+    //printf("%i\n", keycode);
     if (keycode == FORTH)
     {
         /*mlx_s->player.y += mlx_s->player.dy;
         mlx_s->player.x += mlx_s->player.dx;*/
-        if (mlx_s->map_s->map[(int)(mlx_s->ray->pos->x + mlx_s->ray->dir->x * MSPEED)][(int)(mlx_s->ray->pos->y)] == '0')
+        if (mlx_s->map_s->map[(int)(mlx_s->ray->pos->x + mlx_s->ray->dir->x * (MSPEED + 0.2))][(int)(mlx_s->ray->pos->y)] == '0')
             mlx_s->ray->pos->x += mlx_s->ray->dir->x * MSPEED;
-        if (mlx_s->map_s->map[(int)(mlx_s->ray->pos->x)][(int)(mlx_s->ray->pos->y + mlx_s->ray->dir->y * MSPEED)] == '0')
+        if (mlx_s->map_s->map[(int)(mlx_s->ray->pos->x)][(int)(mlx_s->ray->pos->y + mlx_s->ray->dir->y * (MSPEED + 0.2))] == '0')
             mlx_s->ray->pos->y += mlx_s->ray->dir->y * MSPEED;
     }
     if (keycode == BACK)
     {   /*
         mlx_s->player.y -= mlx_s->player.dy;
         mlx_s->player.x -= mlx_s->player.dx;*/
-        if(mlx_s->map_s->map[(int)(mlx_s->ray->pos->x + mlx_s->ray->dir->x * MSPEED)][(int)(mlx_s->ray->pos->y)] == '0')
+        if(mlx_s->map_s->map[(int)(mlx_s->ray->pos->x - mlx_s->ray->dir->x * (MSPEED + 0.2))][(int)(mlx_s->ray->pos->y)] == '0')
             mlx_s->ray->pos->x -= mlx_s->ray->dir->x * MSPEED;
-        if(mlx_s->map_s->map[(int)(mlx_s->ray->pos->x)][(int)(mlx_s->ray->pos->y + mlx_s->ray->dir->y * MSPEED)] == '0')
+        if(mlx_s->map_s->map[(int)(mlx_s->ray->pos->x)][(int)(mlx_s->ray->pos->y - mlx_s->ray->dir->y * (MSPEED + 0.2))] == '0')
             mlx_s->ray->pos->y -= mlx_s->ray->dir->y * MSPEED;
     }
     if (keycode == LEFT)
     {
         turn_l(mlx_s->ray);
-        mlx_s->player.dx = mlx_s->ray->dir->x * 3;
-        mlx_s->player.dy = mlx_s->ray->dir->y * 3;
+       // mlx_s->player.dx = mlx_s->ray->dir->x * 3;
+       // mlx_s->player.dy = mlx_s->ray->dir->y * 3;
     }
     if (keycode == RIGHT)
     {
         turn_r(mlx_s->ray);
-        mlx_s->player.dx = mlx_s->ray->dir->x * 3;
-        mlx_s->player.dy = mlx_s->ray->dir->y * 3;
+        //mlx_s->player.dx = mlx_s->ray->dir->x * 3;
+        //mlx_s->player.dy = mlx_s->ray->dir->y * 3;
     }
     if (keycode == ESC)
         just_exit();
+    printf("x =  %f\n", mlx_s->ray->pos->x);
+	printf("y =  %f\n", mlx_s->ray->pos->y);
     //printf("%i\n", keycode);
     //mlx_s->ray->pos->x = ((mlx_s->player.x + (mlx_s->map_s->width / 2)) / mlx_s->map_s->width);
     //mlx_s->ray->pos->y = ((mlx_s->player.y + (mlx_s->map_s->height / 2)) / mlx_s->map_s->height);

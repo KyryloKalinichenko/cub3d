@@ -11,11 +11,11 @@ static void init_mlx(t_data *mlx_s)
     mlx_s->img = mlx_new_image(mlx_s->mlx, mlx_s->width, mlx_s->height);
     mlx_s->addr = mlx_get_data_addr(mlx_s->img, &mlx_s->bits_per_pixel, &mlx_s->line_length,
                                  &mlx_s->endian);
-    mlx_s->player.x = mlx_s->map_s->width * 2;
-	mlx_s->player.y = mlx_s->map_s->height * 2;
-    mlx_s->player.a = FOV;
-    mlx_s->player.dx = cos(mlx_s->player.a) * 5;
-    mlx_s->player.dy = sin(mlx_s->player.a) * 5;
+    //mlx_s->player.x = mlx_s->map_s->width * 2;
+	//mlx_s->player.y = mlx_s->map_s->height * 2;
+    //mlx_s->player.a = FOV;
+    //mlx_s->player.dx = cos(mlx_s->player.a) * 5;
+    //mlx_s->player.dy = sin(mlx_s->player.a) * 5;
 }
 
 /*
@@ -116,7 +116,7 @@ int     init(t_data *mlx_s, char *file)
     print_map(mlx_s);
     //print_player(mlx_s);
     mlx_s->ray = ray;
-    init_ray(ray, mlx_s);
+    init_ray(ray/*, mlx_s*/);
     
 
     return (0);
