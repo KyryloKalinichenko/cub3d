@@ -122,6 +122,7 @@ typedef struct  s_data {
     void        *mlx_win;
     void        *img;
     char        *addr;
+    void        *text_img;
     int         bits_per_pixel;
     int         line_length;
     int         endian;
@@ -168,6 +169,8 @@ void                just_exit(void);
 void                no_file(void);
 void                check_map(char **map, int last);
 void                map_err(void);
+void                init_text(t_data *mlx_s);
+void                put_text(int drawStart, int drawEnd, int i, t_data *mlx_s, int perpWallDist);
 
 
 #endif 
