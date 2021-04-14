@@ -138,7 +138,7 @@ void	main_image(t_data *mlx_s, t_ray *ray, int i)
         drawEnd = lineHeight / 2 + mlx_s->height / 2;
         if(drawEnd >= mlx_s->height)
             drawEnd = mlx_s->height - 1;
-		put_text(drawStart, drawEnd, i, mlx_s, perpWallDist);
+		put_text(drawStart, drawEnd, i, mlx_s, lineHeight, perpWallDist);
 		//print_ver_line(drawStart, drawEnd, i, mlx_s);	
 }
 

@@ -113,6 +113,19 @@ typedef struct  s_pl {
 }               t_pl;
 
 /*
+** The structure to save all necessary data for textures 
+**
+*/
+
+typedef struct  s_tex {
+    void        *img;
+    void        *addr;
+    int         bits_per_pixel;
+    int         line_length;
+    int         endian;
+}               t_tex;
+
+/*
 ** The main structure to store all necessary data for displaying an image.
 */
 
@@ -122,7 +135,7 @@ typedef struct  s_data {
     void        *mlx_win;
     void        *img;
     char        *addr;
-    void        *text_img;
+    t_tex       *tex;
     int         bits_per_pixel;
     int         line_length;
     int         endian;
@@ -170,7 +183,7 @@ void                no_file(void);
 void                check_map(char **map, int last);
 void                map_err(void);
 void                init_text(t_data *mlx_s);
-void                put_text(int drawStart, int drawEnd, int i, t_data *mlx_s, int perpWallDist);
-
+void                put_text(int drawStart, int drawEnd, int i, t_data *mlx_s, int lineHeight, int perpWallDists);
+void                mlx_pixel_get(t_tex *data, int x, int y, unsigned int *color);
 
 #endif 

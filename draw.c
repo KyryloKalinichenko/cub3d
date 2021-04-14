@@ -8,6 +8,14 @@ void            my_mlx_pixel_put(t_data *data, int x, int y, int color)
     *(unsigned int*)dst = color;
 }
 
+void            mlx_pixel_get(t_tex *data, int x, int y, unsigned int *color)
+{
+    char    *dst;
+
+    dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
+    *color = *(unsigned int*)dst;
+}
+
 void    print_ver_line(int drawStart, int drawEnd, int x, t_data *mlx_s)
 {
     while(drawStart <= drawEnd)

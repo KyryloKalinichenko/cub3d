@@ -51,8 +51,8 @@ int    move(int keycode, t_data *mlx_s)
     }
     if (keycode == ESC)
         just_exit();
-    printf("x =  %f\n", mlx_s->ray->pos->x);
-	printf("y =  %f\n", mlx_s->ray->pos->y);
+    //printf("x =  %f\n", mlx_s->ray->pos->x);
+	//printf("y =  %f\n", mlx_s->ray->pos->y);
     //printf("%i\n", keycode);
     //mlx_s->ray->pos->x = ((mlx_s->player.x + (mlx_s->map_s->width / 2)) / mlx_s->map_s->width);
     //mlx_s->ray->pos->y = ((mlx_s->player.y + (mlx_s->map_s->height / 2)) / mlx_s->map_s->height);
