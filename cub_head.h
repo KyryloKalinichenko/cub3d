@@ -43,6 +43,12 @@ typedef struct		s_point
 	double      x;
 	double      y;
 }					t_point;
+
+typedef struct		s_on_map
+{
+	int      x;
+	int      y;
+}					t_on_map;
 /*
 ** The structure to store the map, its width and height.
 */
@@ -89,14 +95,14 @@ typedef struct  s_ray {
     double          camera_x;
     t_point         *ray_dir;
     t_point         *dir;
-    t_point         *on_map;
-    t_point         *step;
+    t_on_map        *on_map;
+    t_on_map        *step;
     t_point         *side_dist;
     t_point         *delta_dist;
     t_point         *plane;
     t_point         *pos;
-    short           side;
-    short           hit;
+    int             side;
+    int             hit;
 }               t_ray;
 
 /*

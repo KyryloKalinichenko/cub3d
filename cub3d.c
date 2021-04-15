@@ -39,13 +39,13 @@ int    move(int keycode, t_data *mlx_s)
     }
     if (keycode == LEFT)
     {
-        turn_l(mlx_s->ray);
+        turn_r(mlx_s->ray);
        // mlx_s->player.dx = mlx_s->ray->dir->x * 3;
        // mlx_s->player.dy = mlx_s->ray->dir->y * 3;
     }
     if (keycode == RIGHT)
     {
-        turn_r(mlx_s->ray);
+        turn_l(mlx_s->ray);
         //mlx_s->player.dx = mlx_s->ray->dir->x * 3;
         //mlx_s->player.dy = mlx_s->ray->dir->y * 3;
     }

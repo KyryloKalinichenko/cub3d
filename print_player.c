@@ -71,8 +71,6 @@ void    print_v(t_data *mlx_s, t_line vector)
     double delta;
 	
     delta = fabs(vector.y - vector.dy) - fabs(vector.x - vector.dx);
-	//printf("-------%i--%f-----\n", vector.dx, delta);
-	//my_mlx_pixel_put(mlx_s, vector.x, vector.y, mlx_s->map_s->color);
 	if (delta > 0)
 	{
 		delta = (vector.x - vector.dx) / (vector.y - vector.dy);
@@ -100,9 +98,9 @@ void    print_player(t_data *mlx_s)
 	
 	
 	ray_fun(mlx_s, mlx_s->ray);
-	//print_map(mlx_s);
+	print_map(mlx_s);
 	//printf("-------%f--%f-----\n", mlx_s->ray->pos->y, mlx_s->ray->pos->y);
-	//print_sq(mlx_s, (mlx_s->ray->pos->x * mlx_s->map_s->width), (mlx_s->ray->pos->y * mlx_s->map_s->height));
+	print_sq(mlx_s, (mlx_s->ray->pos->x * mlx_s->map_s->width), (mlx_s->ray->pos->y * mlx_s->map_s->height));
 	/*vector.x = mlx_s->ray->pos->x * mlx_s->map_s->width;
 	vector.y = mlx_s->ray->pos->y * mlx_s->map_s->height; 
 	vector.dx = mlx_s->ray->on_map->x * mlx_s->map_s->width;

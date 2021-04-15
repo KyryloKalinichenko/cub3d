@@ -12,7 +12,7 @@ static void	first_step(t_ray *ray)
 	{
 		ray->step->x = 1;
 		ray->side_dist->x =
-					(ray->on_map->x + 1 - ray->pos->x) * ray->delta_dist->x;
+					(ray->on_map->x + 1.0 - ray->pos->x) * ray->delta_dist->x;
 	}
 	if (ray->ray_dir->y < 0)
 	{
@@ -24,7 +24,7 @@ static void	first_step(t_ray *ray)
 	{
 		ray->step->y = 1;
 		ray->side_dist->y =
-				(ray->on_map->y + 1 - ray->pos->y) * ray->delta_dist->y;
+				(ray->on_map->y + 1.0 - ray->pos->y) * ray->delta_dist->y;
 	}
 }
 
@@ -66,7 +66,7 @@ void	dda(t_ray *ray, t_data *mlx_s)
 	}
 }
 
-void    turn_r(t_ray *ray)
+void    turn_l(t_ray *ray)
 {
 /*    double	old_dir_x;
 	double	old_plane_x;
@@ -84,14 +84,14 @@ void    turn_r(t_ray *ray)
 */
 	double oldDirX = ray->dir->x;
     double oldPlaneX = ray->plane->x;
-    ray->dir->x = ray->dir->x * cos(SPEED) - ray->dir->y * sin(SPEED);
-    ray->dir->y = oldDirX * sin(SPEED) + ray->dir->y * cos(SPEED);
-    ray->plane->x = ray->plane->x * cos(SPEED) - ray->plane->y * sin(SPEED);
-    ray->plane->y = oldPlaneX * sin(SPEED) + ray->plane->y * cos(SPEED);
+    ray->dir->x = ray->dir->x * cos(-SPEED) - ray->dir->y * sin(-SPEED);
+    ray->dir->y = oldDirX * sin(-SPEED) + ray->dir->y * cos(-SPEED);
+    ray->plane->x = ray->plane->x * cos(-SPEED) - ray->plane->y * sin(-SPEED);
+    ray->plane->y = oldPlaneX * sin(-SPEED) + ray->plane->y * cos(-SPEED);
     
 }
 
-void    turn_l(t_ray *ray)
+void    turn_r(t_ray *ray)
 {/*
     double	old_dir_x;
 	double	old_plane_x;
@@ -108,18 +108,18 @@ void    turn_l(t_ray *ray)
 					+ ray->plane->y * cos(-SPEED);*/
 	double oldDirX = ray->dir->x;
     double oldPlaneX = ray->plane->x;
-    ray->dir->x = ray->dir->x * cos(-SPEED) - ray->dir->y * sin(-SPEED);
-    ray->dir->y = oldDirX * sin(-SPEED) + ray->dir->y * cos(-SPEED);
-    ray->plane->x = ray->plane->x * cos(-SPEED) - ray->plane->y * sin(-SPEED);
-    ray->plane->y = oldPlaneX * sin(-SPEED) + ray->plane->y * cos(-SPEED);
+    ray->dir->x = ray->dir->x * cos(SPEED) - ray->dir->y * sin(SPEED);
+    ray->dir->y = oldDirX * sin(SPEED) + ray->dir->y * cos(SPEED);
+    ray->plane->x = ray->plane->x * cos(SPEED) - ray->plane->y * sin(SPEED);
+    ray->plane->y = oldPlaneX * sin(SPEED) + ray->plane->y * cos(SPEED);
 }
 
 void    init_ray(t_ray  *ray/*, t_data *mlx_s*/)
 {
     ray->ray_dir = malloc(sizeof(t_point));
     ray->dir = malloc(sizeof(t_point));
-    ray->on_map = malloc(sizeof(t_point));
-    ray->step = malloc(sizeof(t_point));
+    ray->on_map = malloc(sizeof(t_on_map));
+    ray->step = malloc(sizeof(t_on_map));
     ray->side_dist = malloc(sizeof(t_point));
     ray->delta_dist = malloc(sizeof(t_point));
     ray->plane = malloc(sizeof(t_point));
@@ -127,10 +127,10 @@ void    init_ray(t_ray  *ray/*, t_data *mlx_s*/)
 
     //ray->pos->x = /*((mlx_s->player.x + (mlx_s->map_s->width / 2))*/mlx_s->player.x / mlx_s->map_s->width;
     //ray->pos->y = /*((mlx_s->player.y + (mlx_s->map_s->height / 2))*/mlx_s->player.y / mlx_s->map_s->height;
-	ray->pos->x = 10;
-	ray->pos->y = 10;
-	ray->dir->x = FOV;
-    ray->dir->y = FOV;
+	ray->pos->x = 2;
+	ray->pos->y = 2;
+	ray->dir->x = -1;
+    ray->dir->y = 0;
     ray->plane->x = 0;
     ray->plane->y = 0.66;
 }
