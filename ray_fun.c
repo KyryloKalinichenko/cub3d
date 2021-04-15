@@ -66,26 +66,9 @@ void	dda(t_ray *ray, t_data *mlx_s)
 	}
 }
 
-void    turn_l(t_ray *ray)
-{
-    double	old_dir_x;
-	double	old_plane_x;
-
-	old_dir_x = ray->dir->x;
-	old_plane_x = ray->plane->x;
-	ray->dir->x = old_dir_x * cos(-SPEED)
-					- ray->dir->y * sin(-SPEED);
-	ray->dir->y = old_dir_x * sin(-SPEED)
-					+ ray->dir->y * cos(-SPEED);
-	ray->plane->x = old_plane_x * cos(-SPEED)
-					- ray->plane->y * sin(-SPEED);
-	ray->plane->y = old_plane_x * sin(-SPEED)
-					+ ray->plane->y * cos(-SPEED);
-}
-
 void    turn_r(t_ray *ray)
 {
-    double	old_dir_x;
+/*    double	old_dir_x;
 	double	old_plane_x;
 
 	old_dir_x = ray->dir->x;
@@ -98,6 +81,37 @@ void    turn_r(t_ray *ray)
 					- ray->plane->y * sin(SPEED);
 	ray->plane->y = old_plane_x * sin(SPEED)
 					+ ray->plane->y * cos(SPEED);
+*/
+	double oldDirX = ray->dir->x;
+    double oldPlaneX = ray->plane->x;
+    ray->dir->x = ray->dir->x * cos(SPEED) - ray->dir->y * sin(SPEED);
+    ray->dir->y = oldDirX * sin(SPEED) + ray->dir->y * cos(SPEED);
+    ray->plane->x = ray->plane->x * cos(SPEED) - ray->plane->y * sin(SPEED);
+    ray->plane->y = oldPlaneX * sin(SPEED) + ray->plane->y * cos(SPEED);
+    
+}
+
+void    turn_l(t_ray *ray)
+{/*
+    double	old_dir_x;
+	double	old_plane_x;
+
+	old_dir_x = ray->dir->x;
+	old_plane_x = ray->plane->x;
+	ray->dir->x = old_dir_x * cos(-SPEED)
+					- ray->dir->y * sin(-SPEED);
+	ray->dir->y = old_dir_x * sin(-SPEED)
+					+ ray->dir->y * cos(-SPEED);
+	ray->plane->x = old_plane_x * cos(-SPEED)
+					- ray->plane->y * sin(-SPEED);
+	ray->plane->y = old_plane_x * sin(-SPEED)
+					+ ray->plane->y * cos(-SPEED);*/
+	double oldDirX = ray->dir->x;
+    double oldPlaneX = ray->plane->x;
+    ray->dir->x = ray->dir->x * cos(-SPEED) - ray->dir->y * sin(-SPEED);
+    ray->dir->y = oldDirX * sin(-SPEED) + ray->dir->y * cos(-SPEED);
+    ray->plane->x = ray->plane->x * cos(-SPEED) - ray->plane->y * sin(-SPEED);
+    ray->plane->y = oldPlaneX * sin(-SPEED) + ray->plane->y * cos(-SPEED);
 }
 
 void    init_ray(t_ray  *ray/*, t_data *mlx_s*/)
@@ -113,8 +127,8 @@ void    init_ray(t_ray  *ray/*, t_data *mlx_s*/)
 
     //ray->pos->x = /*((mlx_s->player.x + (mlx_s->map_s->width / 2))*/mlx_s->player.x / mlx_s->map_s->width;
     //ray->pos->y = /*((mlx_s->player.y + (mlx_s->map_s->height / 2))*/mlx_s->player.y / mlx_s->map_s->height;
-	ray->pos->x = 2;
-	ray->pos->y = 2;
+	ray->pos->x = 10;
+	ray->pos->y = 10;
 	ray->dir->x = FOV;
     ray->dir->y = FOV;
     ray->plane->x = 0;
@@ -145,7 +159,7 @@ void	main_image(t_data *mlx_s, t_ray *ray, int i)
 void    ray_fun(t_data *mlx_s, t_ray *ray)
 {
     int     i;
-//	t_line vector;
+	//t_line vector;
 
     i = -1;
     while (++i < mlx_s->width)
@@ -162,10 +176,10 @@ void    ray_fun(t_data *mlx_s, t_ray *ray)
         first_step(ray);
         dda(ray, mlx_s);
 		main_image(mlx_s, ray, i);
-		/*vector.x = mlx_s->ray->pos->x * mlx_s->map_s->width ;
-		vector.y = mlx_s->ray->pos->y * mlx_s->map_s->height + mlx_s->map_s->height / 2; 
-		vector.dx = ray->on_map->x + (mlx_s->ray->dir->x * 10);
-		vector.dy = ray->on_map->y + (mlx_s->ray->dir->y * 10);
+		/*vector.x = mlx_s->ray->pos->x * mlx_s->map_s->width;
+		vector.y = mlx_s->ray->pos->y * mlx_s->map_s->height; 
+		vector.dx = mlx_s->ray->on_map->x * mlx_s->map_s->width;
+		vector.dy = mlx_s->ray->on_map->y * mlx_s->map_s->height;
 		print_v(mlx_s, vector);*/
     }
 }
