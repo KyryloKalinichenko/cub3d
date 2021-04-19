@@ -2,7 +2,7 @@
 #define CUB_HEAD_H
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 1
+#  define BUFFER_SIZE 100
 # endif
 
 #define FORTH 126
@@ -15,8 +15,8 @@
 #define START_Y 200
 #define PI 3.14159
 #define FOV (PI / 4)
-#define SPEED 0.1
-#define MSPEED 0.1
+#define SPEED 0.2
+#define MSPEED 0.2
 #define MINIMAP_S 4
 
 #define TEXTWIDTH 64
@@ -141,7 +141,7 @@ typedef struct  s_data {
     void        *mlx_win;
     void        *img;
     char        *addr;
-    t_tex       *tex;
+    t_tex       **tex;
     int         bits_per_pixel;
     int         line_length;
     int         endian;
@@ -188,8 +188,8 @@ void                just_exit(void);
 void                no_file(void);
 void                check_map(char **map, int last);
 void                map_err(void);
-void                init_text(t_data *mlx_s);
-void                put_text(int drawStart, int drawEnd, int i, t_data *mlx_s, double lineHeight, double perpWallDists);
+void                init_text(t_data *mlx_s, char *path, int i);
+void                put_text(int drawStart, int drawEnd, int i, t_data *mlx_s, double lineHeight, double perpWallDists, t_tex *tex);
 void                mlx_pixel_get(t_tex *data, int x, int y, unsigned int *color);
 
 #endif 

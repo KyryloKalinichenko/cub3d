@@ -140,6 +140,7 @@ void	main_image(t_data *mlx_s, t_ray *ray, int i)
 		double perpWallDist;
         double lineHeight;
         int drawEnd;
+		t_tex *tex;
         
 		if (ray->side == 0) 
             perpWallDist = (ray->on_map->x - ray->pos->x + (1 - ray->step->x) / 2) / ray->ray_dir->x;
@@ -152,7 +153,11 @@ void	main_image(t_data *mlx_s, t_ray *ray, int i)
         drawEnd = lineHeight / 2 + mlx_s->height / 2;
         if(drawEnd >= mlx_s->height)
             drawEnd = mlx_s->height - 1;
-		put_text(drawStart, drawEnd, i, mlx_s, lineHeight, perpWallDist);
+		if (ray->side == 0)
+			tex = &mlx_s->tex[0];
+		else
+			tex = &mlx_s->tex[1];
+		put_text(drawStart, drawEnd, i, mlx_s, lineHeight, perpWallDist, tex);
 		//print_ver_line(drawStart, drawEnd, i, mlx_s);	
 }
 

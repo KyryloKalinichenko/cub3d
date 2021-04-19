@@ -23,18 +23,19 @@ static void init_mlx(t_data *mlx_s)
 **
 */
 
-static int read_r(short fd, t_data *mlx_s)
+static int read_r(char **tab, t_data *mlx_s)
 {
-    char *line;
-    char **width_heiht;
+    int i;
 
-    if (!(get_next_line(fd, &line)))
-        return (1);
-    width_heiht = ft_split(line, ' ');
-    if (!width_heiht)
-        malloc_error();
-    mlx_s->width = ft_atoi(width_heiht[0]);
-    mlx_s->height = ft_atoi(width_heiht[1]);
+    i = -1;
+    while(tab[++i])
+    {
+        if (i == 1)
+            mlx_s->width = ft_atoi(tab[i]);
+        else if (i == 2)
+            mlx_s->height = ft_atoi(tab[2]);
+        free(tab[i]);
+    }
     return (0);
 }
 
@@ -43,26 +44,97 @@ static int read_r(short fd, t_data *mlx_s)
 **
 */
 
+static int			ft_strcmp(const char *s1, const char *s2)
+{
+	while (*s1 && *s2 && *s1 == *s2)
+	{
+		s1++;
+		s2++;
+	}
+	return ((unsigned char)*s1 - (unsigned char)*s2);
+}
+
+static void free_tab(char **tab)
+{
+    int i;
+
+    i = -1;
+    while(tab[++i])
+        free(tab[i]);
+}
+
+static int char_check(char c)
+{
+    char *here;
+    int i;
+
+    here = "012WSEN ";
+    i = -1;
+    while(here[++i])
+    {
+        if (here[i] == c)
+            return (1);
+    }
+    return (0);
+}
+
+static int line_check(char *line)
+{
+    int i;
+
+    i = -1;
+    while (line[++i])
+    {
+        if (!char_check(line[i]))
+            return (0);
+    }
+    return (1);
+}
+
 static int height_count(char *file, t_data *mlx_s)
 {
     short height;
-    int i;
     int fd;
-    char buff[BUFFER_SIZE + 1];
+    char *buff;
+    char **tab;
     
-    height  = 0;
+    height  = 1;
+    //buff = "h\0";
     fd = open(file, O_RDONLY);
-    while ((i = read(fd, buff, BUFFER_SIZE)) > 0)
+    if (!fd)
+        malloc_error();
+    while (get_next_line(fd, &buff) >= 0)
 	{
-		buff[i] = '\0';
-        if (ft_strchr(buff, 'R'))
+        if (!ft_strcmp("", buff))
         {
-            read_r(fd, mlx_s);
-            height--;
+            continue ;
         }
-		if (ft_strchr(buff, '\n'))
-			height++;
+        if (!(tab = ft_split(buff, ' ')))
+            malloc_error();
+        if (!(ft_strcmp(tab[0], "R")))
+        {
+            read_r(tab, mlx_s);
+        }
+        else if (!ft_strcmp(tab[0], "NO") && tab[1])
+        {
+            printf("--------------\n");
+            init_text(mlx_s, tab[1], 0);
+        }
+        else if (!ft_strcmp(tab[0], "SO") && tab[1])
+            init_text(mlx_s, tab[1], 1);
+		else
+        {
+            free_tab(tab);
+            break ;
+        }
+        free(buff);
 	}
+    while (get_next_line(fd, &buff) > 0)
+    {
+        if (!line_check(buff))
+            map_err();
+        height++;
+    }
 	return (height + 1);
 }
 
@@ -87,16 +159,20 @@ static int parsing_map(char *file, t_data *mlx_s)
     if (!map)
         malloc_error();
     mlx_s->map_s->map = map;
-    while(get_next_line(fd, &map[i]) && ft_strchr(map[i], 'R'))
+    while(get_next_line(fd, &map[i]) && !line_check(map[i]))
         free(map[i]);
     if (!(get_next_line(fd, &map[i])))
-        malloc_error();
+        map_err();
     mlx_s->map_s->mapX = ft_strlen(map[i]);
+    while(get_next_line(fd, &map[++i]))
+    {
+        //printf("---------%s-------\n", map[i]);
+        if (mlx_s->map_s->mapX < (int)ft_strlen(map[i]))
+           mlx_s->map_s->mapX = ft_strlen(map[i]);
+    }
+    map[i] = NULL;
     mlx_s->map_s->mapS = mlx_s->map_s->mapX * mlx_s->map_s->mapY;
     mlx_s->map_s->width = mlx_s->width / (mlx_s->map_s->mapX * 4);
-    while(get_next_line(fd, &map[++i]))
-        ;
-    map[i] = NULL;
     return (0);
 }
 
@@ -107,6 +183,7 @@ int     init(t_data *mlx_s, char *file)
 
     ray = malloc(sizeof(t_ray));
     map_s = malloc(sizeof(t_map));
+    mlx_s->tex = malloc(sizeof(t_tex*) * 4);
     if (!map_s || !ray) 
         malloc_error();
     mlx_s->map_s = map_s;

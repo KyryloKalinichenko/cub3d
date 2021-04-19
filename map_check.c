@@ -25,7 +25,7 @@ static void	check_first_last(char *line)
 
 static void	point_check(char **map, int i, int j)
 {
-	if (map[i][j] == '0' && map[i][j] == '2')
+	if (map[i][j] == '0' || map[i][j] == '2')
 	{
 		if (map[i][j + 1] == ' ' || map[i][j - 1] == ' ')
 			map_err();
