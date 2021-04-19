@@ -111,18 +111,11 @@ static int height_count(char *file, t_data *mlx_s)
         }
         if (!(tab = ft_split(buff, ' ')))
             malloc_error();
-        if (!(ft_strcmp(tab[0], "R")))
+        if (buff[0] == 'R')
         {
             read_r(tab, mlx_s);
         }
-        else if (!ft_strcmp(tab[0], "NO") && tab[1])
-        {
-            printf("--------------\n");
-            init_text(mlx_s, tab[1], 0);
-        }
-        else if (!ft_strcmp(tab[0], "SO") && tab[1])
-            init_text(mlx_s, tab[1], 1);
-		else
+        else
         {
             free_tab(tab);
             break ;
@@ -189,7 +182,7 @@ int     init(t_data *mlx_s, char *file)
     mlx_s->map_s = map_s;
     parsing_map(file, mlx_s);
     check_map(mlx_s->map_s->map, mlx_s->map_s->mapY);
-    init_mlx(mlx_s);
+    //init_mlx(mlx_s);
     print_map(mlx_s);
     //print_player(mlx_s);
     mlx_s->ray = ray;

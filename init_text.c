@@ -12,28 +12,27 @@
 
 #include "cub_head.h"
 
-void init_text(t_data *mlx_s, char *path, int i)
+void init_text(t_data *mlx_s/*, char *path, int i*/)
 {
     int width = mlx_s->width;
     int height = mlx_s->height;
      
     //printf("width %i, height %i \n", width, height);
     
-    mlx_s->tex[i] = malloc((sizeof(t_tex)));
-    if (!mlx_s->tex[i])
+    mlx_s->tex = malloc((sizeof(t_tex)));
+    if (!mlx_s->tex)
       malloc_error();
     //img = mlx_new_image(mlx_s->mlx, mlx_s->width, mlx_s->height);
-    if (!(mlx_s->tex[i]->img = mlx_xpm_file_to_image(mlx_s->mlx, path, &width, &height)))
+    if (!(mlx_s->tex->img = mlx_xpm_file_to_image(mlx_s->mlx, "./xpms/greystone.xpm", &width, &height)))
       malloc_error();
-    printf("--------------\n");
-    if (!(mlx_s->tex[i]->addr = mlx_get_data_addr(mlx_s->tex[i]->img, &mlx_s->tex[i]->bits_per_pixel, &mlx_s->tex[i]->line_length,
-                                 &mlx_s->tex[i]->endian)))
+    if (!(mlx_s->tex->addr = mlx_get_data_addr(mlx_s->tex->img, &mlx_s->tex->bits_per_pixel, &mlx_s->tex->line_length,
+                                 &mlx_s->tex->endian)))
                                  malloc_error();
     //mlx_put_image_to_window(mlx_s->mlx, mlx_s->mlx_win, mlx_s->text_img, 200, 200);
     
 }
 
-void    put_text(int drawStart, int drawEnd, int i, t_data *mlx_s, double lineHeight, double perpWallDist, t_tex *tex)
+void    put_text(int drawStart, int drawEnd, int i, t_data *mlx_s, double lineHeight, double perpWallDist)
 {
     //char texNum = mlx_s->map_s->map[(int)mlx_s->ray->on_map->x][(int)mlx_s->ray->on_map->y]; //1 subtracted from it so that texture 0 can be used!
 
@@ -64,7 +63,7 @@ void    put_text(int drawStart, int drawEnd, int i, t_data *mlx_s, double lineHe
         texY = (int)texPos & (64 - 1);
         texPos += step;
        //printf(" xt - %i\n yt - %i\n", texX, texY);
-        mlx_pixel_get(tex, texX, texY, &color);
+        mlx_pixel_get(mlx_s->tex, texX, texY, &color);
         //printf("color - %i\n", color);
         my_mlx_pixel_put(mlx_s, i, y, color);
           //printf("wow\n");

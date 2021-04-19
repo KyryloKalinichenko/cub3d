@@ -141,7 +141,7 @@ typedef struct  s_data {
     void        *mlx_win;
     void        *img;
     char        *addr;
-    t_tex       **tex;
+    t_tex       *tex;
     int         bits_per_pixel;
     int         line_length;
     int         endian;
@@ -151,6 +151,7 @@ typedef struct  s_data {
     t_pl        player;
     t_ray       *ray;
     t_ray       ray_s;
+    char        *tab[4];
 }               t_data;
 
 int					get_next_line(int fd, char **line);
@@ -188,8 +189,8 @@ void                just_exit(void);
 void                no_file(void);
 void                check_map(char **map, int last);
 void                map_err(void);
-void                init_text(t_data *mlx_s, char *path, int i);
-void                put_text(int drawStart, int drawEnd, int i, t_data *mlx_s, double lineHeight, double perpWallDists, t_tex *tex);
+void                init_text(t_data *mlx_s/*, char *path, int i*/);
+void                put_text(int drawStart, int drawEnd, int i, t_data *mlx_s, double lineHeight, double perpWallDists);
 void                mlx_pixel_get(t_tex *data, int x, int y, unsigned int *color);
 
 #endif 
