@@ -18,6 +18,7 @@
 
 int    move(int keycode, t_data *mlx_s)
 {
+    //printf("%d\n", keycode);
     if (keycode == FORTH)
     {
         if (mlx_s->map_s->map[(int)(mlx_s->ray->pos->y + mlx_s->ray->dir->y * (MSPEED + 0.2))][(int)(mlx_s->ray->pos->x)] == '0')
@@ -33,8 +34,22 @@ int    move(int keycode, t_data *mlx_s)
             mlx_s->ray->pos->x -= mlx_s->ray->dir->x * MSPEED;
     }
     if (keycode == LEFT)
-        turn_r(mlx_s->ray);
+    {
+       if(mlx_s->map_s->map[(int)(mlx_s->ray->pos->x - mlx_s->ray->dir->y * (MSPEED + 0.2))][(int)(mlx_s->ray->pos->y)] == '0')
+            mlx_s->ray->pos->x -= mlx_s->ray->dir->y * MSPEED;
+       if(mlx_s->map_s->map[(int)(mlx_s->ray->pos->x)][(int)(mlx_s->ray->pos->y + mlx_s->ray->dir->x * (MSPEED + 0.2))] == '0')
+            mlx_s->ray->pos->y += mlx_s->ray->dir->x * MSPEED; 
+    }
     if (keycode == RIGHT)
+    {
+        if(mlx_s->map_s->map[(int)(mlx_s->ray->pos->x + mlx_s->ray->dir->x * (MSPEED + 0.2))][(int)(mlx_s->ray->pos->y)] == '0')
+            mlx_s->ray->pos->x += mlx_s->ray->dir->y * MSPEED;
+        if(mlx_s->map_s->map[(int)(mlx_s->ray->pos->x)][(int)(mlx_s->ray->pos->y - mlx_s->ray->dir->x * (MSPEED + 0.2))] == '0')
+            mlx_s->ray->pos->y -= mlx_s->ray->dir->x * MSPEED;
+    }
+    if (keycode == TLEFT)
+        turn_r(mlx_s->ray);
+    if (keycode == TRIGHT)
         turn_l(mlx_s->ray);
     if (keycode == ESC)
         just_exit();

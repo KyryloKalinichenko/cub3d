@@ -5,10 +5,15 @@
 #  define BUFFER_SIZE 100
 # endif
 
-#define FORTH 126
-#define BACK 125
-#define LEFT 123
-#define RIGHT 124
+#define UP 126
+#define DOWN 125
+#define TLEFT 123
+#define TRIGHT 124
+#define FORTH 13
+#define BACK 1
+#define LEFT 0
+#define RIGHT 2
+
 #define ESC 53
 
 #define START_X 200
