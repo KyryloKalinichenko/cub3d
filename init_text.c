@@ -12,25 +12,50 @@
 
 #include "cub_head.h"
 
-void init_text(t_data *mlx_s/*, char *path, int i*/)
+void textures(t_data *mlx_s, t_sides *tex)
+{
+  
+  int i;
+
+  i = -1;
+  while (++i < 4)
+  {
+    if(!ft_strcmp(mlx_s->side[i][0], "NO"))
+    {
+      //printf("---------------\n");
+      tex->no_side = init_text(mlx_s, mlx_s->side[i][1], tex->no_side);
+    }
+    if(!ft_strcmp(mlx_s->side[i][0], "WE"))
+      tex->we_side = init_text(mlx_s, mlx_s->side[i][1], tex->we_side);
+    if(!ft_strcmp(mlx_s->side[i][0], "EA"))
+      tex->ea_side = init_text(mlx_s, mlx_s->side[i][1], tex->ea_side);
+    if(!ft_strcmp(mlx_s->side[i][0], "SO"))
+      tex->so_side = init_text(mlx_s, mlx_s->side[i][1], tex->so_side);
+  }
+    printf("too bad %d\n", tex->no_side->bits_per_pixel);
+}
+
+t_tex *init_text(t_data *mlx_s, char *path, t_tex *tex)
 {
     int width = mlx_s->width;
     int height = mlx_s->height;
      
     //printf("width %i, height %i \n", width, height);
     
-    mlx_s->tex = malloc((sizeof(t_tex)));
-    if (!mlx_s->tex)
-      malloc_error();
     //img = mlx_new_image(mlx_s->mlx, mlx_s->width, mlx_s->height);
-    if (!(mlx_s->tex->img = mlx_xpm_file_to_image(mlx_s->mlx, "./xpms/greystone.xpm", &width, &height)))
+    tex = malloc(sizeof(t_tex));
+    if (!tex)
       malloc_error();
-    if (!(mlx_s->tex->addr = mlx_get_data_addr(mlx_s->tex->img, &mlx_s->tex->bits_per_pixel, &mlx_s->tex->line_length,
-                                 &mlx_s->tex->endian)))
+    //printf("---------%s------%d-----\n", path, tex == NULL);
+    if (!(tex->img = mlx_xpm_file_to_image(mlx_s->mlx, path, &width, &height)))
+      malloc_error();
+    if (!(tex->addr = mlx_get_data_addr(tex->img, &tex->bits_per_pixel, &tex->line_length,
+                                 &tex->endian)))
                                  malloc_error();
+    return(tex);
 }
 
-void    put_text(int drawStart, int drawEnd, int i, t_data *mlx_s, double lineHeight, double perpWallDist)
+void    put_text(int drawStart, int drawEnd, int i, t_data *mlx_s, double lineHeight, double perpWallDist, t_tex *tex)
 {
     //char texNum = mlx_s->map_s->map[(int)mlx_s->ray->on_map->x][(int)mlx_s->ray->on_map->y]; //1 subtracted from it so that texture 0 can be used!
 
@@ -55,13 +80,15 @@ void    put_text(int drawStart, int drawEnd, int i, t_data *mlx_s, double lineHe
       int texY;
       unsigned int color = 0;
       int y = drawStart;
-      //printf("x - %i\n y - %i\n  xt - %i\n yt - %i\n", i, y, texX, texY);
       while(y < (int)drawEnd)
       {
         texY = (int)texPos & (64 - 1);
         texPos += step;
        //printf(" xt - %i\n yt - %i\n", texX, texY);
-        mlx_pixel_get(mlx_s->tex, texX, texY, &color);
+       //printf("%p \n", mlx_s->tex->no_side);
+      //printf("-----------------------\n");
+        mlx_pixel_get(tex, texX, texY, &color);
+      //printf("-----------------------\n");
         //printf("color - %i\n", color);
         my_mlx_pixel_put(mlx_s, i, y, color);
           //printf("wow\n");

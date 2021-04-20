@@ -44,7 +44,7 @@ static int read_r(char **tab, t_data *mlx_s)
 **
 */
 
-static int			ft_strcmp(const char *s1, const char *s2)
+int			ft_strcmp(const char *s1, const char *s2)
 {
 	while (*s1 && *s2 && *s1 == *s2)
 	{
@@ -200,8 +200,8 @@ int     init(t_data *mlx_s, char *file)
 
     ray = malloc(sizeof(t_ray));
     map_s = malloc(sizeof(t_map));
-    mlx_s->tex = malloc(sizeof(t_tex*) * 4);
-    if (!map_s || !ray) 
+    mlx_s->tex = malloc(sizeof(t_sides));
+    if (!map_s || !ray || !mlx_s->tex) 
         malloc_error();
     mlx_s->map_s = map_s;
     parsing_map(file, mlx_s);
@@ -210,6 +210,7 @@ int     init(t_data *mlx_s, char *file)
     print_map(mlx_s);
     //print_player(mlx_s);
     mlx_s->ray = ray;
+    textures(mlx_s, mlx_s->tex);
     init_ray(ray/*, mlx_s*/);
     
 

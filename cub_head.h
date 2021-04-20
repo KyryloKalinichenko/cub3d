@@ -131,6 +131,13 @@ typedef struct  s_tex {
     int         endian;
 }               t_tex;
 
+typedef struct  s_sides {
+    t_tex       *no_side;
+    t_tex       *so_side;
+    t_tex       *we_side;
+    t_tex       *ea_side;
+}               t_sides;
+
 /*
 ** The main structure to store all necessary data for displaying an image.
 */
@@ -141,7 +148,7 @@ typedef struct  s_data {
     void        *mlx_win;
     void        *img;
     char        *addr;
-    t_tex       *tex;
+    t_sides       *tex;
     int         bits_per_pixel;
     int         line_length;
     int         endian;
@@ -189,9 +196,10 @@ void                just_exit(void);
 void                no_file(void);
 void                check_map(char **map, int last);
 void                map_err(void);
-void                init_text(t_data *mlx_s/*, char *path, int i*/);
-void                put_text(int drawStart, int drawEnd, int i, t_data *mlx_s, double lineHeight, double perpWallDists);
+t_tex               *init_text(t_data *mlx_s, char *path, t_tex *tex);
+void                put_text(int drawStart, int drawEnd, int i, t_data *mlx_s, double lineHeight, double perpWallDists, t_tex *tex);
 void                mlx_pixel_get(t_tex *data, int x, int y, unsigned int *color);
-void                textures(t_data *mlx_s);
+void                textures(t_data *mlx_s, t_sides *tex);
+int		           	ft_strcmp(const char *s1, const char *s2);
 
 #endif 

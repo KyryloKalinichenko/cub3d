@@ -54,7 +54,6 @@ int main(int argc, char **argv)
     if (argc == 1)
         return(printf("Error\n"));
     init(&mlx_s, argv[1]);
-    textures(&mlx_s);
     //init_text(&mlx_s);
     mlx_hook (mlx_s.mlx_win, 2, 1L<<0, move, &mlx_s);
     mlx_loop(mlx_s.mlx);
