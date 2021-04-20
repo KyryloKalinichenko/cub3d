@@ -28,8 +28,6 @@ void init_text(t_data *mlx_s/*, char *path, int i*/)
     if (!(mlx_s->tex->addr = mlx_get_data_addr(mlx_s->tex->img, &mlx_s->tex->bits_per_pixel, &mlx_s->tex->line_length,
                                  &mlx_s->tex->endian)))
                                  malloc_error();
-    //mlx_put_image_to_window(mlx_s->mlx, mlx_s->mlx_win, mlx_s->text_img, 200, 200);
-    
 }
 
 void    put_text(int drawStart, int drawEnd, int i, t_data *mlx_s, double lineHeight, double perpWallDist)

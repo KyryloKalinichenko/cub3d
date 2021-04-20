@@ -53,7 +53,7 @@ static int			ft_strcmp(const char *s1, const char *s2)
 	}
 	return ((unsigned char)*s1 - (unsigned char)*s2);
 }
-
+/*
 static void free_tab(char **tab)
 {
     int i;
@@ -61,7 +61,7 @@ static void free_tab(char **tab)
     i = -1;
     while(tab[++i])
         free(tab[i]);
-}
+}*/
 
 static int char_check(char c)
 {
@@ -97,10 +97,12 @@ static int height_count(char *file, t_data *mlx_s)
     int fd;
     char *buff;
     char **tab;
+    int i;
     
     height  = 1;
     //buff = "h\0";
     fd = open(file, O_RDONLY);
+    i = -1;
     if (!fd)
         malloc_error();
     while (get_next_line(fd, &buff) >= 0)
@@ -111,13 +113,34 @@ static int height_count(char *file, t_data *mlx_s)
         }
         if (!(tab = ft_split(buff, ' ')))
             malloc_error();
-        if (buff[0] == 'R')
+        if (!ft_strcmp(tab[0], "R") && tab[1])
         {
+            printf("YES R!\n");
             read_r(tab, mlx_s);
+        }
+        else if (!ft_strcmp(tab[0], "NO") && tab[1])
+        {
+            printf("YES NO!\n");
+            mlx_s->side[++i] = tab;
+        }
+        else if (!ft_strcmp(tab[0], "SO") && tab[1])
+        {
+            printf("YES SO!\n");
+            mlx_s->side[++i] = tab;
+        }
+        else if (!ft_strcmp(tab[0], "WE") && tab[1])
+        {
+            printf("YES WE!\n");
+            mlx_s->side[++i] = tab;
+        }
+        else if (!ft_strcmp(tab[0], "EA") && tab[1])
+        {
+            printf("YES EA!\n");
+            mlx_s->side[++i] = tab;
         }
         else
         {
-            free_tab(tab);
+           // free_tab(tab);
             break ;
         }
         free(buff);
@@ -128,6 +151,7 @@ static int height_count(char *file, t_data *mlx_s)
             map_err();
         height++;
     }
+    printf("%s\n", mlx_s->side[i][0]);
 	return (height + 1);
 }
 
@@ -182,7 +206,7 @@ int     init(t_data *mlx_s, char *file)
     mlx_s->map_s = map_s;
     parsing_map(file, mlx_s);
     check_map(mlx_s->map_s->map, mlx_s->map_s->mapY);
-    //init_mlx(mlx_s);
+    init_mlx(mlx_s);
     print_map(mlx_s);
     //print_player(mlx_s);
     mlx_s->ray = ray;

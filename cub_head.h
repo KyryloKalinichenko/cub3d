@@ -119,7 +119,7 @@ typedef struct  s_pl {
 }               t_pl;
 
 /*
-** The structure to save all necessary data for textures 
+** The structure to save all necessary data for texture 
 **
 */
 
@@ -151,7 +151,7 @@ typedef struct  s_data {
     t_pl        player;
     t_ray       *ray;
     t_ray       ray_s;
-    char        *tab[4];
+    char        **side[4];
 }               t_data;
 
 int					get_next_line(int fd, char **line);
@@ -192,5 +192,6 @@ void                map_err(void);
 void                init_text(t_data *mlx_s/*, char *path, int i*/);
 void                put_text(int drawStart, int drawEnd, int i, t_data *mlx_s, double lineHeight, double perpWallDists);
 void                mlx_pixel_get(t_tex *data, int x, int y, unsigned int *color);
+void                textures(t_data *mlx_s);
 
 #endif 
