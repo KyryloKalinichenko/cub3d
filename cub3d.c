@@ -33,13 +33,9 @@ int    move(int keycode, t_data *mlx_s)
             mlx_s->ray->pos->x -= mlx_s->ray->dir->x * MSPEED;
     }
     if (keycode == LEFT)
-    {
         turn_r(mlx_s->ray);
-    }
     if (keycode == RIGHT)
-    {
         turn_l(mlx_s->ray);
-    }
     if (keycode == ESC)
         just_exit();
     print_player(mlx_s);

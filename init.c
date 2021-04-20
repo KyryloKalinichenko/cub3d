@@ -11,11 +11,6 @@ static void init_mlx(t_data *mlx_s)
     mlx_s->img = mlx_new_image(mlx_s->mlx, mlx_s->width, mlx_s->height);
     mlx_s->addr = mlx_get_data_addr(mlx_s->img, &mlx_s->bits_per_pixel, &mlx_s->line_length,
                                  &mlx_s->endian);
-    //mlx_s->player.x = mlx_s->map_s->width * 2;
-	//mlx_s->player.y = mlx_s->map_s->height * 2;
-    //mlx_s->player.a = FOV;
-    //mlx_s->player.dx = cos(mlx_s->player.a) * 5;
-    //mlx_s->player.dy = sin(mlx_s->player.a) * 5;
 }
 
 /*
@@ -138,6 +133,21 @@ static int height_count(char *file, t_data *mlx_s)
             printf("YES EA!\n");
             mlx_s->side[++i] = tab;
         }
+        else if (!ft_strcmp(tab[0], "S") && tab[1])
+        {
+            printf("YES S!\n");
+            mlx_s->side[++i] = tab;
+        }
+        else if (!ft_strcmp(tab[0], "F") && tab[1])
+        {
+            printf("YES F!\n");
+            mlx_s->side[++i] = tab;
+        }
+        else if (!ft_strcmp(tab[0], "C") && tab[1])
+        {
+            printf("YES C!\n");
+            mlx_s->side[++i] = tab;
+        }
         else
         {
            // free_tab(tab);
@@ -151,7 +161,6 @@ static int height_count(char *file, t_data *mlx_s)
             map_err();
         height++;
     }
-    printf("%s\n", mlx_s->side[i][0]);
 	return (height + 1);
 }
 
@@ -176,14 +185,19 @@ static int parsing_map(char *file, t_data *mlx_s)
     if (!map)
         malloc_error();
     mlx_s->map_s->map = map;
-    while(get_next_line(fd, &map[i]) && !line_check(map[i]))
+    while(1)
+    {
+        get_next_line(fd, &map[i]);
+        if (line_check(map[i]) && ft_strcmp(map[i], ""))
+            break ;
         free(map[i]);
-    if (!(get_next_line(fd, &map[i])))
-        map_err();
+    }
+    //if (!(get_next_line(fd, &map[i])))
+    //    map_err();
     mlx_s->map_s->mapX = ft_strlen(map[i]);
     while(get_next_line(fd, &map[++i]))
     {
-        //printf("---------%s-------\n", map[i]);
+        printf("---------%s-------\n", map[i]);
         if (mlx_s->map_s->mapX < (int)ft_strlen(map[i]))
            mlx_s->map_s->mapX = ft_strlen(map[i]);
     }

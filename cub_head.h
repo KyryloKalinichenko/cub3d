@@ -158,7 +158,9 @@ typedef struct  s_data {
     t_pl        player;
     t_ray       *ray;
     t_ray       ray_s;
-    char        **side[4];
+    char        **side[6];
+    int         cel;
+    int         floor;
 }               t_data;
 
 int					get_next_line(int fd, char **line);

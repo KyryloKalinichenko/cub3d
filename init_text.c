@@ -12,17 +12,43 @@
 
 #include "cub_head.h"
 
+static int get_col(char *line)
+{
+  char **tab;
+  int i;
+  int r;
+  int g;
+  int b;
+
+  tab = ft_split(line, ',');
+  i = -1;
+  if (!tab)
+    malloc_error();
+  while (tab[++i])
+  {
+    if (i == 0)
+      r = ft_atoi(tab[i]);
+    else if (i == 1)
+      g = ft_atoi(tab[i]);
+    else if (i == 2)
+      b = ft_atoi(tab[i]);
+  }
+  if (i > 3 || i < 3)
+    map_err();
+  return (create_trgb(0, r, g, b));
+}
+
 void textures(t_data *mlx_s, t_sides *tex)
 {
   
   int i;
 
   i = -1;
-  while (++i < 4)
+  while (++i < 6)
   {
     if(!ft_strcmp(mlx_s->side[i][0], "NO"))
     {
-      //printf("---------------\n");
+      
       tex->no_side = init_text(mlx_s, mlx_s->side[i][1], tex->no_side);
     }
     if(!ft_strcmp(mlx_s->side[i][0], "WE"))
@@ -31,8 +57,12 @@ void textures(t_data *mlx_s, t_sides *tex)
       tex->ea_side = init_text(mlx_s, mlx_s->side[i][1], tex->ea_side);
     if(!ft_strcmp(mlx_s->side[i][0], "SO"))
       tex->so_side = init_text(mlx_s, mlx_s->side[i][1], tex->so_side);
+    if(!ft_strcmp(mlx_s->side[i][0], "C"))
+      mlx_s->cel = get_col(mlx_s->side[i][1]);
+    if(!ft_strcmp(mlx_s->side[i][0], "F"))
+      mlx_s->floor = get_col(mlx_s->side[i][1]);
   }
-    printf("too bad %d\n", tex->no_side->bits_per_pixel);
+    //printf("too bad %d\n", tex->no_side->bits_per_pixel);
 }
 
 t_tex *init_text(t_data *mlx_s, char *path, t_tex *tex)
