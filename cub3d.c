@@ -19,6 +19,7 @@
 int    move(int keycode, t_data *mlx_s)
 {
     //printf("%d\n", keycode);
+    mlx_s->up = 0;
     if (keycode == FORTH)
     {
         if (mlx_s->map_s->map[(int)(mlx_s->ray->pos->y + mlx_s->ray->dir->y * (MSPEED + 0.2))][(int)(mlx_s->ray->pos->x)] == '0')
@@ -47,6 +48,8 @@ int    move(int keycode, t_data *mlx_s)
         if(mlx_s->map_s->map[(int)(mlx_s->ray->pos->x)][(int)(mlx_s->ray->pos->y - mlx_s->ray->dir->x * (MSPEED + 0.2))] == '0')
             mlx_s->ray->pos->y -= mlx_s->ray->dir->x * MSPEED;
     }
+    if (keycode == UP)
+        mlx_s->up = 1;
     if (keycode == TLEFT)
         turn_r(mlx_s->ray);
     if (keycode == TRIGHT)

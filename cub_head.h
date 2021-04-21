@@ -166,6 +166,7 @@ typedef struct  s_data {
     char        **side[6];
     int         cel;
     int         floor;
+    short       up;
 }               t_data;
 
 int					get_next_line(int fd, char **line);
@@ -208,5 +209,6 @@ void                put_text(int drawStart, int drawEnd, int i, t_data *mlx_s, d
 void                mlx_pixel_get(t_tex *data, int x, int y, unsigned int *color);
 void                textures(t_data *mlx_s, t_sides *tex);
 int		           	ft_strcmp(const char *s1, const char *s2);
+void                print_floor(t_data *mlx_s, t_ray *ray);
 
 #endif 
