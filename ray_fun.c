@@ -129,6 +129,8 @@ void	main_image(t_data *mlx_s, t_ray *ray, int i)
 		}*/
 		put_text(drawStart, drawEnd, i, mlx_s, lineHeight, perpWallDist, tex);
 		//print_ver_line(drawStart, drawEnd, i, mlx_s);	
+		mlx_s->zbuffer[i] = &perpWallDist;
+		//printf("%f\n", *mlx_s->zbuffer[i]);
 }
 
 void    ray_fun(t_data *mlx_s, t_ray *ray)
@@ -152,4 +154,5 @@ void    ray_fun(t_data *mlx_s, t_ray *ray)
         dda(ray, mlx_s);
 		main_image(mlx_s, ray, i);
     }
+	print_sprite(mlx_s, mlx_s->ray);
 }

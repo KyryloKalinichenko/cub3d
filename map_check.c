@@ -63,3 +63,53 @@ void	check_map(char **map, int last)
 {
 	check_col(map, last);
 }
+
+int	s_count(char **map)
+{
+	int i;
+	int j;
+	int count;
+
+	i = -1;
+	j = -1;
+	count = 0;
+	while (map[++i])
+	{	
+		//printf("HERE %s\n", map[i]);
+		while (map[i][++j])
+		{
+			//printf("%c", map[i][j]);
+			if (map[i][j] == '2')
+				count++;
+		}
+		j = -1;
+	}
+	return (count);
+}
+
+t_sprite	*s_place(char **map/*, t_sprite *sprite*/)
+{
+	int i;
+	int j;
+	int count;
+	t_sprite *here;
+
+	i = -1;
+	j = -1;
+	count = 0;
+	here = malloc(sizeof(t_sprite));
+	while (map[++i])
+	{	
+		while (map[i][++j])
+		{
+			if (map[i][j] == '2')
+			{
+				here->x = j + 0.5;
+				here->y = i + 0.5;				
+				count++;
+			}
+		}
+		j = -1;
+	}
+	return (here);
+}

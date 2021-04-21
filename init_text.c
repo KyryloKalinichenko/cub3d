@@ -44,7 +44,7 @@ void textures(t_data *mlx_s, t_sides *tex)
   int i;
 
   i = -1;
-  while (++i < 6)
+  while (++i < 7)
   {
     if(!ft_strcmp(mlx_s->side[i][0], "NO"))
     {
@@ -61,6 +61,8 @@ void textures(t_data *mlx_s, t_sides *tex)
       mlx_s->cel = get_col(mlx_s->side[i][1]);
     if(!ft_strcmp(mlx_s->side[i][0], "F"))
       mlx_s->floor = get_col(mlx_s->side[i][1]);
+    if(!ft_strcmp(mlx_s->side[i][0], "S"))
+      tex->sprite = init_text(mlx_s, mlx_s->side[i][1], tex->sprite);
   }
     //printf("too bad %d\n", tex->no_side->bits_per_pixel);
 }
@@ -124,4 +126,87 @@ void    put_text(int drawStart, int drawEnd, int i, t_data *mlx_s, double lineHe
           //printf("wow\n");
           y++;
       }
+}
+
+void    print_sprite(t_data *mlx_s, t_ray *ray)
+{
+    int stripe;
+      //SPRITE CASTING
+    //sort sprites from far to close
+    //t_sprite mlx_s->sprite[mlx_s->spriteNum];
+    int spriteOrder[mlx_s->spriteNum];
+    double spriteDistance[mlx_s->spriteNum];
+
+    for(int i = 0; i < mlx_s->spriteNum; i++)
+    {
+      spriteOrder[i] = i;
+      spriteDistance[i] = ((ray->pos->x - mlx_s->sprite[i]->x) * (ray->pos->x - mlx_s->sprite[i]->x) + (ray->pos->y - mlx_s->sprite[i]->y) * (ray->pos->y - mlx_s->sprite[i]->y)); //sqrt not taken, unneeded
+    }
+    //sortSprites(spriteOrder, spriteDistance, numSprites);
+    //after sorting the sprites, do the projection and draw them
+    for(int i = 0; i < mlx_s->spriteNum; i++)
+    {
+    printf("-------%d----------\n", mlx_s->spriteNum);
+
+      //translate sprite position to relative to camera
+
+      double spriteX = mlx_s->sprite[0]->x - ray->pos->x;
+      double spriteY = mlx_s->sprite[0]->y - ray->pos->y;
+
+      //transform sprite with the inverse camera matrix
+      // [ planeX   dirX ] -1                                       [ dirY      -dirX ]
+      // [               ]       =  1/(planeX*dirY-dirX*planeY) *   [                 ]
+      // [ planeY   dirY ]                                          [ -planeY  planeX ]
+
+      double invDet = 1.0 / (ray->plane->x * ray->dir->y - ray->dir->x * ray->plane->y); //required for correct matrix multiplication
+
+      double transformX = invDet * (ray->dir->y * spriteX - ray->dir->x * spriteY);
+      double transformY = invDet * (-ray->plane->y * spriteX + ray->plane->x * spriteY); //this is actually the depth inside the screen, that what Z is in 3D
+      
+      int spriteScreenX = (int)((mlx_s->width / 2) * (1 + transformX / transformY));
+
+      //calculate height of the sprite on screen
+      int spriteHeight = abs((int)(mlx_s->height / (transformY))); //using 'transformY' instead of the real distance prevents fisheye
+      //calculate lowest and highest pixel to fill in current stripe
+      int drawStartY = -spriteHeight / 2 + mlx_s->height / 2;
+      if(drawStartY < 0) drawStartY = 0;
+      int drawEndY = spriteHeight / 2 + mlx_s->height / 2;
+      if(drawEndY >= mlx_s->height) drawEndY = mlx_s->height - 1;
+
+      //calculate width of the sprite
+      int spriteWidth = abs((int)(mlx_s->height / (transformY)));
+      int drawStartX = -spriteWidth / 2 + spriteScreenX;
+      if(drawStartX < 0)
+        drawStartX = 0;
+      int drawEndX = spriteWidth / 2 + spriteScreenX;
+      if(drawEndX >= mlx_s->width)
+        drawEndX = mlx_s->width - 1;
+
+      //loop through every vertical stripe of the sprite on screen
+      for(stripe = drawStartX; stripe < drawEndX; stripe++)
+      {
+        int texX = (int)(256 * (stripe - (-spriteWidth / 2 + spriteScreenX)) * 64 / spriteWidth) / 256;
+        //the conditions in the if are:
+        //1) it's in front of camera plane so you don't see things behind you
+        //2) it's on the screen (left)
+        //3) it's on the screen (right)
+        //4) ZBuffer, with perpendicular distance
+        //printf("%10d%10d%10d%10d \n", transformY > 0, stripe > 0, stripe < mlx_s->width, transformY < *mlx_s->zbuffer[stripe]);
+        if(transformY > 0 && stripe > 0 && stripe < mlx_s->width && transformY > *mlx_s->zbuffer[stripe])
+        {  
+          
+          for(int y = drawStartY; y < drawEndY; y++) //for every pixel of the current stripe
+          {
+            //printf("lol");
+           int d = (y) * 256 - mlx_s->height * 128 + spriteHeight * 128; //256 and 128 factors to avoid floats
+           int texY = ((d * 64) / spriteHeight) / 256;
+           unsigned int color; //get current color from the texture
+           mlx_pixel_get(mlx_s->tex->sprite, texX, texY, &color);
+           if((color & 0x00FFFFFF) != 0) 
+             my_mlx_pixel_put(mlx_s, stripe, y, color); //paint pixel if it isn't black, black is the invisible color
+          }
+        }
+      }
+    }
+  
 }

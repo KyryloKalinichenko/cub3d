@@ -12,6 +12,10 @@ static void init_mlx(t_data *mlx_s)
     mlx_s->addr = mlx_get_data_addr(mlx_s->img, &mlx_s->bits_per_pixel, &mlx_s->line_length,
                                  &mlx_s->endian);
     mlx_s->up = 0;
+    mlx_s->zbuffer = malloc(sizeof(double*) * mlx_s->width);
+    mlx_s->spriteNum = s_count(mlx_s->map_s->map);
+    mlx_s->sprite = malloc(sizeof(t_sprite*));
+    mlx_s->sprite[0] = s_place(mlx_s->map_s->map/*, *mlx_s->sprite*/);
 }
 
 /*
@@ -147,6 +151,11 @@ static int height_count(char *file, t_data *mlx_s)
         else if (!ft_strcmp(tab[0], "C") && tab[1])
         {
             printf("YES C!\n");
+            mlx_s->side[++i] = tab;
+        }
+        else if (!ft_strcmp(tab[0], "S") && tab[1])
+        {
+            printf("YES S!\n");
             mlx_s->side[++i] = tab;
         }
         else

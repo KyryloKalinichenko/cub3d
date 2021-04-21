@@ -82,7 +82,7 @@ void            print_sq(t_data *mlx_s, int x, int y)
     x = 0;
     while(*s)
     {
-        if (*s == '1')
+        if (*s == '1' || *s == '2')
         {
             mlx_s->map_s->color = 0x00FF0000;
             print_sq(mlx_s, x, y);
@@ -178,8 +178,8 @@ void    print_floor(t_data *mlx_s, t_ray *ray)
         my_mlx_pixel_put(mlx_s, x, y, color);
 
         //ceiling (symmetrical, at screenHeight - y - 1 instead of y)
-        //mlx_pixel_get(mlx_s->tex->ea_side, tx, ty, &color);
-        //my_mlx_pixel_put(mlx_s, cellX, cellY, color);
+        mlx_pixel_get(mlx_s->tex->ea_side, tx, ty, &color);
+        my_mlx_pixel_put(mlx_s, x, (mlx_s->height - y - 1), color);
       }
     } 
 }

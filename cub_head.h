@@ -30,7 +30,7 @@
 #include <math.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include <mlx.h>
+#include "./mlx/mlx.h"
 #include <unistd.h>
 #include <fcntl.h>
 
@@ -141,7 +141,14 @@ typedef struct  s_sides {
     t_tex       *so_side;
     t_tex       *we_side;
     t_tex       *ea_side;
+    t_tex       *sprite;
 }               t_sides;
+
+typedef struct  s_sprite {
+    double      x;
+    double      y;
+    t_tex       *tex;
+}               t_sprite;
 
 /*
 ** The main structure to store all necessary data for displaying an image.
@@ -163,10 +170,13 @@ typedef struct  s_data {
     t_pl        player;
     t_ray       *ray;
     t_ray       ray_s;
-    char        **side[6];
+    char        **side[7];
     int         cel;
     int         floor;
     short       up;
+    double      **zbuffer;
+    short       spriteNum;
+    t_sprite    **sprite;
 }               t_data;
 
 int					get_next_line(int fd, char **line);
@@ -210,5 +220,8 @@ void                mlx_pixel_get(t_tex *data, int x, int y, unsigned int *color
 void                textures(t_data *mlx_s, t_sides *tex);
 int		           	ft_strcmp(const char *s1, const char *s2);
 void                print_floor(t_data *mlx_s, t_ray *ray);
+void                print_sprite(t_data *mlx_s, t_ray *ray);
+int	                s_count(char **map);
+t_sprite	        *s_place(char **map/*, t_sprite *sprite*/);
 
 #endif 
