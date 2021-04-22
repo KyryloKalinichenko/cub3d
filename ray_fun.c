@@ -72,7 +72,7 @@ void    turn_r(t_ray *ray)
     ray->plane->y = oldPlaneX * sin(SPEED) + ray->plane->y * cos(SPEED);
 }
 
-void    init_ray(t_ray  *ray/*, t_data *mlx_s*/)
+void    init_ray(t_ray  *ray)
 {
     ray->ray_dir = malloc(sizeof(t_point));
     ray->dir = malloc(sizeof(t_point));
@@ -97,16 +97,16 @@ void    init_ray(t_ray  *ray/*, t_data *mlx_s*/)
 
 void	main_image(t_data *mlx_s, t_ray *ray, int i)
 {
-		double perpWallDist;
+		double *perpWallDist = malloc(sizeof(double));
         double lineHeight;
         int drawEnd;
 		t_tex *tex = NULL;
         
 		if (ray->side == 0) 
-            perpWallDist = (ray->on_map->x - ray->pos->x + (1 - ray->step->x) / 2) / ray->ray_dir->x;
+            *perpWallDist = (ray->on_map->x - ray->pos->x + (1 - ray->step->x) / 2) / ray->ray_dir->x;
         else           
-            perpWallDist = (ray->on_map->y - ray->pos->y + (1 - ray->step->y) / 2) / ray->ray_dir->y;
-        lineHeight = (int)(mlx_s->height / perpWallDist);
+            *perpWallDist = (ray->on_map->y - ray->pos->y + (1 - ray->step->y) / 2) / ray->ray_dir->y;
+        lineHeight = (int)(mlx_s->height / *perpWallDist);
         int drawStart = -lineHeight / 2 + mlx_s->height / 2;
         if(drawStart < 0)
             drawStart = 0;
@@ -127,9 +127,10 @@ void	main_image(t_data *mlx_s, t_ray *ray, int i)
 			drawStart += drawEnd / 4;
         	drawEnd += drawEnd / 4;
 		}*/
-		put_text(drawStart, drawEnd, i, mlx_s, lineHeight, perpWallDist, tex);
-		//print_ver_line(drawStart, drawEnd, i, mlx_s);	
-		mlx_s->zbuffer[i] = &perpWallDist;
+		put_text(drawStart, drawEnd, i, mlx_s, lineHeight, *perpWallDist, tex);
+		//print_ver_line(drawStart, drawEnd, i, mlx_s);
+		//if (mlx_s->map_s->map[(int)(ray->on_map->y)][(int)(ray->on_map->x)] == '2')
+		mlx_s->zbuffer[i] = perpWallDist;
 		//printf("%f\n", *mlx_s->zbuffer[i]);
 }
 

@@ -21,7 +21,7 @@
 #define PI 3.14159
 #define FOV (PI / 4)
 #define SPEED 0.2
-#define MSPEED 0.2
+#define MSPEED 0.1
 #define MINIMAP_S 4
 
 #define TEXTWIDTH 64

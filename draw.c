@@ -37,7 +37,6 @@ void    print_back(int drawStart, int drawEnd, int x, t_data *mlx_s)
     {
         hor = mlx_s->height / 4;
     }
-    printf("%d\n", hor);
     while(drawStart <= drawEnd / 2)
     {
         my_mlx_pixel_put(mlx_s, x, drawStart + hor, mlx_s->cel);
@@ -49,7 +48,7 @@ void    print_back(int drawStart, int drawEnd, int x, t_data *mlx_s)
         drawStart++;
     }
 }
-
+/*
 static void print_line(t_data *mlx_s, int x, int y)
 {
     int goal_x;
@@ -110,6 +109,30 @@ void            print_map(t_data *mlx_s)
         y += mlx_s->map_s->height;
     }
 }
+*/
+
+static void print_celling(t_data *mlx_s, double floorX, double floorY, double floorStepX, double floorStepY, int y)
+{
+    int cellX;
+    int cellY;
+    int tx;
+    int ty;
+    unsigned int color;
+
+      for(int x = 0; x < mlx_s->width; ++x)
+      {
+        cellX = (int)(floorX);
+        cellY = (int)(floorY);
+        tx = (int)(64 * (floorX - cellX)) & (64 - 1);
+        ty = (int)(64 * (floorY - cellY)) & (64 - 1);
+        floorX += floorStepX;
+        floorY += floorStepY;
+        mlx_pixel_get(mlx_s->tex->no_side, tx, ty, &color);
+        my_mlx_pixel_put(mlx_s, x, y, color);
+        mlx_pixel_get(mlx_s->tex->ea_side, tx, ty, &color);
+        my_mlx_pixel_put(mlx_s, x, (mlx_s->height - y - 1), color);
+      }
+}
 
 void    print_floor(t_data *mlx_s, t_ray *ray)
 {
@@ -131,55 +154,13 @@ void    print_floor(t_data *mlx_s, t_ray *ray)
         rayDirY0 = ray->dir->y - ray->plane->y;
         rayDirX1 = ray->dir->x + ray->plane->x;
         rayDirY1 = ray->dir->y + ray->plane->y;
-      // rayDir for leftmost ray (x = 0) and rightmost ray (x = w)
-       
-      
-      // Current y position compared to the center of the screen (the horizon)
-      p = y - mlx_s->height / 2;
-
-      // Vertical position of the camera.
-      posZ = 0.5 * mlx_s->height;
-
-      // Horizontal distance from the camera to the floor for the current row.
-      // 0.5 is the z position exactly in the middle between floor and ceiling.
-      rowDistance = posZ / p;
-
-      // calculate the real world step vector we have to add for each x (parallel to camera plane)
-      // adding step by step avoids multiplications with a weight in the inner loop
-      floorStepX = rowDistance * (rayDirX1 - rayDirX0) / mlx_s->width;
-      floorStepY = rowDistance * (rayDirY1 - rayDirY0) / mlx_s->width;
-
-      // real world coordinates of the leftmost column. This will be updated as we step to the right.
-      floorX = ray->pos->x + rowDistance * rayDirX0;
-      floorY = ray->pos->y + rowDistance * rayDirY0;
-
-        int cellX;
-        int cellY;
-        int tx;
-        int ty;
-        unsigned int color;
-      for(int x = 0; x < mlx_s->width; ++x)
-      {
-        // the cell coord is simply got from the integer parts of floorX and floorY
-        cellX = (int)(floorX);
-        cellY = (int)(floorY);
-
-        // get the texture coordinate from the fractional part
-        tx = (int)(64 * (floorX - cellX)) & (64 - 1);
-        ty = (int)(64 * (floorY - cellY)) & (64 - 1);
-
-        floorX += floorStepX;
-        floorY += floorStepY;
-
-        // choose texture and draw the pixel
-
-        // floor
-        mlx_pixel_get(mlx_s->tex->no_side, tx, ty, &color);
-        my_mlx_pixel_put(mlx_s, x, y, color);
-
-        //ceiling (symmetrical, at screenHeight - y - 1 instead of y)
-        mlx_pixel_get(mlx_s->tex->ea_side, tx, ty, &color);
-        my_mlx_pixel_put(mlx_s, x, (mlx_s->height - y - 1), color);
-      }
+        p = y - mlx_s->height / 2;
+        posZ = 0.5 * mlx_s->height;
+        rowDistance = posZ / p;
+        floorStepX = rowDistance * (rayDirX1 - rayDirX0) / mlx_s->width;
+        floorStepY = rowDistance * (rayDirY1 - rayDirY0) / mlx_s->width;
+        floorX = ray->pos->x + rowDistance * rayDirX0;
+        floorY = ray->pos->y + rowDistance * rayDirY0;
+        print_celling(mlx_s, floorX, floorY, floorStepX, floorStepY, y);
     } 
 }

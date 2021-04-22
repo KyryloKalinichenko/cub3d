@@ -40,17 +40,13 @@ static int get_col(char *line)
 
 void textures(t_data *mlx_s, t_sides *tex)
 {
-  
   int i;
 
   i = -1;
   while (++i < 7)
   {
     if(!ft_strcmp(mlx_s->side[i][0], "NO"))
-    {
-      
       tex->no_side = init_text(mlx_s, mlx_s->side[i][1], tex->no_side);
-    }
     if(!ft_strcmp(mlx_s->side[i][0], "WE"))
       tex->we_side = init_text(mlx_s, mlx_s->side[i][1], tex->we_side);
     if(!ft_strcmp(mlx_s->side[i][0], "EA"))
@@ -64,21 +60,16 @@ void textures(t_data *mlx_s, t_sides *tex)
     if(!ft_strcmp(mlx_s->side[i][0], "S"))
       tex->sprite = init_text(mlx_s, mlx_s->side[i][1], tex->sprite);
   }
-    //printf("too bad %d\n", tex->no_side->bits_per_pixel);
 }
 
 t_tex *init_text(t_data *mlx_s, char *path, t_tex *tex)
 {
     int width = mlx_s->width;
     int height = mlx_s->height;
-     
-    //printf("width %i, height %i \n", width, height);
     
-    //img = mlx_new_image(mlx_s->mlx, mlx_s->width, mlx_s->height);
     tex = malloc(sizeof(t_tex));
     if (!tex)
       malloc_error();
-    //printf("---------%s------%d-----\n", path, tex == NULL);
     if (!(tex->img = mlx_xpm_file_to_image(mlx_s->mlx, path, &width, &height)))
       malloc_error();
     if (!(tex->addr = mlx_get_data_addr(tex->img, &tex->bits_per_pixel, &tex->line_length,
@@ -89,10 +80,8 @@ t_tex *init_text(t_data *mlx_s, char *path, t_tex *tex)
 
 void    put_text(int drawStart, int drawEnd, int i, t_data *mlx_s, double lineHeight, double perpWallDist, t_tex *tex)
 {
-    //char texNum = mlx_s->map_s->map[(int)mlx_s->ray->on_map->x][(int)mlx_s->ray->on_map->y]; //1 subtracted from it so that texture 0 can be used!
-
-      //calculate value of wallX
       double wallX; //where exactly the wall was hit
+
       if (mlx_s->ray->side == 0)
         wallX = mlx_s->ray->pos->y + perpWallDist * mlx_s->ray->ray_dir->y;
       else
@@ -107,7 +96,6 @@ void    put_text(int drawStart, int drawEnd, int i, t_data *mlx_s, double lineHe
         texX = 64 - texX - 1;
 
        double step = 1.0 * 64 / lineHeight;
-      // Starting texture coordinate
       double texPos = (drawStart - mlx_s->height / 2 + lineHeight / 2) * step;
       int texY;
       unsigned int color = 0;
@@ -116,14 +104,8 @@ void    put_text(int drawStart, int drawEnd, int i, t_data *mlx_s, double lineHe
       {
         texY = (int)texPos & (64 - 1);
         texPos += step;
-       //printf(" xt - %i\n yt - %i\n", texX, texY);
-       //printf("%p \n", mlx_s->tex->no_side);
-      //printf("-----------------------\n");
         mlx_pixel_get(tex, texX, texY, &color);
-      //printf("-----------------------\n");
-        //printf("color - %i\n", color);
         my_mlx_pixel_put(mlx_s, i, y, color);
-          //printf("wow\n");
           y++;
       }
 }
@@ -131,7 +113,6 @@ void    put_text(int drawStart, int drawEnd, int i, t_data *mlx_s, double lineHe
 void    print_sprite(t_data *mlx_s, t_ray *ray)
 {
     int stripe;
-      //SPRITE CASTING
     //sort sprites from far to close
     //t_sprite mlx_s->sprite[mlx_s->spriteNum];
     int spriteOrder[mlx_s->spriteNum];
@@ -146,34 +127,18 @@ void    print_sprite(t_data *mlx_s, t_ray *ray)
     //after sorting the sprites, do the projection and draw them
     for(int i = 0; i < mlx_s->spriteNum; i++)
     {
-    printf("-------%d----------\n", mlx_s->spriteNum);
-
-      //translate sprite position to relative to camera
-
       double spriteX = mlx_s->sprite[0]->x - ray->pos->x;
       double spriteY = mlx_s->sprite[0]->y - ray->pos->y;
-
-      //transform sprite with the inverse camera matrix
-      // [ planeX   dirX ] -1                                       [ dirY      -dirX ]
-      // [               ]       =  1/(planeX*dirY-dirX*planeY) *   [                 ]
-      // [ planeY   dirY ]                                          [ -planeY  planeX ]
-
       double invDet = 1.0 / (ray->plane->x * ray->dir->y - ray->dir->x * ray->plane->y); //required for correct matrix multiplication
-
       double transformX = invDet * (ray->dir->y * spriteX - ray->dir->x * spriteY);
       double transformY = invDet * (-ray->plane->y * spriteX + ray->plane->x * spriteY); //this is actually the depth inside the screen, that what Z is in 3D
-      
       int spriteScreenX = (int)((mlx_s->width / 2) * (1 + transformX / transformY));
-
-      //calculate height of the sprite on screen
       int spriteHeight = abs((int)(mlx_s->height / (transformY))); //using 'transformY' instead of the real distance prevents fisheye
-      //calculate lowest and highest pixel to fill in current stripe
       int drawStartY = -spriteHeight / 2 + mlx_s->height / 2;
       if(drawStartY < 0) drawStartY = 0;
       int drawEndY = spriteHeight / 2 + mlx_s->height / 2;
       if(drawEndY >= mlx_s->height) drawEndY = mlx_s->height - 1;
 
-      //calculate width of the sprite
       int spriteWidth = abs((int)(mlx_s->height / (transformY)));
       int drawStartX = -spriteWidth / 2 + spriteScreenX;
       if(drawStartX < 0)
@@ -186,18 +151,11 @@ void    print_sprite(t_data *mlx_s, t_ray *ray)
       for(stripe = drawStartX; stripe < drawEndX; stripe++)
       {
         int texX = (int)(256 * (stripe - (-spriteWidth / 2 + spriteScreenX)) * 64 / spriteWidth) / 256;
-        //the conditions in the if are:
-        //1) it's in front of camera plane so you don't see things behind you
-        //2) it's on the screen (left)
-        //3) it's on the screen (right)
-        //4) ZBuffer, with perpendicular distance
-        //printf("%10d%10d%10d%10d \n", transformY > 0, stripe > 0, stripe < mlx_s->width, transformY < *mlx_s->zbuffer[stripe]);
-        if(transformY > 0 && stripe > 0 && stripe < mlx_s->width && transformY > *mlx_s->zbuffer[stripe])
+        if(transformY > 0 && stripe > 0 && stripe < mlx_s->width && transformY < *mlx_s->zbuffer[stripe])
         {  
           
           for(int y = drawStartY; y < drawEndY; y++) //for every pixel of the current stripe
           {
-            //printf("lol");
            int d = (y) * 256 - mlx_s->height * 128 + spriteHeight * 128; //256 and 128 factors to avoid floats
            int texY = ((d * 64) / spriteHeight) / 256;
            unsigned int color; //get current color from the texture

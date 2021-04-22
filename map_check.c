@@ -75,10 +75,8 @@ int	s_count(char **map)
 	count = 0;
 	while (map[++i])
 	{	
-		//printf("HERE %s\n", map[i]);
 		while (map[i][++j])
 		{
-			//printf("%c", map[i][j]);
 			if (map[i][j] == '2')
 				count++;
 		}
@@ -87,7 +85,7 @@ int	s_count(char **map)
 	return (count);
 }
 
-t_sprite	*s_place(char **map/*, t_sprite *sprite*/)
+t_sprite	*s_place(char **map)
 {
 	int i;
 	int j;
