@@ -28,6 +28,8 @@ static int read_r(char **tab, t_data *mlx_s)
     int i;
 
     i = -1;
+    mlx_s->width = 0;
+    mlx_s->height = 0;
     while(tab[++i])
     {
         if (i == 1)
@@ -35,7 +37,11 @@ static int read_r(char **tab, t_data *mlx_s)
         else if (i == 2)
             mlx_s->height = ft_atoi(tab[2]);
         free(tab[i]);
+        if (i > 2)
+            map_err();
     }
+    if (!mlx_s->width || !mlx_s->height)
+        map_err();
     return (0);
 }
 
