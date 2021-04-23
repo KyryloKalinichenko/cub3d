@@ -95,8 +95,9 @@ static int height_count(char *file, t_data *mlx_s)
     i = -1;
     if (!fd)
         malloc_error();
-    while (get_next_line(fd, &buff) >= 0)
+    while (get_next_line(fd, &buff) > 0)
 	{
+            //printf("------------\n");
         if (!ft_strcmp("", buff))
             continue ;
         if (!(tab = ft_split(buff, ' ')))
@@ -120,11 +121,15 @@ static int height_count(char *file, t_data *mlx_s)
         else if (!ft_strcmp(tab[0], "S") && tab[1])
             mlx_s->side[++i] = tab;
         else
+        {
             break ;
+        }
         free(buff);
 	}
+   // printf("----*****------\n");
     while (get_next_line(fd, &buff) > 0)
     {
+        //map_err();
         if (!line_check(buff))
             map_err();
         height++;
@@ -148,22 +153,27 @@ static int parsing_map(char *file, t_data *mlx_s)
     fd = open(file, O_RDONLY);
     if (!fd)
         no_file();
-    mlx_s->map_s->mapY = (height_count(file, mlx_s));
+    if ((mlx_s->map_s->mapY = (height_count(file, mlx_s))) == 2 || mlx_s->map_s->mapY < 3)
+        map_err();
     mlx_s->map_s->height = mlx_s->height / (mlx_s->map_s->mapY * MINIMAP_S);
     map = malloc(sizeof(char*) * mlx_s->map_s->mapY);
     if (!map)
         malloc_error();
     mlx_s->map_s->map = map;
-    while(1)
+    while(get_next_line(fd, &map[i]))
     {
-        get_next_line(fd, &map[i]);
-        if (line_check(map[i]) && ft_strcmp(map[i], ""))
+        if (ft_strcmp(map[i], "") && line_check(map[i]))
             break ;
         free(map[i]);
     }
     mlx_s->map_s->mapX = ft_strlen(map[i]);
-    while(get_next_line(fd, &map[++i]))
+    int f = mlx_s->map_s->mapY + i;
+    if (f == i)
+        map_err();
+    while(f != i)
     {
+        get_next_line(fd, &map[++i]);
+        printf("%s\n", map[i]);
         if (mlx_s->map_s->mapX < (int)ft_strlen(map[i]))
            mlx_s->map_s->mapX = ft_strlen(map[i]);
     }
@@ -181,14 +191,17 @@ int     init(t_data *mlx_s, char *file)
     ray = malloc(sizeof(t_ray));
     map_s = malloc(sizeof(t_map));
     mlx_s->tex = malloc(sizeof(t_sides));
-    if (!map_s || !ray || !mlx_s->tex) 
+    map_s->start = malloc(sizeof(t_point));
+    if (!map_s || !ray || !mlx_s->tex || !map_s->start) 
         malloc_error();
     mlx_s->map_s = map_s;
     parsing_map(file, mlx_s);
-    check_map(mlx_s->map_s->map, mlx_s->map_s->mapY);
+    
+    check_map(mlx_s->map_s->map, mlx_s->map_s->mapY, mlx_s->map_s->start);
     init_mlx(mlx_s);
     mlx_s->ray = ray;
     textures(mlx_s, mlx_s->tex);
-    init_ray(ray);
+    printf("--------------\n");
+    init_ray(ray, map_s->start);
     return (0);
 }

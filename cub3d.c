@@ -45,14 +45,14 @@ static void left_right(t_data *mlx_s, int keycode)
     {
         if(mlx_s->map_s->map[(int)(r_p_y + r_d_x * (MSPEED))][(int)(r_p_x)] == '0')
             mlx_s->ray->pos->y += r_d_x * MSPEED;
-        if(mlx_s->map_s->map[(int)(r_p_y)][(int)(r_p_x - r_p_y * (MSPEED))] == '0')
+        if(mlx_s->map_s->map[(int)(r_p_y)][(int)(r_p_x - r_d_y * (MSPEED))] == '0')
             mlx_s->ray->pos->x -= r_d_y * MSPEED;
     }
     else if (keycode == RIGHT)
     {
         if(mlx_s->map_s->map[(int)(r_p_y - r_d_x * (MSPEED + 0.1))][(int)(r_p_x)] == '0')
             mlx_s->ray->pos->y -= r_d_x * MSPEED;
-        if(mlx_s->map_s->map[(int)(r_p_y)][(int)(r_p_x + r_d_y * (MSPEED + 0.1))] == '0')
+        if(mlx_s->map_s->map[(int)(r_p_y)][(int)(r_p_x + r_d_y * (MSPEED))] == '0')
             mlx_s->ray->pos->x += r_d_y * MSPEED;
     }
 }

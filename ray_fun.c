@@ -72,7 +72,7 @@ void    turn_r(t_ray *ray)
     ray->plane->y = oldPlaneX * sin(SPEED) + ray->plane->y * cos(SPEED);
 }
 
-void    init_ray(t_ray  *ray)
+void    init_ray(t_ray  *ray, t_point *start)
 {
     ray->ray_dir = malloc(sizeof(t_point));
     ray->dir = malloc(sizeof(t_point));
@@ -87,8 +87,9 @@ void    init_ray(t_ray  *ray)
 	**
 	**
 	*/
-	ray->pos->x = 2;
-	ray->pos->y = 2;
+	printf("%10f %10f\n", start->x, start->y);
+	ray->pos->x = start->x;
+	ray->pos->y = start->y;
 	ray->dir->x = -1;
     ray->dir->y = 0;
     ray->plane->x = 0;

@@ -2,7 +2,7 @@
 #define CUB_HEAD_H
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 100
+#  define BUFFER_SIZE 10
 # endif
 
 #define UP 126
@@ -67,6 +67,7 @@ typedef struct		s_map
     short       mapX;
     short       mapY;
     short       mapS;
+    t_point     *start;
 }					t_map;
 
 /*
@@ -203,7 +204,7 @@ void                print_v(t_data *mlx_s, t_line vector);
 void                my_mlx_pixel_put(t_data *data, int x, int y, int color);
 
 void                ray_fun(t_data *mlx_s, t_ray *ray);
-void                init_ray(t_ray  *ray/*, t_data *mlx_s*/);
+void                init_ray(t_ray  *ray, t_point *start);
 void                turn_l(t_ray *ray);
 void                turn_r(t_ray *ray);
 void                print_ver_line(int drawStart, int drawEnd, int x, t_data *mlx_s);
@@ -212,7 +213,7 @@ void                print_back(int drawStart, int drawEnd, int x, t_data *mlx_s)
 void                malloc_error(void);
 void                just_exit(void);
 void                no_file(void);
-void                check_map(char **map, int last);
+void                check_map(char **map, int last, t_point *start);
 void                map_err(void);
 t_tex               *init_text(t_data *mlx_s, char *path, t_tex *tex);
 void                put_text(int drawStart, int drawEnd, int i, t_data *mlx_s, double lineHeight, double perpWallDists, t_tex *tex);

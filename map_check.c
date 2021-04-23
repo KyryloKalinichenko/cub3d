@@ -23,10 +23,22 @@ static void	check_first_last(char *line)
 		map_err();
 }
 
-static void	point_check(char **map, int i, int j)
+static void	point_check(char **map, int i, int j, t_point *start, int len)
 {
-	if (map[i][j] == '0' || map[i][j] == '2')
+	//start->x = -1; 
+	//start->y = -1;
+	//printf("%c\n", map[i][j]);
+	if (map[i][j] == '0' || map[i][j] == '2' || map[i][j] == 'W' ||
+	map[i][j] == 'S' || map[i][j] == 'N' || map[i][j] == 'E')
 	{
+		if (map[i][j] != '2' && map[i][j] != '0')
+			{
+				printf("x%10f\n", (start->x = j + 0.5));
+				printf("y%10f\n", (start->y = i + 0.5));
+				map[i][j] = '0';
+			}
+		if (j == 0 || j == (len - 1))
+			map_err();
 		if (map[i][j + 1] == ' ' || map[i][j - 1] == ' ')
 			map_err();
 		if (map[i + 1][j + 1] == ' ' || map[i - 1][j - 1] == ' ')
@@ -38,32 +50,38 @@ static void	point_check(char **map, int i, int j)
 	}
 }
 
-void	check_col(char **map, int last)
+void	check_map(char **map, int last, t_point *start)
 {
 	int	i;
 	int	j;
+	int len;
 
 	i = 0;
 	j = 0;
+	printf("%s OK\n", map[i]);
 	check_first_last(map[i++]);
-	while (map[i] && map[i][j] && i < (last - 2))
+	//printf("first OK\n");
+	while (map[i] && map[i][j] && i < (last - 1))
 	{
+		len = ft_strlen(map[i]);
 		while (map[i][j])
 		{
-			point_check(map, i, j);
+			//printf("%c OK\n", map[i][j]);
+			point_check(map, i, j, start, len);
 			j++;
 		}
 		j = 0;
 		i++;
 	}
 	check_first_last(map[i]);
+	printf("%s OK\n", map[i]);
 }
-
+/*
 void	check_map(char **map, int last)
 {
 	check_col(map, last);
 }
-
+*/
 int	s_count(char **map)
 {
 	int i;
