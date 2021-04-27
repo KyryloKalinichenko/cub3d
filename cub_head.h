@@ -18,7 +18,7 @@
 
 #define START_X 200
 #define START_Y 200
-#define PI 3.14159
+#define PI 3.14159265359
 #define FOV (PI / 4)
 #define SPEED 0.2
 #define MSPEED 0.1
@@ -47,6 +47,7 @@ typedef struct		s_point
 {
 	double      x;
 	double      y;
+    char        point;
 }					t_point;
 
 typedef struct		s_on_map

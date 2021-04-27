@@ -16,16 +16,16 @@ static void back_forth(t_data *mlx_s, int keycode)
 {
     if (keycode == FORTH)
     {
-        if (mlx_s->map_s->map[(int)(mlx_s->ray->pos->y + mlx_s->ray->dir->y * (MSPEED))][(int)(mlx_s->ray->pos->x)] == '0')
+        if (mlx_s->map_s->map[(int)(mlx_s->ray->pos->y + mlx_s->ray->dir->y * (MSPEED + 0.1))][(int)(mlx_s->ray->pos->x)] == '0')
             mlx_s->ray->pos->y += mlx_s->ray->dir->y * MSPEED;
-        if (mlx_s->map_s->map[(int)(mlx_s->ray->pos->y)][(int)(mlx_s->ray->pos->x + mlx_s->ray->dir->x * (MSPEED))] == '0')
+        if (mlx_s->map_s->map[(int)(mlx_s->ray->pos->y)][(int)(mlx_s->ray->pos->x + mlx_s->ray->dir->x * (MSPEED + 0.1))] == '0')
             mlx_s->ray->pos->x += mlx_s->ray->dir->x * MSPEED;
     }
     else if (keycode == BACK)
     {
-        if(mlx_s->map_s->map[(int)(mlx_s->ray->pos->y - mlx_s->ray->dir->y * (MSPEED))][(int)(mlx_s->ray->pos->x)] == '0')
+        if(mlx_s->map_s->map[(int)(mlx_s->ray->pos->y - mlx_s->ray->dir->y * (MSPEED + 0.1))][(int)(mlx_s->ray->pos->x)] == '0')
             mlx_s->ray->pos->y -= mlx_s->ray->dir->y * MSPEED;
-        if(mlx_s->map_s->map[(int)(mlx_s->ray->pos->y)][(int)(mlx_s->ray->pos->x - mlx_s->ray->dir->x * (MSPEED))] == '0')
+        if(mlx_s->map_s->map[(int)(mlx_s->ray->pos->y)][(int)(mlx_s->ray->pos->x - mlx_s->ray->dir->x * (MSPEED + 0.1))] == '0')
             mlx_s->ray->pos->x -= mlx_s->ray->dir->x * MSPEED;
     }
 }

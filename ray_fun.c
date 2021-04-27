@@ -72,6 +72,15 @@ void    turn_r(t_ray *ray)
     ray->plane->y = oldPlaneX * sin(SPEED) + ray->plane->y * cos(SPEED);
 }
 
+void	turn_start(t_ray *ray, char c)
+{
+	if (c == 'N')
+	{
+		ray->dir->x = 1;
+		ray->plane->y = -FOV;
+	}
+}
+
 void    init_ray(t_ray  *ray, t_point *start)
 {
     ray->ray_dir = malloc(sizeof(t_point));
@@ -87,13 +96,17 @@ void    init_ray(t_ray  *ray, t_point *start)
 	**
 	**
 	*/
-	printf("%10f %10f\n", start->x, start->y);
+	printf("%10f %10f %10c\n", start->x, start->y, start->point);
 	ray->pos->x = start->x;
 	ray->pos->y = start->y;
+	
 	ray->dir->x = -1;
     ray->dir->y = 0;
+ 
     ray->plane->x = 0;
     ray->plane->y = 0.66;
+	
+	turn_start(ray, start->point);
 }
 
 void	main_image(t_data *mlx_s, t_ray *ray, int i)

@@ -161,8 +161,9 @@ static int parsing_map(char *file, t_data *mlx_s)
         no_file();
     if ((mlx_s->map_s->mapY = (height_count(file, mlx_s))) == 2 || mlx_s->map_s->mapY < 3)
         map_err();
+    
     mlx_s->map_s->height = mlx_s->height / (mlx_s->map_s->mapY * MINIMAP_S);
-    map = malloc(sizeof(char*) * mlx_s->map_s->mapY);
+    map = malloc(sizeof(char*) * mlx_s->map_s->mapY + 1);
     if (!map)
         malloc_error();
     mlx_s->map_s->map = map;
@@ -200,14 +201,15 @@ int     init(t_data *mlx_s, char *file)
     map_s->start = malloc(sizeof(t_point));
     if (!map_s || !ray || !mlx_s->tex || !map_s->start) 
         malloc_error();
+    map_s->start->y = -1;
+    map_s->start->x = -1;
     mlx_s->map_s = map_s;
     parsing_map(file, mlx_s);
-    
     check_map(mlx_s->map_s->map, mlx_s->map_s->mapY, mlx_s->map_s->start);
     init_mlx(mlx_s);
     mlx_s->ray = ray;
     textures(mlx_s, mlx_s->tex);
-    printf("--------------\n");
+    //printf("--------------\n");
     init_ray(ray, map_s->start);
     return (0);
 }
