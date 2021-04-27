@@ -76,8 +76,31 @@ void	turn_start(t_ray *ray, char c)
 {
 	if (c == 'N')
 	{
+		ray->dir->x = 0;
+		ray->dir->y = -1;
+		ray->plane->x = -0.66;
+		ray->plane->y = 0;
+	}
+	else if (c == 'S')
+	{
+		ray->dir->x = 0;
+		ray->dir->y = 1;
+		ray->plane->x = 0.66;
+		ray->plane->y = -0;
+	}
+	else if (c == 'W')
+	{
 		ray->dir->x = 1;
-		ray->plane->y = -FOV;
+		ray->dir->y = 0;
+		ray->plane->x = 0;
+		ray->plane->y = -0.66;
+	}
+	else if (c == 'E')
+	{
+		ray->dir->x = -FOV;
+		ray->dir->y = 0;
+		ray->plane->x = 0;
+		ray->plane->y = 0.66;
 	}
 }
 
@@ -96,16 +119,9 @@ void    init_ray(t_ray  *ray, t_point *start)
 	**
 	**
 	*/
-	printf("%10f %10f %10c\n", start->x, start->y, start->point);
+	//printf("%10f %10f %10c\n", start->x, start->y, start->point);
 	ray->pos->x = start->x;
 	ray->pos->y = start->y;
-	
-	ray->dir->x = -1;
-    ray->dir->y = 0;
- 
-    ray->plane->x = 0;
-    ray->plane->y = 0.66;
-	
 	turn_start(ray, start->point);
 }
 

@@ -55,6 +55,13 @@ typedef struct		s_on_map
 	int      x;
 	int      y;
 }					t_on_map;
+
+/*typedef struct		s_header
+{
+	char     bm[] = ['B', 'M'];
+	int      y;
+}					t_header;*/
+
 /*
 ** The structure to store the map, its width and height.
 */

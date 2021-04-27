@@ -84,8 +84,8 @@ int main(int argc, char **argv)
 {
     t_data mlx_s;
    
-    if (argc == 1)
-        return(printf("Error\n"));
+    if (argc == 1 || argc > 3)
+        return(printf("ArgError\n"));
     init(&mlx_s, argv[1]);
     //init_text(&mlx_s);
     mlx_hook (mlx_s.mlx_win, 2, 1L<<0, move, &mlx_s);
