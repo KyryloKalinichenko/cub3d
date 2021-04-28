@@ -173,8 +173,8 @@ typedef struct  s_data {
     int         bits_per_pixel;
     int         line_length;
     int         endian;
-    short       height;
-    short       width;
+    int       height;
+    int       width;
     t_map       *map_s;
     t_pl        player;
     t_ray       *ray;
@@ -232,5 +232,7 @@ void                print_floor(t_data *mlx_s, t_ray *ray);
 void                print_sprite(t_data *mlx_s, t_ray *ray);
 int	                s_count(char **map);
 t_sprite	        *s_place(char **map/*, t_sprite *sprite*/);
+void                 save_image(t_data *mlx_s);
+void                mlx_pixel_get_2(t_data *data, int x, int y, unsigned int *color);
 
 #endif 

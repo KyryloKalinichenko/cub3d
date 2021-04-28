@@ -12,7 +12,8 @@ SRCS			=	cub3d.c \
 					ray_fun.c \
 					errors_f.c \
 					map_check.c \
-					init_text.c
+					init_text.c \
+					save_image.c 
 
 OBJS			= $(SRCS:.c=.o)
 

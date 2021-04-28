@@ -88,6 +88,8 @@ int main(int argc, char **argv)
         return(printf("ArgError\n"));
     init(&mlx_s, argv[1]);
     //init_text(&mlx_s);
+    move(0, &mlx_s);
+    save_image(&mlx_s);
     mlx_hook (mlx_s.mlx_win, 2, 1L<<0, move, &mlx_s);
     mlx_loop(mlx_s.mlx);
 }
