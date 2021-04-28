@@ -47,7 +47,7 @@ static void init_infoheader(fd, height, width)
     info_header[14] = (unsigned char)(24);
     write(fd, info_header, sizeof(info_header));
 }
-/*
+
 int		ft_get_i(int m)
 {
 	return (0x00000000 | ((m >> 24) & 0xFFFFFFFF));
@@ -67,7 +67,7 @@ int		ft_get_b(int m)
 {
 	return (0x00000000 | ((m) & 0xFFFFFFFF));
 }
-*/
+/*
 int		ft_get_r(int trgb)
 {
 	return ((trgb & (0xFF << 16)) / 255 / 255);
@@ -82,7 +82,7 @@ int		ft_get_b(int trgb)
 {
 	return (trgb & 0xFF);
 }
-
+*/
 static void put_color(int fd, int color)
 {
     unsigned char r;
@@ -108,28 +108,37 @@ void    save_image(t_data *mlx_s)
     int fd;
     int i;
     int j;
-   unsigned int color;
+    //int mod;
+    int color;
+   // unsigned char z = 0;
     
     i = mlx_s->height + 1;
+    //if (mlx_s->width % 4)
+      //  mod = mlx_s->width + (4 - mlx_s->width % 4);
+    //else
+     //   mod = mlx_s->width;
     if ((fd = open("save.bmp", O_CREAT | O_WRONLY | O_TRUNC, 77777)) == -1)
         no_file();
-    init_header(fd, ((mlx_s->width * 3)
-				+ ((4 - (mlx_s->width * 3) % 4) % 4))/* (mlx_s->width * 3)*/ * mlx_s->height);
+    init_header(fd, (mlx_s->width * 3 * mlx_s->height));
     init_infoheader(fd, mlx_s->height, mlx_s->width);
     while(--i >= 0)
     {
-        j = mlx_s->width;
-        while(--j >= 0)
+        j = 0;
+        while(++j <= mlx_s->width)
         {
-            mlx_pixel_get_2(mlx_s, (mlx_s->width - j), i, &color);
-            put_color(fd, color);
+           /* if (j > mlx_s->width)
+                write(fd, &z, 1);
+            else
+            {*/
+                mlx_pixel_get_2(mlx_s, j, i, &color);
+                put_color(fd, color);
+            //}
         }
         printf("\n%i\n", i);
-
     }
     printf("\n%i\n", fd);
     if(close(fd) < 0)
         printf("Close fail\n");
-    //exit(EXIT_SUCCESS);
+    exit(EXIT_SUCCESS);
 
 }

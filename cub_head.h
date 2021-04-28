@@ -233,6 +233,6 @@ void                print_sprite(t_data *mlx_s, t_ray *ray);
 int	                s_count(char **map);
 t_sprite	        *s_place(char **map/*, t_sprite *sprite*/);
 void                 save_image(t_data *mlx_s);
-void                mlx_pixel_get_2(t_data *data, int x, int y, unsigned int *color);
+void                mlx_pixel_get_2(t_data *data, int x, int y, int *color);
 
 #endif 

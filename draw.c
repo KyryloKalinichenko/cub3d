@@ -16,7 +16,7 @@ void            mlx_pixel_get(t_tex *data, int x, int y, unsigned int *color)
     *color = *(unsigned int*)dst;
 }
 
-void            mlx_pixel_get_2(t_data *data, int x, int y, unsigned int *color)
+void            mlx_pixel_get_2(t_data *data, int x, int y, int *color)
 {
     char    *dst;
 
