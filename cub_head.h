@@ -14,6 +14,15 @@
 #define LEFT 0
 #define RIGHT 2
 
+#define NO 1
+#define SO 2
+#define WE 4
+#define EA 8
+#define C 16
+#define F 32
+#define S 64
+
+
 #define ESC 53
 
 #define START_X 200

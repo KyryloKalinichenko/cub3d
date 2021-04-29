@@ -3,7 +3,6 @@ R 1500 750
 NO   ./xpms/greystone.xpm
 
 SO  ./xpms/redbrick.xpm
-
 WE   ./xpms/colorstone.xpm
 
 EA  ./xpms/wood.xpm

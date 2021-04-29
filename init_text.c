@@ -38,11 +38,42 @@ static int get_col(char *line)
   return (create_trgb(0, r, g, b));
 }
 
+static void side_check(t_data *mlx_s)
+{
+  int i;
+  int flag;
+  int flag2;
+
+  i = -1;
+  flag = 0;
+  flag2 = 0;
+  while (++i < 7)
+  {
+    if(!ft_strcmp(mlx_s->side[i][0], "NO"))
+      flag += NO;
+    if(!ft_strcmp(mlx_s->side[i][0], "WE"))
+      flag += WE;
+    if(!ft_strcmp(mlx_s->side[i][0], "EA"))
+      flag += EA;
+    if(!ft_strcmp(mlx_s->side[i][0], "SO"))
+      flag += SO;
+    if(!ft_strcmp(mlx_s->side[i][0], "C"))
+      flag += C;
+    if(!ft_strcmp(mlx_s->side[i][0], "F"))
+      flag2 += F;
+    if(!ft_strcmp(mlx_s->side[i][0], "S"))
+      flag2 += S;
+  }
+  if (flag != 31 || flag2 != 96)
+    map_err();
+}
+
 void textures(t_data *mlx_s, t_sides *tex)
 {
   int i;
 
   i = -1;
+  side_check(mlx_s);
   while (++i < 7)
   {
     if(!ft_strcmp(mlx_s->side[i][0], "NO"))
