@@ -30,7 +30,8 @@
 #include <math.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include "./mlx/mlx.h"
+//#include "./mlx.h"
+#include <mlx.h>
 #include <unistd.h>
 #include <fcntl.h>
 
@@ -219,7 +220,7 @@ void                print_ver_line(int drawStart, int drawEnd, int x, t_data *ml
 void                print_back(int drawStart, int drawEnd, int x, t_data *mlx_s);
 
 void                malloc_error(void);
-void                just_exit(void);
+int                just_exit(void);
 void                no_file(void);
 void                check_map(char **map, int last, t_point *start);
 void                map_err(void);

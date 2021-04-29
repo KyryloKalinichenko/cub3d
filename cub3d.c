@@ -80,16 +80,41 @@ static int    move(int keycode, t_data *mlx_s)
     return(0);
 }
 
+static void check_type(char *filename)
+{
+    char **tab;
+    int i;
+
+    i = -1;
+    tab = ft_split(filename, '.');
+    if (!tab)
+        malloc_error();
+    if (ft_strcmp(tab[1], "cub") != 0)
+        map_err();
+    while(tab[++i])
+        free(tab[i]);
+}
+
+static int check_arg(char *arg)
+{
+    if (!ft_strcmp("--save", arg))
+        return (1);
+    return (0);
+}
+
 int main(int argc, char **argv)
 {
     t_data mlx_s;
    
     if (argc == 1 || argc > 3)
         return(printf("ArgError\n"));
+    check_type(argv[1]);
     init(&mlx_s, argv[1]);
     //init_text(&mlx_s);
     move(0, &mlx_s);
-    save_image(&mlx_s);
+    if (argc == 3 && check_arg(argv[2]))
+        save_image(&mlx_s);
     mlx_hook (mlx_s.mlx_win, 2, 1L<<0, move, &mlx_s);
+    mlx_hook(mlx_s.mlx_win, 17, 1L << 17, just_exit, &mlx_s);
     mlx_loop(mlx_s.mlx);
 }

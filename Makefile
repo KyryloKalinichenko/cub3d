@@ -13,7 +13,8 @@ SRCS			=	cub3d.c \
 					errors_f.c \
 					map_check.c \
 					init_text.c \
-					save_image.c 
+					save_image.c \
+					
 
 OBJS			= $(SRCS:.c=.o)
 
@@ -21,14 +22,14 @@ CC				= gcc
 RM				= rm -f
 CFLAGS			= -O3 -Wall -Wextra -Werror -I.
 LIBS			= -Lmlx -lmlx -framework OpenGL -framework AppKit -lm
-MLX				= libmlx.dylib
+MLX				=  libmlx.dylib
 
 NAME			= cub3D
 
 all:			$(NAME)
 
 $(NAME):		$(MLX) $(OBJS)
-				gcc ${CFLAGS} -o ${NAME} ${OBJS} ${LIBS}
+				gcc ${CFLAGS} -o ${NAME} ${OBJS} ${LIBS} 
 
 $(MLX):
 				@$(MAKE) -C mlx

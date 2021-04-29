@@ -18,7 +18,7 @@ void	malloc_error(void)
 	exit(EXIT_FAILURE);
 }
 
-void	just_exit(void)
+int	just_exit(void)
 {
 	printf("See you soon!\n");
 	exit(EXIT_FAILURE);

@@ -22,19 +22,29 @@ static void init_mlx(t_data *mlx_s)
 ** Read resolution and conver it into two int. 
 **
 */
-
+static int  num(char *str)
+{
+    //printf("---%s---\n", str);
+    while(ft_isdigit(*str++))
+        ;
+    if (*str)
+        map_err();
+    return (1);
+}
 static int read_r(char **tab, t_data *mlx_s)
 {
     int i;
+    int new_width;
+    int new_height;
 
+    if (mlx_s->width != 0 || mlx_s->height != 0)
+        map_err();
     i = -1;
-    mlx_s->width = 0;
-    mlx_s->height = 0;
     while(tab[++i])
     {
-        if (i == 1)
+        if (i == 1 && num(tab[i]))
             mlx_s->width = ft_atoi(tab[i]);
-        else if (i == 2)
+        else if (i == 2 && num(tab[i]))
             mlx_s->height = ft_atoi(tab[2]);
         free(tab[i]);
         if (i > 2)
@@ -42,6 +52,13 @@ static int read_r(char **tab, t_data *mlx_s)
     }
     if (!mlx_s->width || !mlx_s->height)
         map_err();
+    new_height = mlx_s->height;
+    new_width = mlx_s->width;
+    mlx_get_screen_size(mlx_s, &new_width, &new_height);
+    if (new_width < mlx_s->width)
+        mlx_s->width = new_width;
+    if (new_height < mlx_s->height)
+        mlx_s->height = new_height;
     return (0);
 }
 
@@ -180,7 +197,7 @@ static int parsing_map(char *file, t_data *mlx_s)
     while(f != i)
     {
         get_next_line(fd, &map[++i]);
-        printf("%s\n", map[i]);
+        //printf("%s\n", map[i]);
         if (mlx_s->map_s->mapX < (int)ft_strlen(map[i]))
            mlx_s->map_s->mapX = ft_strlen(map[i]);
     }
@@ -204,6 +221,8 @@ int     init(t_data *mlx_s, char *file)
     map_s->start->y = -1;
     map_s->start->x = -1;
     mlx_s->map_s = map_s;
+    mlx_s->width = 0;
+    mlx_s->height = 0;
     parsing_map(file, mlx_s);
     check_map(mlx_s->map_s->map, mlx_s->map_s->mapY, mlx_s->map_s->start);
     init_mlx(mlx_s);

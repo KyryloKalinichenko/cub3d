@@ -17,7 +17,7 @@ static void	check_first_last(char *line)
 	int	i;
 
 	i = -1;
-	while (line[++i] && (line[i] != '1' || line[i] != ' '))
+	while (line[++i] && (line[i] == '1' || line[i] == ' '))
 		;
 	if (line[i])
 		map_err();
