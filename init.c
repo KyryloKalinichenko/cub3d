@@ -149,7 +149,8 @@ static int height_count(char *file, t_data *mlx_s)
         }
         free(buff);
 	}
-   // printf("----*****------\n");
+    mlx_s->side[7] = NULL;
+    //printf("----*****------\n");
     while (get_next_line(fd, &buff) > 0)
     {
         //map_err();
@@ -228,7 +229,6 @@ int     init(t_data *mlx_s, char *file)
     init_mlx(mlx_s);
     mlx_s->ray = ray;
     textures(mlx_s, mlx_s->tex);
-    //printf("--------------\n");
     init_ray(ray, map_s->start);
     return (0);
 }

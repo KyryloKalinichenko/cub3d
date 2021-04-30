@@ -33,7 +33,7 @@ static int get_col(char *line)
     else if (i == 2)
       b = ft_atoi(tab[i]);
   }
-  if (i > 3 || i < 3)
+  if (i > 3 || i < 3 || r < 0 || g < 0 || b < 0)
     map_err();
   return (create_trgb(0, r, g, b));
 }
@@ -47,7 +47,7 @@ static void side_check(t_data *mlx_s)
   i = -1;
   flag = 0;
   flag2 = 0;
-  while (++i < 7)
+  while (mlx_s->side[++i])
   {
     if(!ft_strcmp(mlx_s->side[i][0], "NO"))
       flag += NO;
@@ -74,7 +74,7 @@ void textures(t_data *mlx_s, t_sides *tex)
 
   i = -1;
   side_check(mlx_s);
-  while (++i < 7)
+  while (mlx_s->side[++i])
   {
     if(!ft_strcmp(mlx_s->side[i][0], "NO"))
       tex->no_side = init_text(mlx_s, mlx_s->side[i][1], tex->no_side);

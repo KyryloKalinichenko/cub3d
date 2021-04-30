@@ -73,7 +73,7 @@ void	check_map(char **map, int last, t_point *start)
 	while (map[i] && map[i][j] && i < (last - 1))
 	{
 		len = ft_strlen(map[i]);
-		//printf("%s OK %10i\n", map[i], last);
+		printf("%s OK %10i\n", map[i], last);
 		while (map[i][j])
 		{
 			point_check(map, i, j, start, len);
@@ -82,6 +82,7 @@ void	check_map(char **map, int last, t_point *start)
 		j = 0;
 		i++;
 	}
+	printf("%s OK\n", map[i]);
 	check_first_last(map[i]);
 	printf("%10f, %10f %10c\n", start->x, start->y, start->point);
 	if (start->x < 0 || start->y < 0)

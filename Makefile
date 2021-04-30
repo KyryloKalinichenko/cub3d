@@ -26,7 +26,12 @@ MLX				=  libmlx.dylib
 
 NAME			= cub3D
 
+MAP	=	map.cub
+
 all:			$(NAME)
+
+run:
+				gcc ${CFLAGS} -o ${NAME} ${OBJS} ${LIBS} && ./${NAME} $(MAP)
 
 $(NAME):		$(MLX) $(OBJS)
 				gcc ${CFLAGS} -o ${NAME} ${OBJS} ${LIBS} 

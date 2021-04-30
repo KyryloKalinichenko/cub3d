@@ -157,6 +157,8 @@ void	main_image(t_data *mlx_s, t_ray *ray, int i)
 			drawStart += drawEnd / 4;
         	drawEnd += drawEnd / 4;
 		}*/
+		//printf("************\n");
+		//print_back( drawStart, drawEnd, i, mlx_s);
 		put_text(drawStart, drawEnd, i, mlx_s, lineHeight, *perpWallDist, tex);
 		//print_ver_line(drawStart, drawEnd, i, mlx_s);
 		//if (mlx_s->map_s->map[(int)(ray->on_map->y)][(int)(ray->on_map->x)] == '2')
@@ -169,10 +171,11 @@ void    ray_fun(t_data *mlx_s, t_ray *ray)
     int     i;
 
     i = -1;
-	print_floor(mlx_s, ray);
+	//print_floor(mlx_s, ray);
+
     while (++i < mlx_s->width)
     {
-		//print_back(0, mlx_s->height, i, mlx_s);
+		print_back(0, mlx_s->height - 1, i, mlx_s);
         ray->camera_x = 2 * i / (double)(mlx_s->width) - 1;
 	    ray->ray_dir->x = ray->dir->x + ray->plane->x * ray->camera_x;
 	    ray->ray_dir->y = ray->dir->y + ray->plane->y * ray->camera_x;

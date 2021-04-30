@@ -38,23 +38,17 @@ void    print_ver_line(int drawStart, int drawEnd, int x, t_data *mlx_s)
 
 void    print_back(int drawStart, int drawEnd, int x, t_data *mlx_s)
 {
-    int hor;
-
-    hor = 0;
-    if (mlx_s->up)
-    {
-        hor = mlx_s->height / 4;
-    }
     while(drawStart <= drawEnd / 2)
     {
-        my_mlx_pixel_put(mlx_s, x, drawStart + hor, mlx_s->cel);
+        my_mlx_pixel_put(mlx_s, x, drawStart, mlx_s->cel);
         drawStart++;
     }
     while(drawStart <= drawEnd)
     {
-        my_mlx_pixel_put(mlx_s, x, drawStart + hor, mlx_s->floor);
+        my_mlx_pixel_put(mlx_s, x, drawStart, mlx_s->floor);
         drawStart++;
     }
+    printf("%10d%10d\n", mlx_s->cel, mlx_s->floor);
 }
 /*
 static void print_line(t_data *mlx_s, int x, int y)

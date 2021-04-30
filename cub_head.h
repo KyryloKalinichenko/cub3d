@@ -189,7 +189,7 @@ typedef struct  s_data {
     t_pl        player;
     t_ray       *ray;
     t_ray       ray_s;
-    char        **side[7];
+    char        **side[8];
     int         cel;
     int         floor;
     short       up;
