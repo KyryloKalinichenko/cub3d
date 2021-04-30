@@ -145,20 +145,29 @@ static int height_count(char *file, t_data *mlx_s)
             mlx_s->side[++i] = tab;
         else
         {
+            free(buff);
             break ;
         }
         free(buff);
 	}
     mlx_s->side[7] = NULL;
     //printf("----*****------\n");
-    while (get_next_line(fd, &buff) > 0)
+    int k;
+    while (1)
     {
+        k = get_next_line(fd, &buff);
+       // printf("%s\n", buff);
         //map_err();
         if (!line_check(buff))
             map_err();
-        height++;
-        free(buff);
+       // printf("%d\n", height++);
+       height++;
+       free(buff);
+       if (k == 0)
+        break ;
     }
+    //printf("%d\n", height);
+
 	return (height + 1);
 }
 

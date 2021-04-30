@@ -1,6 +1,6 @@
 R 1500  750
 
-NO  ./xpms/greystone.xpm
+NO  ./xpms/frog.xpm
 
 SO  ./xpms/redbrick.xpm
 WE   ./xpms/colorstone.xpm
@@ -9,7 +9,7 @@ EA  ./xpms/wood.xpm
 
 S    ./xpms/pillar.xpm
 
-F  -17,120,100
+F  17,120,100
 C  133,193,233
 
 111111111111111 111
@@ -18,4 +18,7 @@ C  133,193,233
 1000000000N0001 101
 111111111111111 111
 
-1111110
+
+1111111
+100W001
+1111111

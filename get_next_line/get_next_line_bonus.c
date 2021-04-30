@@ -119,7 +119,9 @@ int					get_next_line(int fd, char **line)
 		return (-1);
 	while ((i = read(fd, buff, BUFFER_SIZE)) > 0)
 	{
+		
 		buff[i] = '\0';
+		//printf("%d\n", i);
 		if (list[fd].con != NULL)
 		{
 			if (!(list[fd].tmp = ft_strjoin(list[fd].con, buff)))
@@ -132,6 +134,7 @@ int					get_next_line(int fd, char **line)
 		if (ft_strchr(buff, '\n') || i == -1)
 			break ;
 	}
+	//printf("%i\n", i);
 	free(buff);
 	return (i == -1 ? -1 : ft_gnl_cond(list[fd].con, &list[fd], line, i));
 }
