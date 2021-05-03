@@ -21,14 +21,21 @@ void	malloc_error(void)
 int	just_exit(void)
 {
 	printf("See you soon!\n");
-	exit(EXIT_FAILURE);
+	exit(EXIT_SUCCESS);
 }
 
 void	no_file(void)
 {
-	printf("No such file or directory!\n");
+	printf("No such a file or directory!\n");
 	exit(EXIT_FAILURE);
 }
+
+void	wrong_flag(void)
+{
+	printf("No such a flag or argument!\n");
+	exit(EXIT_FAILURE);
+}
+
 
 void	map_err(void)
 {
