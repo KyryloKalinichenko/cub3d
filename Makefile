@@ -14,6 +14,7 @@ SRCS			=	cub3d.c \
 					map_check.c \
 					init_text.c \
 					save_image.c \
+					height_count.c
 					
 
 OBJS			= $(SRCS:.c=.o)
@@ -22,7 +23,7 @@ CC				= gcc
 RM				= rm -f
 CFLAGS			= -O3 -Wall -Wextra -Werror -I.
 LIBS			= -Lmlx -lmlx -framework OpenGL -framework AppKit -lm
-MLX				=  libmlx.dylib
+MLX				=  libmlx.a
 
 NAME			= cub3D
 
@@ -31,21 +32,17 @@ MAP	=	map.cub
 all:			$(NAME)
 
 run:
-				gcc ${CFLAGS} -o ${NAME} ${OBJS} ${LIBS} && ./${NAME} $(MAP)
+				gcc ${CFLAGS} -o ${NAME} ${OBJS} $(MLX) ${LIBS} && ./${NAME} $(MAP)
 
-$(NAME):		$(MLX) $(OBJS)
-				gcc ${CFLAGS} -o ${NAME} ${OBJS} ${LIBS} 
-
-$(MLX):
-				@$(MAKE) -C mlx
-				@mv mlx/$(MLX) .
+$(NAME):		$(OBJS)
+				gcc ${CFLAGS} -o ${NAME} ${OBJS} $(MLX) ${LIBS} 
 
 clean:
 				@$(MAKE) -C mlx clean
-				$(RM) $(OBJS) $(BONUS_OBJS)
+				$(RM) $(OBJS)
 
 fclean:			clean
-				$(RM) $(NAME) $(MLX)
+				$(RM) $(NAME)
 
 re:				fclean $(NAME)
 

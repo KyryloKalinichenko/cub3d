@@ -35,6 +35,7 @@ static int get_col(char *line)
   }
   if (i > 3 || i < 3 || r < 0 || g < 0 || b < 0)
     map_err();
+  tab_free(tab);
   return (create_trgb(0, r, g, b));
 }
 

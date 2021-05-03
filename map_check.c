@@ -17,9 +17,14 @@ static void	check_first_last(char *line)
 	int	i;
 
 	i = -1;
-	while (line[++i] && (line[i] == '1' || line[i] == ' '))
-		;
-	if (line[i])
+	if (line)
+	{
+		while (line[++i] && (line[i] == '1' || line[i] == ' '))
+			;
+		if (line[i])
+			map_err();
+	}
+	else
 		map_err();
 }
 
@@ -62,28 +67,31 @@ void	check_map(char **map, int last, t_point *start)
 	int len;
 	short fl;
 
-	i = 0;
+	i = -1;
 	j = 0;
 	fl = 0;
 	//printf("%s OK\n", map[i]);
-	check_first_last(map[i++]);
+	check_first_last(map[++i]);
 	//printf("first OK\n");
 	//start->x = -1; 
 	//start->y = -1;
-	while (map[i] != '\0' && map[i] && i < (last - 1))
+	while (map[++i] != '\0' && map[i] && i < last)
 	{
 		len = ft_strlen(map[i]);
-		printf("%s OK %10i\n", map[i], last);
+	//	printf("%s OK %10i\n", map[i], last);
 		while (map[i][j])
 		{
 			point_check(map, i, j, start, len);
 			j++;
 		}
+		if(!ft_strcmp(map[i], ""))
+			check_first_last(map[i - 1]);
+			//printf("%i\n", i);
 		j = 0;
-		i++;
 	}
 	//printf("%s OK\n", map[i]);
-	check_first_last(map[i]);
+	//printf("-------------%s----------%i---------\n", map[i], i);
+	//check_first_last(map[i]);
 	//printf("%10f, %10f %10c\n", start->x, start->y, start->point);
 	if (start->x < 0 || start->y < 0)
 		map_err();

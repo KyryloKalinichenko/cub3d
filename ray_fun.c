@@ -120,8 +120,30 @@ void    init_ray(t_ray  *ray, t_point *start)
 	**
 	*/
 	//printf("%10f %10f %10c\n", start->x, start->y, start->point);
+	ray->ray_dir->x = 0;
+	ray->ray_dir->y = 0;
+	ray->ray_dir->point = 0;
+	
+
+	ray->on_map->x = 0;
+	ray->on_map->y = 0;
+
+	ray->step->x = 0;
+	ray->step->y = 0;
+
+	ray->side_dist->x = 0;
+	ray->side_dist->y = 0;
+	ray->side_dist->point = 0;
+
+	ray->delta_dist->x = 0;
+	ray->delta_dist->y = 0;
+	ray->delta_dist->point = 0;
+
 	ray->pos->x = start->x;
 	ray->pos->y = start->y;
+	ray->pos->point = 0;
+	ray->plane->point = 0;
+	ray->dir->point = 0;
 	turn_start(ray, start->point);
 }
 
@@ -136,6 +158,7 @@ void	main_image(t_data *mlx_s, t_ray *ray, int i)
             *perpWallDist = (ray->on_map->x - ray->pos->x + (1 - ray->step->x) / 2) / ray->ray_dir->x;
         else           
             *perpWallDist = (ray->on_map->y - ray->pos->y + (1 - ray->step->y) / 2) / ray->ray_dir->y;
+		//printf("%10f\n", *perpWallDist);
         lineHeight = (int)(mlx_s->height / *perpWallDist);
         int drawStart = -lineHeight / 2 + mlx_s->height / 2;
         if(drawStart < 0)

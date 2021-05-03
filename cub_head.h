@@ -39,8 +39,8 @@
 #include <math.h>
 #include <stdlib.h>
 #include <stdio.h>
-//#include "./mlx.h"
-#include <mlx.h>
+#include "./mlx.h"
+//#include <mlx.h>
 #include <unistd.h>
 #include <fcntl.h>
 
@@ -78,8 +78,8 @@ typedef struct		s_on_map
 
 typedef struct		s_map
 {
-	short       height;
-    short       width;
+	int       height;
+    int       width;
     char        **map;
     int         color;
     short       mapX;
@@ -192,7 +192,6 @@ typedef struct  s_data {
     char        **side[8];
     int         cel;
     int         floor;
-    short       up;
     double      **zbuffer;
     short       spriteNum;
     t_sprite    **sprite;
@@ -244,5 +243,10 @@ int	                s_count(char **map);
 t_sprite	        *s_place(char **map/*, t_sprite *sprite*/);
 void                 save_image(t_data *mlx_s);
 void                mlx_pixel_get_2(t_data *data, int x, int y, int *color);
+void                tab_free(char **tab);
+int                 height_count(char *file, t_data *mlx_s);
+int                 read_r(char **tab, t_data *mlx_s);
+int                 line_check(char *line);
+int                 char_check(char c);
 
 #endif 

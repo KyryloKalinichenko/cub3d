@@ -11,10 +11,11 @@ static void init_mlx(t_data *mlx_s)
     mlx_s->img = mlx_new_image(mlx_s->mlx, mlx_s->width, mlx_s->height);
     mlx_s->addr = mlx_get_data_addr(mlx_s->img, &mlx_s->bits_per_pixel, &mlx_s->line_length,
                                  &mlx_s->endian);
-    mlx_s->up = 0;
     mlx_s->zbuffer = malloc(sizeof(double*) * mlx_s->width);
     mlx_s->spriteNum = s_count(mlx_s->map_s->map);
     mlx_s->sprite = malloc(sizeof(t_sprite*));
+    if (!mlx_s->sprite || !mlx_s->zbuffer)
+        malloc_error();
     mlx_s->sprite[0] = s_place(mlx_s->map_s->map/*, *mlx_s->sprite*/);
 }
 
@@ -25,13 +26,13 @@ static void init_mlx(t_data *mlx_s)
 static int  num(char *str)
 {
     //printf("---%s---\n", str);
-    while(ft_isdigit(*str++))
-        ;
+    while(*str && ft_isdigit(*str))
+        str++;
     if (*str)
         map_err();
     return (1);
 }
-static int read_r(char **tab, t_data *mlx_s)
+int read_r(char **tab, t_data *mlx_s)
 {
     int i;
     int new_width;
@@ -77,7 +78,7 @@ int			ft_strcmp(const char *s1, const char *s2)
 	return ((unsigned char)*s1 - (unsigned char)*s2);
 }
 
-static int char_check(char c)
+int char_check(char c)
 {
     char *here;
     int i;
@@ -92,7 +93,7 @@ static int char_check(char c)
     return (0);
 }
 
-static int line_check(char *line)
+int line_check(char *line)
 {
     int i;
 
@@ -105,71 +106,6 @@ static int line_check(char *line)
     return (1);
 }
 
-static int height_count(char *file, t_data *mlx_s)
-{
-    short height;
-    int fd;
-    char *buff;
-    char **tab;
-    int i;
-    
-    height  = 1;
-    fd = open(file, O_RDONLY);
-    i = -1;
-    if (!fd)
-        malloc_error();
-    while (get_next_line(fd, &buff) > 0)
-	{
-            //printf("------------\n");
-        if (!ft_strcmp("", buff))
-            continue ;
-        if (!(tab = ft_split(buff, ' ')))
-            malloc_error();
-        if (!ft_strcmp(tab[0], "R") && tab[1])
-            read_r(tab, mlx_s);
-        else if (!ft_strcmp(tab[0], "NO") && tab[1])
-            mlx_s->side[++i] = tab;
-        else if (!ft_strcmp(tab[0], "SO") && tab[1])
-            mlx_s->side[++i] = tab;
-        else if (!ft_strcmp(tab[0], "WE") && tab[1])
-            mlx_s->side[++i] = tab;
-        else if (!ft_strcmp(tab[0], "EA") && tab[1])
-            mlx_s->side[++i] = tab;
-        else if (!ft_strcmp(tab[0], "S") && tab[1])
-            mlx_s->side[++i] = tab;
-        else if (!ft_strcmp(tab[0], "F") && tab[1])
-            mlx_s->side[++i] = tab;
-        else if (!ft_strcmp(tab[0], "C") && tab[1])
-            mlx_s->side[++i] = tab;
-        else if (!ft_strcmp(tab[0], "S") && tab[1])
-            mlx_s->side[++i] = tab;
-        else
-        {
-            free(buff);
-            break ;
-        }
-        free(buff);
-	}
-    mlx_s->side[7] = NULL;
-    //printf("----*****------\n");
-    int k;
-    while (1)
-    {
-        k = get_next_line(fd, &buff);
-       // printf("%s\n", buff);
-        //map_err();
-        if (!line_check(buff))
-            map_err();
-       // printf("%d\n", height++);
-       height++;
-       free(buff);
-       if (k == 0)
-        break ;
-    }
-    //printf("%d\n", height);
-
-	return (height + 1);
-}
 
 /*
 ** The main parsing function. 
@@ -201,7 +137,7 @@ static int parsing_map(char *file, t_data *mlx_s)
         free(map[i]);
     }
     mlx_s->map_s->mapX = ft_strlen(map[i]);
-    int f = mlx_s->map_s->mapY + i;
+    int f = (mlx_s->map_s->mapY + i - 1);
     if (f == i)
         map_err();
     while(f != i)
@@ -230,6 +166,14 @@ int     init(t_data *mlx_s, char *file)
         malloc_error();
     map_s->start->y = -1;
     map_s->start->x = -1;
+    map_s->start->point = 0;
+    map_s->mapX = 0;
+    map_s->mapY = 0;
+    map_s->mapS = 0;
+    map_s->color = 0;
+    map_s->height = 0;
+    map_s->width = 0;
+
     mlx_s->map_s = map_s;
     mlx_s->width = 0;
     mlx_s->height = 0;

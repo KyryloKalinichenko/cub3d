@@ -64,12 +64,12 @@ static void left_right(t_data *mlx_s, int keycode)
 static int    move(int keycode, t_data *mlx_s)
 {
     //printf("%d\n", keycode);
-    mlx_s->up = 0;
+    //mlx_s->up = 0;
     back_forth(mlx_s, keycode);
     left_right(mlx_s, keycode);
-    if (keycode == UP)
-        mlx_s->up = 1;
-    else if (keycode == TLEFT)
+    //if (keycode == UP)
+    //    mlx_s->up = 1;
+    if (keycode == TLEFT)
         turn_r(mlx_s->ray);
     else if (keycode == TRIGHT)
         turn_l(mlx_s->ray);
@@ -78,6 +78,15 @@ static int    move(int keycode, t_data *mlx_s)
     print_player(mlx_s);
     mlx_put_image_to_window(mlx_s->mlx, mlx_s->mlx_win, mlx_s->img, 0, 0);
     return(0);
+}
+
+void    tab_free(char **tab)
+{
+    int i;
+
+    i = -1;
+    while (tab[++i])
+        free(tab[i]);
 }
 
 static void check_type(char *filename)
@@ -91,8 +100,9 @@ static void check_type(char *filename)
         malloc_error();
     if (ft_strcmp(tab[1], "cub") != 0)
         map_err();
-    while(tab[++i])
-        free(tab[i]);
+    /*while(tab[++i])
+        free(tab[i]);*/
+    tab_free(tab);
 }
 
 static int check_arg(char *arg)
