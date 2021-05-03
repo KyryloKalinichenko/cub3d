@@ -75,6 +75,7 @@ static int    move(int keycode, t_data *mlx_s)
         turn_l(mlx_s->ray);
     else if (keycode == ESC)
         just_exit();
+    //getchar();
     print_player(mlx_s);
     mlx_put_image_to_window(mlx_s->mlx, mlx_s->mlx_win, mlx_s->img, 0, 0);
     return(0);
@@ -87,6 +88,7 @@ void    tab_free(char **tab)
     i = -1;
     while (tab[++i])
         free(tab[i]);
+    free(tab);
 }
 
 static void check_type(char *filename)

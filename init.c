@@ -43,14 +43,16 @@ int read_r(char **tab, t_data *mlx_s)
     i = -1;
     while(tab[++i])
     {
+       // printf("%s\n", tab[i]);
         if (i == 1 && num(tab[i]))
             mlx_s->width = ft_atoi(tab[i]);
         else if (i == 2 && num(tab[i]))
-            mlx_s->height = ft_atoi(tab[2]);
+            mlx_s->height = ft_atoi(tab[i]);
         free(tab[i]);
         if (i > 2)
             map_err();
     }
+    free(tab);
     if (!mlx_s->width || !mlx_s->height)
         map_err();
     new_height = mlx_s->height;
@@ -124,7 +126,6 @@ static int parsing_map(char *file, t_data *mlx_s)
         no_file();
     if ((mlx_s->map_s->mapY = (height_count(file, mlx_s))) == 2 || mlx_s->map_s->mapY < 3)
         map_err();
-    
     mlx_s->map_s->height = mlx_s->height / (mlx_s->map_s->mapY * MINIMAP_S);
     map = malloc(sizeof(char*) * mlx_s->map_s->mapY + 1);
     if (!map)
@@ -132,6 +133,7 @@ static int parsing_map(char *file, t_data *mlx_s)
     mlx_s->map_s->map = map;
     while(get_next_line(fd, &map[i]))
     {
+        //printf("----%s----\n", map[i]);
         if (ft_strcmp(map[i], "") && line_check(map[i]))
             break ;
         free(map[i]);

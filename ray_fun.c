@@ -149,17 +149,17 @@ void    init_ray(t_ray  *ray, t_point *start)
 
 void	main_image(t_data *mlx_s, t_ray *ray, int i)
 {
-		double *perpWallDist = malloc(sizeof(double));
+		double perpWallDist;
         double lineHeight;
         int drawEnd;
 		t_tex *tex = NULL;
         
 		if (ray->side == 0) 
-            *perpWallDist = (ray->on_map->x - ray->pos->x + (1 - ray->step->x) / 2) / ray->ray_dir->x;
+            perpWallDist = (ray->on_map->x - ray->pos->x + (1 - ray->step->x) / 2) / ray->ray_dir->x;
         else           
-            *perpWallDist = (ray->on_map->y - ray->pos->y + (1 - ray->step->y) / 2) / ray->ray_dir->y;
+            perpWallDist = (ray->on_map->y - ray->pos->y + (1 - ray->step->y) / 2) / ray->ray_dir->y;
 		//printf("%10f\n", *perpWallDist);
-        lineHeight = (int)(mlx_s->height / *perpWallDist);
+        lineHeight = (int)(mlx_s->height / perpWallDist);
         int drawStart = -lineHeight / 2 + mlx_s->height / 2;
         if(drawStart < 0)
             drawStart = 0;
@@ -182,10 +182,10 @@ void	main_image(t_data *mlx_s, t_ray *ray, int i)
 		}*/
 		//printf("************\n");
 		//print_back( drawStart, drawEnd, i, mlx_s);
-		put_text(drawStart, drawEnd, i, mlx_s, lineHeight, *perpWallDist, tex);
+		put_text(drawStart, drawEnd, i, mlx_s, lineHeight, perpWallDist, tex);
 		//print_ver_line(drawStart, drawEnd, i, mlx_s);
 		//if (mlx_s->map_s->map[(int)(ray->on_map->y)][(int)(ray->on_map->x)] == '2')
-		mlx_s->zbuffer[i] = perpWallDist;
+		mlx_s->zbuffer[i] = &perpWallDist;
 		//printf("%f\n", *mlx_s->zbuffer[i]);
 }
 
