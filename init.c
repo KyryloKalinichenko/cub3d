@@ -57,10 +57,11 @@ int read_r(char **tab, t_data *mlx_s)
         map_err();
     new_height = mlx_s->height;
     new_width = mlx_s->width;
+    //printf("%10d, %10d\n", new_height, new_width);
     mlx_get_screen_size(mlx_s, &new_width, &new_height);
-    if (new_width < mlx_s->width)
+    if (new_width < mlx_s->width || !(mlx_s->width))
         mlx_s->width = new_width;
-    if (new_height < mlx_s->height)
+    if (new_height < mlx_s->height || !(mlx_s->height))
         mlx_s->height = new_height;
     return (0);
 }

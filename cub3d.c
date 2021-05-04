@@ -6,7 +6,7 @@
 /*   By: kkalinic <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/12 14:01:16 by kkalinic          #+#    #+#             */
-/*   Updated: 2021/05/04 11:13:33 by kkalinic         ###   ########.fr       */
+/*   Updated: 2021/05/04 13:07:03 by kkalinic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,11 +77,8 @@ static void	left_right(t_data *mlx_s, int keycode, char **map)
 
 static int	move(int keycode, t_data *mlx_s)
 {
-	//mlx_s->up = 0;
 	back_forth(mlx_s, keycode);
 	left_right(mlx_s, keycode, mlx_s->map_s->map);
-    //if (keycode == UP)
-    //    mlx_s->up = 1;
 	if (keycode == TLEFT)
 		turn_r(mlx_s->ray);
 	else if (keycode == TRIGHT)
@@ -114,13 +111,12 @@ static void	check_type(char *filename)
 
 int	main(int argc, char **argv)
 {
-	t_data mlx_s;
+	t_data	mlx_s;
 
 	if (argc == 1 || argc > 3)
 		return (printf("ArgError\n"));
 	check_type(argv[1]);
 	init(&mlx_s, argv[1]);
-	//init_text(&mlx_s);
 	move(0, &mlx_s);
 	if (argc == 3)
 	{

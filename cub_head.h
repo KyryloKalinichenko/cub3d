@@ -5,7 +5,6 @@
 #  define BUFFER_SIZE 10
 # endif
 
-# define UP 126
 # define DOWN 125
 # define TLEFT 123
 # define TRIGHT 124
@@ -28,7 +27,7 @@
 # define FOV (PI / 4)
 # define SPEED 0.2
 # define MSPEED 0.1
-# define MINIMAP_S 4
+# define MINIMAP_S 5
 
 # define TEXTWIDTH 64
 # define TEXTHEIGHT 64
@@ -135,6 +134,34 @@ typedef struct s_pl
 	double	a;
 }				t_pl;
 
+typedef struct s_floor
+{
+	double	floorX;
+	double	floorY;
+	double	floorStepY;
+	double	floorStepX;
+	int		y;
+}				t_floor;
+
+typedef struct s_r_dir
+{
+	float	rayDirX0;
+	float	rayDirY0;
+	float	rayDirX1;
+	float	rayDirY1;
+	int		p;
+	float	posZ;
+	float	rowDistance;
+}				t_r_dir;
+
+typedef struct s_cel
+{
+	int				cellX;
+	int				cellY;
+	int				tx;
+	int				ty;
+	int				x;
+}				t_cel;
 /*
 ** The structure to save all necessary data for texture 
 **

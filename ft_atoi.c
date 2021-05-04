@@ -6,7 +6,7 @@
 /*   By: kkalinic <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/20 12:28:52 by kkalinic          #+#    #+#             */
-/*   Updated: 2021/04/12 14:13:53 by kkalinic         ###   ########.fr       */
+/*   Updated: 2021/05/04 13:28:51 by kkalinic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,9 @@ int	ft_atoi(const char *str)
 		i++;
 	}
 	if (nbr < 0 || i > 19)
-		return (nbr = (sign > 0) ? -1 : 0);
+	{
+		if (sign > 0)
+			return (-1);
+	}
 	return (nbr * sign);
 }

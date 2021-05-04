@@ -14,7 +14,8 @@ SRCS			=	cub3d.c \
 					map_check.c \
 					init_text.c \
 					save_image.c \
-					height_count.c
+					height_count.c \
+					pixel_move.c
 					
 
 OBJS			= $(SRCS:.c=.o)
