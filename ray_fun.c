@@ -149,23 +149,26 @@ void    init_ray(t_ray  *ray, t_point *start)
 
 void	main_image(t_data *mlx_s, t_ray *ray, int i)
 {
-		double perpWallDist;
+		/*double perpWallDist;
         double lineHeight;
         int drawEnd;
+		int drawStart;*/
+		t_wall wall;
+
 		t_tex *tex = NULL;
         
 		if (ray->side == 0) 
-            perpWallDist = (ray->on_map->x - ray->pos->x + (1 - ray->step->x) / 2) / ray->ray_dir->x;
+            wall.perpWallDist = (ray->on_map->x - ray->pos->x + (1 - ray->step->x) / 2) / ray->ray_dir->x;
         else           
-            perpWallDist = (ray->on_map->y - ray->pos->y + (1 - ray->step->y) / 2) / ray->ray_dir->y;
+            wall.perpWallDist = (ray->on_map->y - ray->pos->y + (1 - ray->step->y) / 2) / ray->ray_dir->y;
 		//printf("%10f\n", *perpWallDist);
-        lineHeight = (int)(mlx_s->height / perpWallDist);
-        int drawStart = -lineHeight / 2 + mlx_s->height / 2;
-        drawEnd = lineHeight / 2 + mlx_s->height / 2;
-		if(drawStart < 0)
-            drawStart = 0;
-        if(drawEnd >= mlx_s->height)
-            drawEnd = mlx_s->height - 1;
+        wall.lineHeight = (int)(mlx_s->height / wall.perpWallDist);
+        wall.drawStart = -wall.lineHeight / 2 + mlx_s->height / 2;
+        wall.drawEnd = wall.lineHeight / 2 + mlx_s->height / 2;
+		if(wall.drawStart < 0)
+            wall.drawStart = 0;
+        if(wall.drawEnd >= mlx_s->height)
+            wall.drawEnd = mlx_s->height - 1;
 		if (ray->on_map->y - ray->pos->y > 0 && ray->side == 1)
 			tex = mlx_s->tex->so_side;
 		else if (ray->on_map->y - ray->pos->y <= 0 && ray->side == 1)
@@ -176,10 +179,10 @@ void	main_image(t_data *mlx_s, t_ray *ray, int i)
 			tex = mlx_s->tex->ea_side;
 		//printf("************\n");
 		//print_back( drawStart, drawEnd, i, mlx_s);
-		put_text(drawStart, drawEnd, i, mlx_s, lineHeight, perpWallDist, tex);
+		put_text(i, mlx_s, &wall, tex);
 		//print_ver_line(drawStart, drawEnd, i, mlx_s);
 		//if (mlx_s->map_s->map[(int)(ray->on_map->y)][(int)(ray->on_map->x)] == '2')
-		mlx_s->zbuffer[i] = &perpWallDist;
+		mlx_s->zbuffer[i] = &wall.perpWallDist;
 		//printf("%f\n", *mlx_s->zbuffer[i]);
 }
 

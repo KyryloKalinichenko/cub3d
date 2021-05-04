@@ -17,6 +17,11 @@ int	ft_isdigit(int c)
 	return (c >= '0' && c <= '9');
 }
 
+int	create_trgb(int t, int r, int g, int b)
+{
+	return (t << 24 | r << 16 | g << 8 | b);
+}
+
 void	tab_free(char **tab)
 {
 	int	i;

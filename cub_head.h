@@ -61,6 +61,13 @@ typedef struct s_on_map
 	int	y;
 }					t_on_map;
 
+typedef struct s_put
+{
+	double			wallX;
+	double			step;
+	double			texPos;
+	unsigned int	color;
+}					t_put;
 /*
 ** The structure to store the map, its width and height.
 */
@@ -162,6 +169,14 @@ typedef struct s_cel
 	int				ty;
 	int				x;
 }				t_cel;
+
+typedef struct s_wall
+{
+	double	perpWallDist;
+    double	lineHeight;
+    int		drawEnd;
+	int		drawStart;
+}				t_wall;
 /*
 ** The structure to save all necessary data for texture 
 **
@@ -258,8 +273,7 @@ void				no_file(void);
 void				check_map(char **map, int last, t_point *start);
 void				map_err(void);
 t_tex				*init_text(t_data *mlx_s, char *path, t_tex *tex);
-void				put_text(int drawStart, int drawEnd, int i, t_data *mlx_s,
-						double lineHeight, double perpWallDists, t_tex *tex);
+void				put_text(int i, t_data *mlx_s, t_wall *wall_s, t_tex *tex);
 void				mlx_pixel_get(t_tex *data, int x,
 						int y, unsigned int *color);
 void				textures(t_data *mlx_s, t_sides *tex);
@@ -272,7 +286,7 @@ void				save_image(t_data *mlx_s);
 void				mlx_pixel_get_2(t_data *data, int x, int y, int *color);
 void				tab_free(char **tab);
 int					height_count(char *file, t_data *mlx_s);
-int					read_r(char **tab, t_data *mlx_s);
+void					read_r(char **tab, t_data *mlx_s);
 int					line_check(char *line);
 int					char_check(char c);
 void				wrong_flag(void);

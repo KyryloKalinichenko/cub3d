@@ -1,9 +1,16 @@
-#include "cub_head.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   print_player.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kkalinic <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/05/04 17:43:37 by kkalinic          #+#    #+#             */
+/*   Updated: 2021/05/04 17:47:03 by kkalinic         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-int		create_trgb(int t, int r, int g, int b)
-{
-	return(t << 24 | r << 16 | g << 8 | b);
-}
+#include "cub_head.h"
 
 static void	ft_draw_right_line(t_data *mlx_s, double delta, t_line vector)
 {
@@ -32,7 +39,7 @@ static void	ft_draw_left_line(t_data *mlx_s, double delta, t_line vector)
 			break ;
 		}
 		my_mlx_pixel_put(mlx_s, vector.x, vector.y, mlx_s->map_s->color);
-    }
+	}
 }
 
 static void	ft_draw_down_line(t_data *mlx_s, double delta, t_line vector)
@@ -66,11 +73,11 @@ static void	ft_draw_up_line(t_data *mlx_s, double delta, t_line vector)
 	}
 }
 
-void    print_v(t_data *mlx_s, t_line vector)
+void	print_v(t_data *mlx_s, t_line vector)
 {
-    double delta;
-	
-    delta = fabs(vector.y - vector.dy) - fabs(vector.x - vector.dx);
+	double	delta;
+
+	delta = fabs(vector.y - vector.dy) - fabs(vector.x - vector.dx);
 	if (delta > 0)
 	{
 		delta = (vector.x - vector.dx) / (vector.y - vector.dy);
@@ -87,12 +94,4 @@ void    print_v(t_data *mlx_s, t_line vector)
 		else if (vector.x >= vector.dx)
 			ft_draw_left_line(mlx_s, delta, vector);
 	}
-}
-
-void    print_player(t_data *mlx_s)
-{
-   // mlx_s->map_s->color = 0x0000FF00;
-	ray_fun(mlx_s, mlx_s->ray);
-	//print_map(mlx_s);
-	//print_sq(mlx_s, (mlx_s->ray->pos->x * mlx_s->map_s->width), (mlx_s->ray->pos->y * mlx_s->map_s->height), 0x0000FF00);
 }

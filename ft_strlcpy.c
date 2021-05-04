@@ -6,7 +6,7 @@
 /*   By: kkalinic <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/20 11:44:56 by kkalinic          #+#    #+#             */
-/*   Updated: 2020/11/23 10:40:10 by kkalinic         ###   ########.fr       */
+/*   Updated: 2021/05/04 14:33:30 by kkalinic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 size_t	ft_strlcpy(char *dest, const char *src, size_t size)
 {
-	size_t i;
+	size_t	i;
 
 	i = 0;
 	if (!src)

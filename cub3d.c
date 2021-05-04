@@ -13,8 +13,8 @@
 #include "cub_head.h"
 
 /*
-** Two following functions perform players movements
-** and ensure that there is no wall on the way. 
+** Two following functions performs players movements
+** and ensures that there is no wall on the way. 
 **
 */
 
@@ -85,7 +85,7 @@ static int	move(int keycode, t_data *mlx_s)
 		turn_l(mlx_s->ray);
 	else if (keycode == ESC)
 		just_exit();
-	print_player(mlx_s);
+	ray_fun(mlx_s, mlx_s->ray);
 	mlx_put_image_to_window(mlx_s->mlx, mlx_s->mlx_win, mlx_s->img, 0, 0);
 	return (0);
 }
@@ -105,8 +105,8 @@ static void	check_type(char *filename)
 }
 
 /*
-** The main function for my project. Here the main loop 
-** running and all other functions is calling.  
+** The main function for my project. Here the main loop is 
+** running and all other functions are calling.  
 */
 
 int	main(int argc, char **argv)
