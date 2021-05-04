@@ -50,28 +50,28 @@ void    print_back(int drawStart, int drawEnd, int x, t_data *mlx_s)
     }
     //printf("%10d%10d\n", mlx_s->cel, mlx_s->floor);
 }
-/*
-static void print_line(t_data *mlx_s, int x, int y)
+
+static void print_line(t_data *mlx_s, int x, int y, int color)
 {
     int goal_x;
 
     goal_x = x + mlx_s->map_s->width;
     while(x <= goal_x && x < mlx_s->width)
     {
-        my_mlx_pixel_put(mlx_s, x, y, mlx_s->map_s->color);
+        my_mlx_pixel_put(mlx_s, x, y, color);
         x++;
     }
 
 }
 
-void            print_sq(t_data *mlx_s, int x, int y)
+void            print_sq(t_data *mlx_s, int x, int y, int color)
 {
     int goal_y;
 
     goal_y = y + mlx_s->map_s->height;
     while(y <= goal_y && y < mlx_s->height)
     {
-        print_line(mlx_s, x, y);
+        print_line(mlx_s, x, y, color);
         y++;
     }
 }
@@ -84,15 +84,9 @@ void            print_sq(t_data *mlx_s, int x, int y)
     while(*s)
     {
         if (*s == '1' || *s == '2')
-        {
-            mlx_s->map_s->color = 0x00FF0000;
-            print_sq(mlx_s, x, y);
-        }
+            print_sq(mlx_s, x, y, 0x0FFF0000);
         else
-        {
-            mlx_s->map_s->color = 0x000000FF;
-            print_sq(mlx_s, x, y);
-        }
+            print_sq(mlx_s, x, y, 0x0F0000FF);
         s++;
         x += mlx_s->map_s->width;
     }
@@ -111,7 +105,7 @@ void            print_map(t_data *mlx_s)
         y += mlx_s->map_s->height;
     }
 }
-*/
+
 
 static void print_celling(t_data *mlx_s, double floorX, double floorY, double floorStepX, double floorStepY, int y)
 {

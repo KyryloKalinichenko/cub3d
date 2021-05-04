@@ -42,3 +42,13 @@ void	map_err(void)
 	printf("Bad map!\n");
 	exit(EXIT_FAILURE);
 }
+
+void	tab_free(char **tab)
+{
+	int	i;
+
+	i = -1;
+	while (tab[++i])
+		free(tab[i]);
+	free(tab);
+}

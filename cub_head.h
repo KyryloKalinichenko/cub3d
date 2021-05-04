@@ -212,7 +212,7 @@ int					main(int argc, char **argv);
 void				print_map(t_data *mlx_s);
 void				print_player(t_data *mlx_s);
 int					create_trgb(int t, int r, int g, int b);
-void				print_sq(t_data *mlx_s, int x, int y);
+void				print_sq(t_data *mlx_s, int x, int y, int color);
 void				print_v(t_data *mlx_s, t_line vector);
 void				my_mlx_pixel_put(t_data *data, int x, int y, int color);
 

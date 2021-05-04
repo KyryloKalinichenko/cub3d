@@ -6,66 +6,80 @@
 /*   By: kkalinic <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/12 14:01:16 by kkalinic          #+#    #+#             */
-/*   Updated: 2021/05/03 16:52:21 by kkalinic         ###   ########.fr       */
+/*   Updated: 2021/05/04 11:13:33 by kkalinic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub_head.h"
 
+/*
+** Two following functions perform players movements
+** and ensure that there is no wall on the way. 
+**
+*/
+
 static void	back_forth(t_data *mlx_s, int keycode)
 {
 	if (keycode == FORTH)
 	{
-		if (mlx_s->map_s->map[(int)(mlx_s->ray->pos->y + mlx_s->ray->dir->y * (MSPEED + 0.1))][(int)(mlx_s->ray->pos->x)] == '0')
+		if (mlx_s->map_s->map[(int)(mlx_s->ray->pos->y + mlx_s->ray->dir->y
+				* (MSPEED + 0.1))][(int)(mlx_s->ray->pos->x)] == '0')
 			mlx_s->ray->pos->y += mlx_s->ray->dir->y * MSPEED;
-		if (mlx_s->map_s->map[(int)(mlx_s->ray->pos->y)][(int)(mlx_s->ray->pos->x + mlx_s->ray->dir->x * (MSPEED + 0.1))] == '0')
+		if (mlx_s->map_s->map[(int)(mlx_s->ray->pos->y)][(int)
+			(mlx_s->ray->pos->x + mlx_s->ray->dir->x * (MSPEED + 0.1))] == '0')
 			mlx_s->ray->pos->x += mlx_s->ray->dir->x * MSPEED;
 	}
 	else if (keycode == BACK)
 	{
-		if (mlx_s->map_s->map[(int)(mlx_s->ray->pos->y - mlx_s->ray->dir->y * (MSPEED + 0.1))][(int)(mlx_s->ray->pos->x)] == '0')
+		if (mlx_s->map_s->map[(int)(mlx_s->ray->pos->y - mlx_s->ray->dir->y
+				* (MSPEED + 0.1))][(int)(mlx_s->ray->pos->x)] == '0')
 			mlx_s->ray->pos->y -= mlx_s->ray->dir->y * MSPEED;
-		if (mlx_s->map_s->map[(int)(mlx_s->ray->pos->y)][(int)(mlx_s->ray->pos->x - mlx_s->ray->dir->x * (MSPEED + 0.1))] == '0')
+		if (mlx_s->map_s->map[(int)(mlx_s->ray->pos->y)][(int)
+			(mlx_s->ray->pos->x - mlx_s->ray->dir->x * (MSPEED + 0.1))] == '0')
 			mlx_s->ray->pos->x -= mlx_s->ray->dir->x * MSPEED;
 	}
 }
 
-static void	left_right(t_data *mlx_s, int keycode)
+static void	left_right(t_data *mlx_s, int keycode, char **map)
 {
 	double	r_p_x;
 	double	r_p_y;
 	double	r_d_x;
 	double	r_d_y;
-	
+
 	r_d_x = mlx_s->ray->dir->x;
 	r_d_y = mlx_s->ray->dir->y;
 	r_p_x = mlx_s->ray->pos->x;
 	r_p_y = mlx_s->ray->pos->y;
 	if (keycode == LEFT)
 	{
-		if (mlx_s->map_s->map[(int)(r_p_y + r_d_x * (MSPEED))][(int)(r_p_x)] == '0')
+		if (map[(int)(r_p_y + r_d_x * (MSPEED))][(int)(r_p_x)] == '0')
 			mlx_s->ray->pos->y += r_d_x * MSPEED;
-		if (mlx_s->map_s->map[(int)(r_p_y)][(int)(r_p_x - r_d_y * (MSPEED))] == '0')
+		if (map[(int)(r_p_y)]
+				[(int)(r_p_x - r_d_y * (MSPEED))] == '0')
 			mlx_s->ray->pos->x -= r_d_y * MSPEED;
 	}
 	else if (keycode == RIGHT)
 	{
-		if (mlx_s->map_s->map[(int)(r_p_y - r_d_x * (MSPEED + 0.1))][(int)(r_p_x)] == '0')
+		if (map[(int)(r_p_y - r_d_x * (MSPEED + 0.1))]
+			[(int)(r_p_x)] == '0')
 			mlx_s->ray->pos->y -= r_d_x * MSPEED;
-		if (mlx_s->map_s->map[(int)(r_p_y)][(int)(r_p_x + r_d_y * (MSPEED))] == '0')
+		if (map[(int)(r_p_y)][(int)(r_p_x + r_d_y * (MSPEED))] == '0')
 			mlx_s->ray->pos->x += r_d_y * MSPEED;
 	}
 }
 
 /*
-** The main function for my project. Here the main loop running and all other functions is calling.  
+** The \"move\" function is calling when any key are pressed,
+** implement changes and call the functions to update the frame.
+**
 */
 
 static int	move(int keycode, t_data *mlx_s)
 {
 	//mlx_s->up = 0;
 	back_forth(mlx_s, keycode);
-	left_right(mlx_s, keycode);
+	left_right(mlx_s, keycode, mlx_s->map_s->map);
     //if (keycode == UP)
     //    mlx_s->up = 1;
 	if (keycode == TLEFT)
@@ -76,23 +90,13 @@ static int	move(int keycode, t_data *mlx_s)
 		just_exit();
 	print_player(mlx_s);
 	mlx_put_image_to_window(mlx_s->mlx, mlx_s->mlx_win, mlx_s->img, 0, 0);
-	return(0);
-}
-
-void	tab_free(char **tab)
-{
-	int i;
-
-	i = -1;
-	while (tab[++i])
-		free(tab[i]);
-	free(tab);
+	return (0);
 }
 
 static void	check_type(char *filename)
 {
-	char **tab;
-	int i;
+	char	**tab;
+	int		i;
 
 	i = -1;
 	tab = ft_split(filename, '.');
@@ -103,24 +107,29 @@ static void	check_type(char *filename)
 	tab_free(tab);
 }
 
-int main(int argc, char **argv)
+/*
+** The main function for my project. Here the main loop 
+** running and all other functions is calling.  
+*/
+
+int	main(int argc, char **argv)
 {
-    t_data mlx_s;
-   
-    if (argc == 1 || argc > 3)
-        return(printf("ArgError\n"));
-    check_type(argv[1]);
-    init(&mlx_s, argv[1]);
-    //init_text(&mlx_s);
-    move(0, &mlx_s);
-    if (argc == 3)
+	t_data mlx_s;
+
+	if (argc == 1 || argc > 3)
+		return (printf("ArgError\n"));
+	check_type(argv[1]);
+	init(&mlx_s, argv[1]);
+	//init_text(&mlx_s);
+	move(0, &mlx_s);
+	if (argc == 3)
 	{
 		if (!ft_strcmp("--save", argv[2]))
-        	save_image(&mlx_s);
+			save_image(&mlx_s);
 		else
 			wrong_flag();
 	}
-    mlx_hook (mlx_s.mlx_win, 2, 1L<<0, move, &mlx_s);
-    mlx_hook(mlx_s.mlx_win, 17, 1L << 17, just_exit, &mlx_s);
-    mlx_loop(mlx_s.mlx);
+	mlx_hook (mlx_s.mlx_win, 2, 1L << 0, move, &mlx_s);
+	mlx_hook (mlx_s.mlx_win, 17, 1L << 17, just_exit, &mlx_s);
+	mlx_loop (mlx_s.mlx);
 }
