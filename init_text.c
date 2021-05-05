@@ -6,7 +6,7 @@
 /*   By: kkalinic <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/13 10:33:01 by kkalinic          #+#    #+#             */
-/*   Updated: 2021/05/04 16:47:10 by kkalinic         ###   ########.fr       */
+/*   Updated: 2021/05/05 15:30:30 by kkalinic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,64 +154,124 @@ void	put_text(int i, t_data *mlx_s, t_wall *wall_s, t_tex *tex)
 	}
 }
 
-void	print_sprite(t_data *mlx_s, t_ray *ray)
+static void	stripe_p(t_data *mlx_s, double *zbuffer, t_s *spr_s)
 {
-	int	stripe;
+	int				texX;
+	int				texY;
+	int				y;
+	int				d;
+	unsigned int	color;
+
+	while (++spr_s->stripe < spr_s->drawEndX)
+	{
+		texX = (int)(256 * (spr_s->stripe - (- spr_s->spriteWidth / 2
+						+ spr_s->spriteScreenX)) * 64 / spr_s->spriteWidth) / 256;
+		if (spr_s->transformY > 0 && spr_s->stripe > 0 && spr_s->stripe
+			< mlx_s->width && spr_s->transformY < zbuffer[spr_s->stripe])
+		{
+			y = spr_s->drawStartY - 1;
+			while (++y < spr_s->drawEndY)
+			{
+				d = (y) * 256 - mlx_s->height * 128 + spr_s->spriteHeight * 128;
+				texY = ((d * 64) / spr_s->spriteHeight) / 256;
+				mlx_pixel_get(mlx_s->tex->sprite, texX, texY, &color);
+				if ((color & 0x00FFFFFF) != 0)
+					my_mlx_pixel_put(mlx_s, spr_s->stripe, y, color);
+			}
+		}
+	}
+}
+
+void	limits(int *start, int *end, int limit)
+{
+	if (*start < 0)
+		*start = 0;
+	if (*end > limit)
+		*end = limit;
+}
+
+void swap(int *a, int *b)
+{
+	int t;
+
+	t = *a;
+	*a = *b;
+	*b = t;
+}
+
+int	partition(int *order, double *dist, int last, int first)
+{
+	double pivot;
 	int i;
+	int j;
+
+	i = first - 1;
+	j = i;
+	pivot = dist[last];
+	while (++j <= (last - 1))
+	{
+		if (dist[j] < pivot)
+		{
+			printf("--------\n");
+			i++;
+			swap(&order[i], &order[j]);
+		}
+	}
+	return (i + 1);
+}
+
+void sortSprites(int *order, double *dist, int last, int first)
+{
+	int pi;
+
+	printf("---%d---%d--\n", );
+	if (first < last)
+	{
+		pi = partition(order, dist, first, last);
+		sortSprites(order, dist, first, pi - 1);
+		sortSprites(order, dist, pi + 1, last);
+	}
+}
+
+void	print_sprite(t_data *mlx_s, t_ray *ray, double *zbuffer)
+{
     //sort sprites from far to close
     //t_sprite mlx_s->sprite[mlx_s->spriteNum];
 	int spriteOrder[mlx_s->spriteNum];
 	double spriteDistance[mlx_s->spriteNum];
-	
+	double spriteX;
+	double spriteY;
+	double invDet;
+	double transformX;
+	t_s spr_s;
+	int i;
+
 	i = -1;
 	while (++i < mlx_s->spriteNum)
 	{
 		spriteOrder[i] = i;
-		spriteDistance[i] = ((ray->pos->x - mlx_s->sprite[i]->x) * (ray->pos->x - mlx_s->sprite[i]->x) + (ray->pos->y - mlx_s->sprite[i]->y) * (ray->pos->y - mlx_s->sprite[i]->y)); //sqrt not taken, unneeded
+		spriteDistance[i] = ((ray->pos->x - mlx_s->sprite[i]->x) * (ray->pos->x - mlx_s->sprite[i]->x) + (ray->pos->y - mlx_s->sprite[i]->y) * (ray->pos->y - mlx_s->sprite[i]->y));
 	}
-	//sortSprites(spriteOrder, spriteDistance, numSprites);
+	sortSprites(spriteOrder, spriteDistance, mlx_s->spriteNum - 1, 0);
 	////after sorting the sprites, do the projection and draw them
 	i = -1;
 	while (++i < mlx_s->spriteNum)
 	{
-		double spriteX = mlx_s->sprite[0]->x - ray->pos->x;
-		double spriteY = mlx_s->sprite[0]->y - ray->pos->y;
-		double invDet = 1.0 / (ray->plane->x * ray->dir->y - ray->dir->x * ray->plane->y); //required for correct matrix multiplication
-		double transformX = invDet * (ray->dir->y * spriteX - ray->dir->x * spriteY);
-		double transformY = invDet * (-ray->plane->y * spriteX + ray->plane->x * spriteY); //this is actually the depth inside the screen, that what Z is in 3D
-		int spriteScreenX = (int)((mlx_s->width / 2) * (1 + transformX / transformY));
-		int spriteHeight = abs((int)(mlx_s->height / (transformY))); //using 'transformY' instead of the real distance prevents fisheye
-		int drawStartY = -spriteHeight / 2 + mlx_s->height / 2;
-		
-		if (drawStartY < 0) drawStartY = 0;
-		int drawEndY = spriteHeight / 2 + mlx_s->height / 2;
-		if (drawEndY >= mlx_s->height) drawEndY = mlx_s->height - 1;
-		int spriteWidth = abs((int)(mlx_s->height / (transformY)));
-		int drawStartX = -spriteWidth / 2 + spriteScreenX;
-		if (drawStartX < 0)
-			drawStartX = 0;
-		int drawEndX = spriteWidth / 2 + spriteScreenX;
-		if (drawEndX >= mlx_s->width)
-			drawEndX = mlx_s->width - 1;
-
-      //loop through every vertical stripe of the sprite on screen
-		stripe = drawStartX - 1;
-		while (++stripe < drawEndX)
-		{
-			int texX = (int)(256 * (stripe - (-spriteWidth / 2 + spriteScreenX)) * 64 / spriteWidth) / 256;
-			if (transformY > 0 && stripe > 0 && stripe < mlx_s->width && transformY < *mlx_s->zbuffer[stripe])
-			{
-          		int y = drawStartY - 1;
-				while (++y < drawEndY) //for every pixel of the current stripe
-				{
-					int d = (y) * 256 - mlx_s->height * 128 + spriteHeight * 128; //256 and 128 factors to avoid floats
-					int texY = ((d * 64) / spriteHeight) / 256;
-					unsigned int color; //get current color from the texture
-					mlx_pixel_get(mlx_s->tex->sprite, texX, texY, &color);
-					if ((color & 0x00FFFFFF) != 0)
-						my_mlx_pixel_put(mlx_s, stripe, y, color); //paint pixel if it isn't black, black is the invisible color
-				}
-			}
-		}
+		spriteX = mlx_s->sprite[spriteOrder[i]]->x - ray->pos->x;
+		spriteY = mlx_s->sprite[spriteOrder[i]]->y - ray->pos->y;
+		invDet = 1.0 / (ray->plane->x * ray->dir->y - ray->dir->x * ray->plane->y);
+		transformX = invDet * (ray->dir->y * spriteX - ray->dir->x * spriteY);
+		spr_s.transformY = invDet * (-ray->plane->y * spriteX + ray->plane->x * spriteY);
+		spr_s.spriteScreenX = (int)((mlx_s->width / 2) * (1 + transformX / spr_s.transformY));
+		spr_s.spriteHeight = abs((int)(mlx_s->height / (spr_s.transformY)));
+		spr_s.drawStartY = -spr_s.spriteHeight / 2 + mlx_s->height / 2;
+		spr_s.drawEndY = spr_s.spriteHeight / 2 + mlx_s->height / 2;
+		limits(&spr_s.drawStartY, &spr_s.drawEndY, mlx_s->height - 1);
+		spr_s.spriteWidth = abs((int)(mlx_s->height / (spr_s.transformY)));
+		spr_s.drawStartX = -spr_s.spriteWidth / 2 + spr_s.spriteScreenX;
+		spr_s.drawEndX = spr_s.spriteWidth / 2 + spr_s.spriteScreenX;
+		limits(&spr_s.drawStartX, &spr_s.drawEndX, mlx_s->width - 1);
+		spr_s.stripe = spr_s.drawStartX - 1;
+		stripe_p(mlx_s, zbuffer, &spr_s);
 	}
 }

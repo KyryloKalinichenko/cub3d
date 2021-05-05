@@ -117,6 +117,8 @@ t_sprite	*s_place(char **map)
 	j = -1;
 	count = 0;
 	here = malloc(sizeof(t_sprite));
+	if (!here)
+		malloc_error();
 	while (map[++i])
 	{	
 		while (map[i][++j])

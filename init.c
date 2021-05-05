@@ -20,6 +20,9 @@
 
 static void	init_mlx(t_data *mlx_s)
 {
+	int i;
+
+	i = -1;
 	mlx_s->mlx = mlx_init();
 	mlx_s->mlx_win = mlx_new_window(mlx_s->mlx,
 			mlx_s->width, mlx_s->height, "The cub is here!");
@@ -28,10 +31,11 @@ static void	init_mlx(t_data *mlx_s)
 			&mlx_s->bits_per_pixel, &mlx_s->line_length, &mlx_s->endian);
 	mlx_s->zbuffer = malloc(sizeof(double *) * mlx_s->width);
 	mlx_s->spriteNum = s_count(mlx_s->map_s->map);
-	mlx_s->sprite = malloc(sizeof(t_sprite *));
+	mlx_s->sprite = malloc(sizeof(t_sprite *) * mlx_s->spriteNum);
 	if (!mlx_s->sprite || !mlx_s->zbuffer)
 		malloc_error();
-	mlx_s->sprite[0] = s_place(mlx_s->map_s->map);
+	while (++i < mlx_s->spriteNum)
+		mlx_s->sprite[i] = s_place(mlx_s->map_s->map);
 }
 
 /*

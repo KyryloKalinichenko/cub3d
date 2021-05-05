@@ -207,6 +207,18 @@ typedef struct s_sprite
 	t_tex	*tex;
 }				t_sprite;
 
+typedef struct s_s
+{
+	double transformY;
+	int spriteScreenX;
+	int spriteHeight;
+	int drawStartY;
+	int drawEndY;
+	int spriteWidth;
+	int drawStartX;
+	int drawEndX;
+	int	stripe;
+}				t_s;
 /*
 ** The main structure to store all necessary data for displaying an image.
 */
@@ -279,7 +291,7 @@ void				mlx_pixel_get(t_tex *data, int x,
 void				textures(t_data *mlx_s, t_sides *tex);
 int					ft_strcmp(const char *s1, const char *s2);
 void				print_floor(t_data *mlx_s, t_ray *ray);
-void				print_sprite(t_data *mlx_s, t_ray *ray);
+void				print_sprite(t_data *mlx_s, t_ray *ray, double *zbuffer);
 int					s_count(char **map);
 t_sprite			*s_place(char **map);
 void				save_image(t_data *mlx_s);
