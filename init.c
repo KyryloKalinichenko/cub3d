@@ -34,8 +34,7 @@ static void	init_mlx(t_data *mlx_s)
 	mlx_s->sprite = malloc(sizeof(t_sprite *) * mlx_s->spriteNum);
 	if (!mlx_s->sprite || !mlx_s->zbuffer)
 		malloc_error();
-	while (++i < mlx_s->spriteNum)
-		mlx_s->sprite[i] = s_place(mlx_s->map_s->map);
+	s_place(mlx_s->map_s->map, mlx_s->sprite);
 }
 
 /*

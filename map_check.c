@@ -106,31 +106,32 @@ int	s_count(char **map)
 	return (count);
 }
 
-t_sprite	*s_place(char **map)
+void	s_place(char **map, t_sprite **sprites)
 {
 	int			i;
 	int			j;
-	int			count;
+	int			n;
 	t_sprite	*here;
 
 	i = -1;
 	j = -1;
-	count = 0;
-	here = malloc(sizeof(t_sprite));
-	if (!here)
-		malloc_error();
+	n = 0;
 	while (map[++i])
-	{	
+	{
 		while (map[i][++j])
 		{
 			if (map[i][j] == '2')
 			{
+				here = malloc(sizeof(t_sprite));
+				if (!here)
+					malloc_error();
 				here->x = j + 0.5;
 				here->y = i + 0.5;
-				count++;
+				here->tex = NULL;
+				sprites[n] = here;
+				n++;
 			}
 		}
 		j = -1;
 	}
-	return (here);
 }

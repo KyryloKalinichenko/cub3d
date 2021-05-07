@@ -6,7 +6,7 @@
 /*   By: kkalinic <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/13 10:33:01 by kkalinic          #+#    #+#             */
-/*   Updated: 2021/05/05 15:30:30 by kkalinic         ###   ########.fr       */
+/*   Updated: 2021/05/07 16:52:45 by kkalinic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,8 +164,9 @@ static void	stripe_p(t_data *mlx_s, double *zbuffer, t_s *spr_s)
 
 	while (++spr_s->stripe < spr_s->drawEndX)
 	{
-		texX = (int)(256 * (spr_s->stripe - (- spr_s->spriteWidth / 2
-						+ spr_s->spriteScreenX)) * 64 / spr_s->spriteWidth) / 256;
+		texX = (int )(256 * (spr_s->stripe - (-spr_s->spriteWidth / 2
+						+ spr_s->spriteScreenX)) * 64
+				/ spr_s->spriteWidth) / 256;
 		if (spr_s->transformY > 0 && spr_s->stripe > 0 && spr_s->stripe
 			< mlx_s->width && spr_s->transformY < zbuffer[spr_s->stripe])
 		{
@@ -190,79 +191,47 @@ void	limits(int *start, int *end, int limit)
 		*end = limit;
 }
 
-void swap(int *a, int *b)
+int	*sort_sp(t_data *mlx_s, t_ray *ray)
 {
-	int t;
+	int		i;
+	int		*spOrder;
+	double	*spDist;
 
-	t = *a;
-	*a = *b;
-	*b = t;
-}
-
-int	partition(int *order, double *dist, int last, int first)
-{
-	double pivot;
-	int i;
-	int j;
-
-	i = first - 1;
-	j = i;
-	pivot = dist[last];
-	while (++j <= (last - 1))
+	i = -1;
+	spOrder = malloc(sizeof(int) * mlx_s->spriteNum);
+	spDist = malloc(sizeof(double) * mlx_s->spriteNum);
+	if (!spOrder || !spDist)
+		malloc_error();
+	while (++i < mlx_s->spriteNum)
 	{
-		if (dist[j] < pivot)
-		{
-			printf("--------\n");
-			i++;
-			swap(&order[i], &order[j]);
-		}
+		spOrder[i] = i;
+		spDist[i] = ((ray->pos->x - mlx_s->sprite[i]->x)
+				* (ray->pos->x - mlx_s->sprite[i]->x)
+				+ (ray->pos->y - mlx_s->sprite[i]->y)
+				* (ray->pos->y - mlx_s->sprite[i]->y));
 	}
-	return (i + 1);
-}
-
-void sortSprites(int *order, double *dist, int last, int first)
-{
-	int pi;
-
-	printf("---%d---%d--\n", );
-	if (first < last)
-	{
-		pi = partition(order, dist, first, last);
-		sortSprites(order, dist, first, pi - 1);
-		sortSprites(order, dist, pi + 1, last);
-	}
+	mergeSort(spDist, spOrder, 0, mlx_s->spriteNum - 1);
+	free(spDist);
+	return (spOrder);
 }
 
 void	print_sprite(t_data *mlx_s, t_ray *ray, double *zbuffer)
 {
-    //sort sprites from far to close
-    //t_sprite mlx_s->sprite[mlx_s->spriteNum];
-	int spriteOrder[mlx_s->spriteNum];
-	double spriteDistance[mlx_s->spriteNum];
-	double spriteX;
-	double spriteY;
-	double invDet;
-	double transformX;
-	t_s spr_s;
-	int i;
+	t_s		spr_s;
+	int		i;
+	int		*spOrder;
+	t_doub	db;
 
-	i = -1;
-	while (++i < mlx_s->spriteNum)
+	i = mlx_s->spriteNum;
+	spOrder = sort_sp(mlx_s, ray);
+	while (--i >= 0)
 	{
-		spriteOrder[i] = i;
-		spriteDistance[i] = ((ray->pos->x - mlx_s->sprite[i]->x) * (ray->pos->x - mlx_s->sprite[i]->x) + (ray->pos->y - mlx_s->sprite[i]->y) * (ray->pos->y - mlx_s->sprite[i]->y));
-	}
-	sortSprites(spriteOrder, spriteDistance, mlx_s->spriteNum - 1, 0);
-	////after sorting the sprites, do the projection and draw them
-	i = -1;
-	while (++i < mlx_s->spriteNum)
-	{
-		spriteX = mlx_s->sprite[spriteOrder[i]]->x - ray->pos->x;
-		spriteY = mlx_s->sprite[spriteOrder[i]]->y - ray->pos->y;
-		invDet = 1.0 / (ray->plane->x * ray->dir->y - ray->dir->x * ray->plane->y);
-		transformX = invDet * (ray->dir->y * spriteX - ray->dir->x * spriteY);
-		spr_s.transformY = invDet * (-ray->plane->y * spriteX + ray->plane->x * spriteY);
-		spr_s.spriteScreenX = (int)((mlx_s->width / 2) * (1 + transformX / spr_s.transformY));
+		db.spriteX = mlx_s->sprite[spOrder[i]]->x - ray->pos->x;
+		db.spriteY = mlx_s->sprite[spOrder[i]]->y - ray->pos->y;
+		db.invDet = 1.0 / (ray->plane->x * ray->dir->y - ray->dir->x * ray->plane->y);
+		db.transformX = db.invDet * (ray->dir->y * db.spriteX - ray->dir->x * db.spriteY);
+		spr_s.transformY = db.invDet * (-ray->plane->y * db.spriteX + ray->plane->x * db.spriteY);
+		spr_s.spriteScreenX = (int)((mlx_s->width / 2) * (1 + db.transformX / spr_s.transformY));
 		spr_s.spriteHeight = abs((int)(mlx_s->height / (spr_s.transformY)));
 		spr_s.drawStartY = -spr_s.spriteHeight / 2 + mlx_s->height / 2;
 		spr_s.drawEndY = spr_s.spriteHeight / 2 + mlx_s->height / 2;
@@ -274,4 +243,5 @@ void	print_sprite(t_data *mlx_s, t_ray *ray, double *zbuffer)
 		spr_s.stripe = spr_s.drawStartX - 1;
 		stripe_p(mlx_s, zbuffer, &spr_s);
 	}
+	free(spOrder);
 }

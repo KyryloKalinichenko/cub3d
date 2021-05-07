@@ -6,7 +6,7 @@
 /*   By: kkalinic <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/05 11:19:34 by kkalinic          #+#    #+#             */
-/*   Updated: 2021/05/05 11:42:11 by kkalinic         ###   ########.fr       */
+/*   Updated: 2021/05/07 16:54:45 by kkalinic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ void	turn_start(t_ray *ray, char c)
 	}
 	else if (c == 'E')
 	{
-		ray->dir->x = -FOV;
+		ray->dir->x = -1;
 		ray->dir->y = 0;
 		ray->plane->x = 0;
 		ray->plane->y = 0.66;

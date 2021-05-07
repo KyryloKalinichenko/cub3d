@@ -1,33 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cub_head.h                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kkalinic <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/05/07 15:24:06 by kkalinic          #+#    #+#             */
+/*   Updated: 2021/05/07 15:26:26 by kkalinic         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef CUB_HEAD_H
 # define CUB_HEAD_H
 
-# ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 10
-# endif
-
-# define DOWN 125
-# define TLEFT 123
-# define TRIGHT 124
-# define FORTH 13
-# define BACK 1
-# define LEFT 0
-# define RIGHT 2
-
-# define NO 1
-# define SO 2
-# define WE 4
-# define EA 8
-# define C 16
-# define F 32
-# define S 64
-
-# define ESC 53
-
+# define BUFFER_SIZE 10
 # define PI 3.14159265359
-# define FOV (PI / 4)
-# define SPEED 0.2
-# define MSPEED 0.1
-# define MINIMAP_S 5
 
 # define TEXTWIDTH 64
 # define TEXTHEIGHT 64
@@ -38,6 +25,7 @@
 # include "./mlx.h"
 # include <unistd.h>
 # include <fcntl.h>
+# include "val.h"
 
 /*
 ** Structure for GNL.
@@ -47,6 +35,14 @@ typedef struct s_list
 	void	*con;
 	char	*tmp;
 }					t_list;
+
+typedef struct s_doub
+{
+	double	spriteX;
+	double	spriteY;
+	double	invDet;
+	double	transformX;
+}					t_doub;
 
 typedef struct s_point
 {
@@ -173,10 +169,11 @@ typedef struct s_cel
 typedef struct s_wall
 {
 	double	perpWallDist;
-    double	lineHeight;
-    int		drawEnd;
+	double	lineHeight;
+	int		drawEnd;
 	int		drawStart;
 }				t_wall;
+
 /*
 ** The structure to save all necessary data for texture 
 **
@@ -209,15 +206,15 @@ typedef struct s_sprite
 
 typedef struct s_s
 {
-	double transformY;
-	int spriteScreenX;
-	int spriteHeight;
-	int drawStartY;
-	int drawEndY;
-	int spriteWidth;
-	int drawStartX;
-	int drawEndX;
-	int	stripe;
+	double	transformY;
+	int		spriteScreenX;
+	int		spriteHeight;
+	int		drawStartY;
+	int		drawEndY;
+	int		spriteWidth;
+	int		drawStartX;
+	int		drawEndX;
+	int		stripe;
 }				t_s;
 /*
 ** The main structure to store all necessary data for displaying an image.
@@ -293,14 +290,16 @@ int					ft_strcmp(const char *s1, const char *s2);
 void				print_floor(t_data *mlx_s, t_ray *ray);
 void				print_sprite(t_data *mlx_s, t_ray *ray, double *zbuffer);
 int					s_count(char **map);
-t_sprite			*s_place(char **map);
+void				s_place(char **map, t_sprite **sprites);
 void				save_image(t_data *mlx_s);
 void				mlx_pixel_get_2(t_data *data, int x, int y, int *color);
 void				tab_free(char **tab);
 int					height_count(char *file, t_data *mlx_s);
-void					read_r(char **tab, t_data *mlx_s);
+void				read_r(char **tab, t_data *mlx_s);
 int					line_check(char *line);
 int					char_check(char c);
 void				wrong_flag(void);
+void				merge(double *arr, int *ord, int l, int m, int r);
+void 				mergeSort(double *arr, int *ord, int l, int r);
 
 #endif 
