@@ -39,3 +39,11 @@ int	ft_get_b(int m)
 {
 	return (0x00000000 | ((m) & 0xFFFFFFFF));
 }
+
+void	limits(int *start, int *end, int limit)
+{
+	if (*start < 0)
+		*start = 0;
+	if (*end > limit)
+		*end = limit;
+}

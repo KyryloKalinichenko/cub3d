@@ -18,14 +18,18 @@ SRCS			=	cub3d.c \
 					pixel_move.c \
 					sort.c \
 					parsing.c \
-					tools.c
+					tools.c \
+					extra_cheking.c \
+					sprites.c \
+					turns.c	\
+					start_pos.c
 					
 
 OBJS			= $(SRCS:.c=.o)
 
 CC				= gcc
 RM				= rm -f
-CFLAGS			= -O3 -Wall -Wextra -Werror -I.
+CFLAGS			= -O3 -Wall -Wextra -Werror -I. -D FLOOR=1
 LIBS			= -Lmlx -lmlx -framework OpenGL -framework AppKit -lm
 MLX				=  libmlx.a
 

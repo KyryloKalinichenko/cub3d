@@ -13,63 +13,6 @@
 #include "headers/cub_head.h"
 
 /*
-** Two following functions performs players movements
-** and ensures that there is no wall on the way. 
-**
-*/
-
-static void	back_forth(t_data *mlx_s, int keycode)
-{
-	if (keycode == FORTH)
-	{
-		if (mlx_s->map_s->map[(int)(mlx_s->ray->pos->y + mlx_s->ray->dir->y
-				* (MSPEED + 0.1))][(int)(mlx_s->ray->pos->x)] == '0')
-			mlx_s->ray->pos->y += mlx_s->ray->dir->y * MSPEED;
-		if (mlx_s->map_s->map[(int)(mlx_s->ray->pos->y)][(int)
-			(mlx_s->ray->pos->x + mlx_s->ray->dir->x * (MSPEED + 0.1))] == '0')
-			mlx_s->ray->pos->x += mlx_s->ray->dir->x * MSPEED;
-	}
-	else if (keycode == BACK)
-	{
-		if (mlx_s->map_s->map[(int)(mlx_s->ray->pos->y - mlx_s->ray->dir->y
-				* (MSPEED + 0.1))][(int)(mlx_s->ray->pos->x)] == '0')
-			mlx_s->ray->pos->y -= mlx_s->ray->dir->y * MSPEED;
-		if (mlx_s->map_s->map[(int)(mlx_s->ray->pos->y)][(int)
-			(mlx_s->ray->pos->x - mlx_s->ray->dir->x * (MSPEED + 0.1))] == '0')
-			mlx_s->ray->pos->x -= mlx_s->ray->dir->x * MSPEED;
-	}
-}
-
-static void	left_right(t_data *mlx_s, int keycode, char **map)
-{
-	double	r_p_x;
-	double	r_p_y;
-	double	r_d_x;
-	double	r_d_y;
-
-	r_d_x = mlx_s->ray->dir->x;
-	r_d_y = mlx_s->ray->dir->y;
-	r_p_x = mlx_s->ray->pos->x;
-	r_p_y = mlx_s->ray->pos->y;
-	if (keycode == LEFT)
-	{
-		if (map[(int)(r_p_y + r_d_x * (MSPEED))][(int)(r_p_x)] == '0')
-			mlx_s->ray->pos->y += r_d_x * MSPEED;
-		if (map[(int)(r_p_y)]
-				[(int)(r_p_x - r_d_y * (MSPEED))] == '0')
-			mlx_s->ray->pos->x -= r_d_y * MSPEED;
-	}
-	else if (keycode == RIGHT)
-	{
-		if (map[(int)(r_p_y - r_d_x * (MSPEED + 0.1))]
-			[(int)(r_p_x)] == '0')
-			mlx_s->ray->pos->y -= r_d_x * MSPEED;
-		if (map[(int)(r_p_y)][(int)(r_p_x + r_d_y * (MSPEED))] == '0')
-			mlx_s->ray->pos->x += r_d_y * MSPEED;
-	}
-}
-
-/*
 ** The \"move\" function is calling when any key are pressed,
 ** implement changes and call the functions to update the frame.
 **

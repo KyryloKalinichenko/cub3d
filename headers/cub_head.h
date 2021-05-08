@@ -6,7 +6,7 @@
 /*   By: kkalinic <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/07 15:24:06 by kkalinic          #+#    #+#             */
-/*   Updated: 2021/05/07 15:26:26 by kkalinic         ###   ########.fr       */
+/*   Updated: 2021/05/08 17:56:46 by kkalinic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -299,13 +299,21 @@ void				read_r(char **tab, t_data *mlx_s);
 int					line_check(char *line);
 int					char_check(char c);
 void				wrong_flag(void);
-void				merge(double *arr, int *ord, int l, int m, int r);
-void 				mergeSort(double *arr, int *ord, int l, int r);
+
 void				bubbleSort(double *arr, int *ord, int n);
 void				parsing_map(char *file, t_data *mlx_s);
-void	ft_bzero(void *s, size_t n);
-int	ft_get_r(int m);
-int	ft_get_g(int m);
-int	ft_get_b(int m);
+void				ft_bzero(void *s, size_t n);
+int					ft_get_r(int m);
+int					ft_get_g(int m);
+int					ft_get_b(int m);
+void				limits(int *start, int *end, int limit);
+void				textures(t_data *mlx_s, t_sides *tex);
+void				print_sprite(t_data *mlx_s, t_ray *ray, double *zbuffer);
+t_sprite			*put_s_place(int i, int j);
+void				turn_start(t_ray *ray, char c);
+void				turn_start2(t_ray *ray, char c);
+void				load(t_ray *ray, t_point *start);
+void				back_forth(t_data *mlx_s, int keycode);
+void				left_right(t_data *mlx_s, int keycode, char **map);
 
 #endif 

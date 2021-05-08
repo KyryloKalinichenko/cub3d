@@ -32,5 +32,8 @@
 # define MSPEED 0.1
 # define MINIMAP_S 5
 # define ESC 53
+# ifndef FLOOR
+#  define FLOOR 0
+# endif
 
 #endif
