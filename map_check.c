@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub_head.h"
+#include "headers/cub_head.h"
 
 static void	check_first_last(char *line)
 {

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub_head.h"
+#include "headers/cub_head.h"
 
 /*
 ** in_tab is looking for particular lines and strings

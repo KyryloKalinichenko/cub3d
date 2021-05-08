@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub_head.h"
+#include "headers/cub_head.h"
 
 static void	ft_draw_right_line(t_data *mlx_s, double delta, t_line vector)
 {

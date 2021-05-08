@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub_head.h"
+#include "headers/cub_head.h"
 
 /*
 ** Two following functions performs players movements

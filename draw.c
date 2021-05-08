@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub_head.h"
+#include "headers/cub_head.h"
 
 void	print_back(int drawStart, int drawEnd, int x, t_data *mlx_s)
 {

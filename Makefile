@@ -3,10 +3,10 @@ SRCS			=	cub3d.c \
 					get_next_line/get_next_line_bonus.c \
 					get_next_line/get_next_line_utils_bonus.c \
 					init.c \
-					ft_atoi.c \
-					ft_split.c \
-					ft_isdigit.c \
-					ft_strlcpy.c \
+					old_lib/ft_atoi.c \
+					old_lib/ft_split.c \
+					old_lib/ft_isdigit.c \
+					old_lib/ft_strlcpy.c \
 					draw.c \
 					print_player.c \
 					ray_fun.c \
@@ -16,7 +16,9 @@ SRCS			=	cub3d.c \
 					save_image.c \
 					height_count.c \
 					pixel_move.c \
-					sort.c
+					sort.c \
+					parsing.c \
+					tools.c
 					
 
 OBJS			= $(SRCS:.c=.o)

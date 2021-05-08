@@ -6,11 +6,11 @@
 /*   By: kkalinic <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/04 16:48:29 by kkalinic          #+#    #+#             */
-/*   Updated: 2021/05/04 17:31:29 by kkalinic         ###   ########.fr       */
+/*   Updated: 2021/05/08 16:36:08 by kkalinic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub_head.h"
+#include "headers/cub_head.h"
 
 /*
 ** init_mlx make a connection to the display and create 
@@ -20,7 +20,7 @@
 
 static void	init_mlx(t_data *mlx_s)
 {
-	int i;
+	int	i;
 
 	i = -1;
 	mlx_s->mlx = mlx_init();
@@ -86,96 +86,6 @@ void	read_r(char **tab, t_data *mlx_s)
 	if (!mlx_s->width || !mlx_s->height)
 		map_err();
 	res_test(mlx_s);
-}
-
-/*
-** Count height of the map. Return int. 
-**
-*/
-
-int	ft_strcmp(const char *s1, const char *s2)
-{
-	while (*s1 && *s2 && *s1 == *s2)
-	{
-		s1++;
-		s2++;
-	}
-	return ((unsigned char)*s1 - (unsigned char)*s2);
-}
-
-int	char_check(char c)
-{
-	char	*here;
-	int		i;
-
-	here = "012WSEN ";
-	i = -1;
-	while (here[++i])
-	{
-		if (here[i] == c)
-			return (1);
-	}
-	return (0);
-}
-
-int	line_check(char *line)
-{
-	int	i;
-
-	i = -1;
-	while (line[++i])
-	{
-		if (!char_check(line[i]))
-			return (0);
-	}
-	return (1);
-}
-
-/*
-** The main parsing function. 
-**
-*/
-
-static int	parsing_map(char *file, t_data *mlx_s)
-{
-	int		fd;
-	int		i;
-	char	**map;
-	int		f;
-
-	i = 0;
-	fd = open(file, O_RDONLY);
-	if (!fd)
-		no_file();
-	if ((mlx_s->map_s->mapY
-			= (height_count(file, mlx_s))) == 2 || mlx_s->map_s->mapY < 3)
-		map_err();
-	mlx_s->map_s->height = mlx_s->height / (mlx_s->map_s->mapY * MINIMAP_S);
-	map = malloc(sizeof(char *) * mlx_s->map_s->mapY + 1);
-	if (!map)
-		malloc_error();
-	mlx_s->map_s->map = map;
-	while (get_next_line(fd, &map[i]))
-	{
-		if (ft_strcmp(map[i], "") && line_check(map[i]))
-			break ;
-		free(map[i]);
-	}
-	mlx_s->map_s->mapX = ft_strlen(map[i]);
-	f = (mlx_s->map_s->mapY + i - 1);
-	if (f == i)
-		map_err();
-	while (f != i)
-	{
-		get_next_line(fd, &map[++i]);
-		if (mlx_s->map_s->mapX < (int)ft_strlen(map[i]))
-			mlx_s->map_s->mapX = ft_strlen(map[i]);
-	}
-	map[i] = NULL;
-	mlx_s->map_s->mapS = mlx_s->map_s->mapX * mlx_s->map_s->mapY;
-	mlx_s->map_s->width = mlx_s->width / (mlx_s->map_s->mapX * 4);
-	close (fd);
-	return (0);
 }
 
 int	init(t_data *mlx_s, char *file)

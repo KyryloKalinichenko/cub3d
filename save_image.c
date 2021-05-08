@@ -10,20 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub_head.h"
-
-static void	ft_bzero(void *s, size_t n)
-{
-	unsigned char	*n_s;
-
-	n_s = s;
-	while (n)
-	{
-		*n_s = 0;
-		n_s++;
-		n--;
-	}
-}
+#include "headers/cub_head.h"
 
 static void	init_header(int fd, int size)
 {
@@ -57,21 +44,6 @@ static void	init_infoheader(int fd, int height, int width)
 	info_header[12] = (unsigned char)(1);
 	info_header[14] = (unsigned char)(24);
 	write(fd, info_header, sizeof(info_header));
-}
-
-int	ft_get_r(int m)
-{
-	return (0x00000000 | ((m >> 16) & 0xFFFFFFFF));
-}
-
-int	ft_get_g(int m)
-{
-	return (0x00000000 | ((m >> 8) & 0xFFFFFFFF));
-}
-
-int	ft_get_b(int m)
-{
-	return (0x00000000 | ((m) & 0xFFFFFFFF));
 }
 
 static void	put_color(int fd, int color)
@@ -125,6 +97,7 @@ void	save_image(t_data *mlx_s)
 		cond(mlx_s, i, fd);
 	if (close(fd) < 0)
 		printf("Close fail\n");
-	printf("BMP file saved!\n"); 
+	else
+		printf("BMP file saved!\n");
 	exit(EXIT_SUCCESS);
 }

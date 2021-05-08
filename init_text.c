@@ -6,11 +6,11 @@
 /*   By: kkalinic <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/13 10:33:01 by kkalinic          #+#    #+#             */
-/*   Updated: 2021/05/07 16:52:45 by kkalinic         ###   ########.fr       */
+/*   Updated: 2021/05/08 16:20:43 by kkalinic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub_head.h"
+#include "headers/cub_head.h"
 
 static int	get_col(char *line)
 {
@@ -210,9 +210,24 @@ int	*sort_sp(t_data *mlx_s, t_ray *ray)
 				+ (ray->pos->y - mlx_s->sprite[i]->y)
 				* (ray->pos->y - mlx_s->sprite[i]->y));
 	}
-	mergeSort(spDist, spOrder, 0, mlx_s->spriteNum - 1);
+	bubbleSort(spDist, spOrder, mlx_s->spriteNum);
 	free(spDist);
 	return (spOrder);
+}
+
+void	extra_sp(t_doub *db, t_data *mlx_s, t_ray *ray, t_s *spr_s)
+{
+	db->invDet = 1.0 / (ray->plane->x
+			* ray->dir->y - ray->dir->x * ray->plane->y);
+	db->transformX = db->invDet
+		* (ray->dir->y * db->spriteX - ray->dir->x * db->spriteY);
+	spr_s->transformY = db->invDet
+		* (-ray->plane->y * db->spriteX + ray->plane->x * db->spriteY);
+	spr_s->spriteScreenX = (int)((mlx_s->width / 2)
+			* (1 + db->transformX / spr_s->transformY));
+	spr_s->spriteHeight = abs((int)(mlx_s->height / (spr_s->transformY)));
+	spr_s->drawStartY = -spr_s->spriteHeight / 2 + mlx_s->height / 2;
+	spr_s->drawEndY = spr_s->spriteHeight / 2 + mlx_s->height / 2;
 }
 
 void	print_sprite(t_data *mlx_s, t_ray *ray, double *zbuffer)
@@ -228,13 +243,7 @@ void	print_sprite(t_data *mlx_s, t_ray *ray, double *zbuffer)
 	{
 		db.spriteX = mlx_s->sprite[spOrder[i]]->x - ray->pos->x;
 		db.spriteY = mlx_s->sprite[spOrder[i]]->y - ray->pos->y;
-		db.invDet = 1.0 / (ray->plane->x * ray->dir->y - ray->dir->x * ray->plane->y);
-		db.transformX = db.invDet * (ray->dir->y * db.spriteX - ray->dir->x * db.spriteY);
-		spr_s.transformY = db.invDet * (-ray->plane->y * db.spriteX + ray->plane->x * db.spriteY);
-		spr_s.spriteScreenX = (int)((mlx_s->width / 2) * (1 + db.transformX / spr_s.transformY));
-		spr_s.spriteHeight = abs((int)(mlx_s->height / (spr_s.transformY)));
-		spr_s.drawStartY = -spr_s.spriteHeight / 2 + mlx_s->height / 2;
-		spr_s.drawEndY = spr_s.spriteHeight / 2 + mlx_s->height / 2;
+		extra_sp(&db, mlx_s, ray, &spr_s);
 		limits(&spr_s.drawStartY, &spr_s.drawEndY, mlx_s->height - 1);
 		spr_s.spriteWidth = abs((int)(mlx_s->height / (spr_s.transformY)));
 		spr_s.drawStartX = -spr_s.spriteWidth / 2 + spr_s.spriteScreenX;

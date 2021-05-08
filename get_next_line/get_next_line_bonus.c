@@ -12,7 +12,7 @@
 
 #include <unistd.h>
 #include <fcntl.h>
-#include "../cub_head.h"
+#include "../headers/cub_head.h"
 
 char				*ft_strcat(char *dest, const char *src)
 {
