@@ -239,9 +239,10 @@ typedef struct s_data
 	char		**side[8];
 	int			cel;
 	int			floor;
-	double		**zbuffer;
+	double		*zbuffer;
 	short		spriteNum;
 	t_sprite	**sprite;
+	short		fl;
 }					t_data;
 
 int					get_next_line(int fd, char **line);
@@ -315,5 +316,9 @@ void				turn_start2(t_ray *ray, char c);
 void				load(t_ray *ray, t_point *start);
 void				back_forth(t_data *mlx_s, int keycode);
 void				left_right(t_data *mlx_s, int keycode, char **map);
+int	ft_iswhitespace(char c);
+int	ft_isstrwhitespace(char c);
+int	ft_isotherwhitespace(char c);
+void	error(int code);
 
 #endif 

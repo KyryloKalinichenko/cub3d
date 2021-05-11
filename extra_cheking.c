@@ -23,7 +23,7 @@ static int	get_col(char *line)
 	tab = ft_split(line, ',');
 	i = -1;
 	if (!tab)
-		malloc_error();
+		error(1);
 	while (tab[++i])
 	{
 		if (i == 0)
@@ -33,7 +33,8 @@ static int	get_col(char *line)
 		else if (i == 2)
 			b = ft_atoi(tab[i]);
 	}
-	if (i > 3 || i < 3 || r < 0 || g < 0 || b < 0)
+	if (i > 3 || i < 3 || r <= 0 || g <= 0 || b <= 0
+	|| r > 255 || g > 255|| b > 255)
 		map_err();
 	tab_free(tab);
 	return (create_trgb(0, r, g, b));

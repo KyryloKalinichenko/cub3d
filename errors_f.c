@@ -41,3 +41,12 @@ void	map_err(void)
 	printf("Bad map!\n");
 	exit(EXIT_FAILURE);
 }
+void	error(int code)
+{
+	if (code == 1)
+		printf("Malloc error!\n");
+	else if (code == 2)
+		printf("Bad map!\n");
+	else if (code == 3)
+		printf("No such a file or directory!\n");
+}

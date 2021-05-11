@@ -62,7 +62,7 @@ void	dda(t_ray *ray, t_data *mlx_s)
 	}
 }
 
-int	main_image(t_data *mlx_s, t_ray *ray, int i)
+double	main_image(t_data *mlx_s, t_ray *ray, int i)
 {
 	t_wall	wall;
 	t_tex	*tex;
@@ -105,12 +105,12 @@ static void	calc(t_ray *ray, int i, t_data *mlx_s)
 void	ray_fun(t_data *mlx_s, t_ray *ray)
 {
 	int		i;
-	double	*zbuffer;
+	//double	*zbuffer;
 
 	i = -1;
-	if (!(zbuffer
-			= malloc(sizeof(double) * mlx_s->width)))
-		malloc_error();
+	//if (!(zbuffer
+		//	= malloc(sizeof(double) * mlx_s->width)))
+		//error(1);
 	if (FLOOR)
 		print_floor(mlx_s, ray);
 	while (++i < mlx_s->width)
@@ -120,7 +120,8 @@ void	ray_fun(t_data *mlx_s, t_ray *ray)
 		calc(ray, i, mlx_s);
 		first_step(ray);
 		dda(ray, mlx_s);
-		zbuffer[i] = main_image(mlx_s, ray, i);
+		mlx_s->zbuffer[i] = main_image(mlx_s, ray, i);
+		//printf("%5f\n", mlx_s->zbuffer[i]);
 	}
-	print_sprite(mlx_s, mlx_s->ray, zbuffer);
+	print_sprite(mlx_s, mlx_s->ray, mlx_s->zbuffer);
 }

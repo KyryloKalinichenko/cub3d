@@ -21,14 +21,14 @@ t_tex	*init_text(t_data *mlx_s, char *path, t_tex *tex)
 	width = mlx_s->width;
 	tex = malloc(sizeof(t_tex));
 	if (!tex)
-		malloc_error();
+		error(1);
 	if (!(tex->img
 			= mlx_xpm_file_to_image(mlx_s->mlx, path, &width, &height)))
-		malloc_error();
+		error(1);
 	if (!(tex->addr
 			= mlx_get_data_addr(tex->img,
 				&tex->bits_per_pixel, &tex->line_length, &tex->endian)))
-		malloc_error();
+		error(1);
 	return (tex);
 }
 

@@ -96,7 +96,7 @@ t_sprite	*put_s_place(int i, int j)
 
 	here = malloc(sizeof(t_sprite));
 	if (!here)
-		malloc_error();
+		error(1);
 	here->x = j + 0.5;
 	here->y = i + 0.5;
 	here->tex = NULL;

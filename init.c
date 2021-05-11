@@ -33,7 +33,7 @@ static void	init_mlx(t_data *mlx_s)
 	mlx_s->spriteNum = s_count(mlx_s->map_s->map);
 	mlx_s->sprite = malloc(sizeof(t_sprite *) * mlx_s->spriteNum);
 	if (!mlx_s->sprite || !mlx_s->zbuffer)
-		malloc_error();
+		error(1);
 	s_place(mlx_s->map_s->map, mlx_s->sprite);
 }
 
@@ -44,7 +44,7 @@ static void	init_mlx(t_data *mlx_s)
 
 static int	num(char *str)
 {
-	while (*str && ft_isdigit(*str))
+	while (*str && (ft_isdigit(*str) || ft_iswhitespace(*str)))
 		str++;
 	if (*str)
 		map_err();
@@ -69,7 +69,7 @@ void	read_r(char **tab, t_data *mlx_s)
 {
 	int	i;
 
-	if (mlx_s->width != 0 || mlx_s->height != 0)
+	if (!tab[1] || !tab[2] || mlx_s->width != 0 || mlx_s->height != 0)
 		map_err();
 	i = -1;
 	while (tab[++i])
@@ -98,7 +98,7 @@ int	init(t_data *mlx_s, char *file)
 	mlx_s->tex = malloc(sizeof(t_sides));
 	map_s->start = malloc(sizeof(t_point));
 	if (!map_s || !ray || !mlx_s->tex || !map_s->start)
-		malloc_error();
+		error(1);
 	map_s->start->y = -1;
 	map_s->start->x = -1;
 	mlx_s->map_s = map_s;

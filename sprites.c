@@ -20,11 +20,14 @@ static void	stripe_p(t_data *mlx_s, double *zbuffer, t_s *spr_s)
 	int				d;
 	unsigned int	color;
 
-	while (++spr_s->stripe < spr_s->drawEndX)
+	while (spr_s->stripe < spr_s->drawEndX)
 	{
 		texX = (int )(256 * (spr_s->stripe - (-spr_s->spriteWidth / 2
 						+ spr_s->spriteScreenX)) * 64
 				/ spr_s->spriteWidth) / 256;
+		//printf("%5d%5d%5d%5d\n", spr_s->transformY > 0, spr_s->stripe > 0, spr_s->stripe
+		//	< mlx_s->width, spr_s->transformY < zbuffer[spr_s->stripe]);
+		//printf("zb %5f transformY %5f stripe %5d\n", zbuffer[spr_s->stripe], spr_s->transformY, spr_s->stripe);
 		if (spr_s->transformY > 0 && spr_s->stripe > 0 && spr_s->stripe
 			< mlx_s->width && spr_s->transformY < zbuffer[spr_s->stripe])
 		{
@@ -38,6 +41,7 @@ static void	stripe_p(t_data *mlx_s, double *zbuffer, t_s *spr_s)
 					my_mlx_pixel_put(mlx_s, spr_s->stripe, y, color);
 			}
 		}
+		spr_s->stripe++;
 	}
 }
 
@@ -51,7 +55,7 @@ int	*sort_sp(t_data *mlx_s, t_ray *ray)
 	spOrder = malloc(sizeof(int) * mlx_s->spriteNum);
 	spDist = malloc(sizeof(double) * mlx_s->spriteNum);
 	if (!spOrder || !spDist)
-		malloc_error();
+		error(1);
 	while (++i < mlx_s->spriteNum)
 	{
 		spOrder[i] = i;
@@ -99,7 +103,8 @@ void	print_sprite(t_data *mlx_s, t_ray *ray, double *zbuffer)
 		spr_s.drawStartX = -spr_s.spriteWidth / 2 + spr_s.spriteScreenX;
 		spr_s.drawEndX = spr_s.spriteWidth / 2 + spr_s.spriteScreenX;
 		limits(&spr_s.drawStartX, &spr_s.drawEndX, mlx_s->width - 1);
-		spr_s.stripe = spr_s.drawStartX - 1;
+		spr_s.stripe = spr_s.drawStartX;
+		//printf("---%d-----\n", spr_s.stripe);
 		stripe_p(mlx_s, zbuffer, &spr_s);
 	}
 	free(spOrder);

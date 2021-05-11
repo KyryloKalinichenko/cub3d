@@ -24,9 +24,9 @@ static int	move(int keycode, t_data *mlx_s)
 	left_right(mlx_s, keycode, mlx_s->map_s->map);
 	if (keycode == TLEFT)
 		turn_r(mlx_s->ray);
-	else if (keycode == TRIGHT)
+	if (keycode == TRIGHT)
 		turn_l(mlx_s->ray);
-	else if (keycode == ESC)
+	if (keycode == ESC)
 		just_exit();
 	ray_fun(mlx_s, mlx_s->ray);
 	mlx_put_image_to_window(mlx_s->mlx, mlx_s->mlx_win, mlx_s->img, 0, 0);
@@ -38,13 +38,26 @@ static void	check_type(char *filename)
 	char	**tab;
 	int		i;
 
-	i = -1;
 	tab = ft_split(filename, '.');
 	if (!tab)
-		malloc_error();
-	if (!tab[1] || ft_strcmp("cub", tab[1]))
+		error(1);
+	i = open(filename, O_RDONLY);
+	if (!tab[1] || ft_strcmp("cub", tab[1]) || i < 0)
 		wrong_flag();
 	tab_free(tab);
+}
+
+int	next_frame(t_data *mlx_s)
+{
+
+	//ray_fun(mlx_s, mlx_s->ray);
+	mlx_put_image_to_window(mlx_s->mlx, mlx_s->mlx_win, mlx_s->img, 0, 0);	
+	return(0);
+}
+int	nothing(t_data *mlx_s)
+{
+	(void)mlx_s;
+	return (0);
 }
 
 /*
@@ -69,6 +82,8 @@ int	main(int argc, char **argv)
 			wrong_flag();
 	}
 	mlx_hook (mlx_s.mlx_win, 2, 1L << 0, move, &mlx_s);
+	//mlx_hook (mlx_s.mlx_win, 3, 1L << 1, nothing, &mlx_s);
 	mlx_hook (mlx_s.mlx_win, 17, 1L << 17, just_exit, &mlx_s);
+	//mlx_loop_hook(mlx_s.mlx, next_frame, &mlx_s);
 	mlx_loop (mlx_s.mlx);
 }

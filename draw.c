@@ -104,8 +104,10 @@ static void	print_ceiling(t_data *mlx_s, t_floor *floor_s)
 		floor_s->floorX += floor_s->floorStepX;
 		floor_s->floorY += floor_s->floorStepY;
 		mlx_pixel_get(mlx_s->tex->no_side, cel_s.tx, cel_s.ty, &color);
+		color = (color >> 1) & 8355711;
 		my_mlx_pixel_put(mlx_s, cel_s.x, floor_s->y, color);
 		mlx_pixel_get(mlx_s->tex->ea_side, cel_s.tx, cel_s.ty, &color);
+		color = (color >> 1) & 8355711;
 		my_mlx_pixel_put(mlx_s, cel_s.x,
 			(mlx_s->height - floor_s->y - 1), color);
 	}

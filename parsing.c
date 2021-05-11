@@ -89,7 +89,7 @@ void	parsing_map(char *file, t_data *mlx_s)
 	mlx_s->map_s->height = mlx_s->height / (mlx_s->map_s->mapY * MINIMAP_S);
 	map = malloc(sizeof(char *) * mlx_s->map_s->mapY + 1);
 	if (!map)
-		malloc_error();
+		error(1);
 	mlx_s->map_s->map = map;
 	while (get_next_line(fd, &map[i]))
 	{

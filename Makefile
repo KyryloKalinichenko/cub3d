@@ -29,7 +29,7 @@ OBJS			= $(SRCS:.c=.o)
 
 CC				= gcc
 RM				= rm -f
-CFLAGS			= -O3 -Wall -Wextra -Werror -I. -D FLOOR=1
+CFLAGS			= -O3 -Wall -Wextra -Werror -I. -D FLOOR=0
 LIBS			= -Lmlx -lmlx -framework OpenGL -framework AppKit -lm
 MLX				=  libmlx.a
 
@@ -40,10 +40,10 @@ MAP	=	map.cub
 all:			$(NAME)
 
 run:
-				gcc ${CFLAGS} -o ${NAME} ${OBJS} $(MLX) ${LIBS} && ./${NAME} $(MAP)
+				./${NAME} $(MAP)
 
 $(NAME):		$(OBJS)
-				gcc ${CFLAGS} -o ${NAME} ${OBJS} $(MLX) ${LIBS} 
+				gcc ${CFLAGS} -o ${NAME} ${OBJS} $(MLX) ${LIBS}
 
 clean:
 				@$(MAKE) -C mlx clean

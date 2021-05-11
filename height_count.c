@@ -61,8 +61,8 @@ static void	skip(t_data *mlx_s, int fd)
 			break ;
 		if (!(tab
 				= ft_split(buff, ' ')))
-			malloc_error();
-		if (!ft_strcmp(tab[0], "R") && tab[1] && tab[2])
+			error(1);
+		if (!ft_strcmp(tab[0], "R"))
 			read_r(tab, mlx_s);
 		else
 			i = in_tab(mlx_s, tab, i);
@@ -87,7 +87,7 @@ int	height_count(char *file, t_data *mlx_s)
 	height = 1;
 	fd = open(file, O_RDONLY);
 	if (!fd)
-		malloc_error();
+		error(3);
 	skip(mlx_s, fd);
 	mlx_s->side[7] = NULL;
 	while (1)
