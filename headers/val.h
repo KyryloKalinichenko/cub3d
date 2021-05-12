@@ -28,8 +28,8 @@
 # define F 32
 # define S 64
 # define BUFFER_SIZE 10
-# define SPEED 0.2
-# define MSPEED 0.1
+# define SPEED 0.05
+# define MSPEED 0.05
 # define MINIMAP_S 5
 # define ESC 53
 # ifndef FLOOR

@@ -216,6 +216,7 @@ typedef struct s_s
 	int		drawEndX;
 	int		stripe;
 }				t_s;
+
 /*
 ** The main structure to store all necessary data for displaying an image.
 */
@@ -242,7 +243,7 @@ typedef struct s_data
 	double		*zbuffer;
 	short		spriteNum;
 	t_sprite	**sprite;
-	short		fl;
+	int			fl;
 }					t_data;
 
 int					get_next_line(int fd, char **line);

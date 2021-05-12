@@ -104,6 +104,7 @@ int	init(t_data *mlx_s, char *file)
 	mlx_s->map_s = map_s;
 	mlx_s->width = 0;
 	mlx_s->height = 0;
+	mlx_s->fl = 0;
 	parsing_map(file, mlx_s);
 	check_map(mlx_s->map_s->map, mlx_s->map_s->mapY, mlx_s->map_s->start);
 	init_mlx(mlx_s);

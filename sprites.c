@@ -23,7 +23,7 @@ static void	stripe_p(t_data *mlx_s, double *zbuffer, t_s *spr_s)
 	while (spr_s->stripe < spr_s->drawEndX)
 	{
 		texX = (int )(256 * (spr_s->stripe - (-spr_s->spriteWidth / 2
-						+ spr_s->spriteScreenX)) * 458
+						+ spr_s->spriteScreenX)) * 150
 				/ spr_s->spriteWidth) / 256;
 		//printf("%5d%5d%5d%5d\n", spr_s->transformY > 0, spr_s->stripe > 0, spr_s->stripe
 		//	< mlx_s->width, spr_s->transformY < zbuffer[spr_s->stripe]);
@@ -35,7 +35,7 @@ static void	stripe_p(t_data *mlx_s, double *zbuffer, t_s *spr_s)
 			while (++y < spr_s->drawEndY)
 			{
 				d = (y) * 256 - mlx_s->height * 128 + spr_s->spriteHeight * 128;
-				texY = ((d * 550) / spr_s->spriteHeight) / 256;
+				texY = ((d * 180) / spr_s->spriteHeight) / 256;
 				mlx_pixel_get(mlx_s->tex->sprite, texX, texY, &color);
 				if ((color & 0x00FFFFFF) != 0)
 					my_mlx_pixel_put(mlx_s, spr_s->stripe, y, color);
