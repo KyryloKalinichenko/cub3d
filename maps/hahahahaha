@@ -1,0 +1,14 @@
+R 1000 1000
+NO  ./xpms/colorstone.xpm
+SO  ./xpms/redbrick.xpm
+EA  ./xpms/wood.xpm
+WE ./xpms/colorstone.xpm
+S    ./xpms/small.xpm
+F  170,13,100
+C  133,193,250
+
+11111111111111111
+10000000110000001
+10000000000000111
+100000002000N0001
+11111111111111111

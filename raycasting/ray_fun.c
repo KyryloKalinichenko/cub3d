@@ -6,11 +6,11 @@
 /*   By: kkalinic <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/05 11:19:34 by kkalinic          #+#    #+#             */
-/*   Updated: 2021/05/08 18:14:08 by kkalinic         ###   ########.fr       */
+/*   Updated: 2021/05/13 16:50:00 by kkalinic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "headers/cub_head.h"
+#include "../headers/cub_head.h"
 
 static void	first_step(t_ray *ray)
 {
@@ -62,7 +62,7 @@ void	dda(t_ray *ray, t_data *mlx_s)
 	}
 }
 
-int	main_image(t_data *mlx_s, t_ray *ray, int i)
+double	main_image(t_data *mlx_s, t_ray *ray, int i)
 {
 	t_wall	wall;
 	t_tex	*tex;
@@ -105,22 +105,15 @@ static void	calc(t_ray *ray, int i, t_data *mlx_s)
 void	ray_fun(t_data *mlx_s, t_ray *ray)
 {
 	int		i;
-	double	*zbuffer;
 
 	i = -1;
-	if (!(zbuffer
-			= malloc(sizeof(double) * mlx_s->width)))
-		malloc_error();
-	if (FLOOR)
-		print_floor(mlx_s, ray);
 	while (++i < mlx_s->width)
 	{
-		if (!FLOOR)
-			print_back(0, mlx_s->height - 1, i, mlx_s);
+		print_back(0, mlx_s->height - 1, i, mlx_s);
 		calc(ray, i, mlx_s);
 		first_step(ray);
 		dda(ray, mlx_s);
-		zbuffer[i] = main_image(mlx_s, ray, i);
+		mlx_s->zbuffer[i] = main_image(mlx_s, ray, i);
 	}
-	print_sprite(mlx_s, mlx_s->ray, zbuffer);
+	print_sprite(mlx_s, mlx_s->ray, mlx_s->zbuffer);
 }

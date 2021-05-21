@@ -6,11 +6,11 @@
 /*   By: kkalinic <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/08 17:19:03 by kkalinic          #+#    #+#             */
-/*   Updated: 2021/05/08 17:22:47 by kkalinic         ###   ########.fr       */
+/*   Updated: 2021/05/13 14:24:52 by kkalinic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "headers/cub_head.h"
+#include "../headers/cub_head.h"
 
 static int	get_col(char *line)
 {
@@ -23,7 +23,7 @@ static int	get_col(char *line)
 	tab = ft_split(line, ',');
 	i = -1;
 	if (!tab)
-		malloc_error();
+		error(1);
 	while (tab[++i])
 	{
 		if (i == 0)
@@ -33,8 +33,9 @@ static int	get_col(char *line)
 		else if (i == 2)
 			b = ft_atoi(tab[i]);
 	}
-	if (i > 3 || i < 3 || r < 0 || g < 0 || b < 0)
-		map_err();
+	if (i > 3 || i < 3 || r < 0 || g < 0 || b < 0
+		|| r > 255 || g > 255 || b > 255)
+		error(2);
 	tab_free(tab);
 	return (create_trgb(0, r, g, b));
 }
@@ -69,7 +70,7 @@ static void	side_check(t_data *mlx_s)
 	while (mlx_s->side[++i])
 		statement(mlx_s, i, &flag, &flag2);
 	if (flag != 31 || flag2 != 96)
-		map_err();
+		error(2);
 }
 
 void	textures(t_data *mlx_s, t_sides *tex)

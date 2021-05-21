@@ -1,56 +1,100 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: kkalinic <marvin@42.fr>                    +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2021/05/14 15:41:54 by kkalinic          #+#    #+#              #
+#    Updated: 2021/05/19 11:23:15 by kkalinic         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
 
 SRCS			=	cub3d.c \
 					get_next_line/get_next_line_bonus.c \
 					get_next_line/get_next_line_utils_bonus.c \
-					init.c \
+					other_functions/init.c \
 					old_lib/ft_atoi.c \
 					old_lib/ft_split.c \
 					old_lib/ft_isdigit.c \
 					old_lib/ft_strlcpy.c \
-					draw.c \
-					print_player.c \
-					ray_fun.c \
-					errors_f.c \
-					map_check.c \
-					init_text.c \
-					save_image.c \
-					height_count.c \
-					pixel_move.c \
-					sort.c \
-					parsing.c \
-					tools.c \
-					extra_cheking.c \
-					sprites.c \
-					turns.c	\
-					start_pos.c
+					texturation/draw.c \
+					raycasting/ray_fun.c \
+					other_functions/errors_f.c \
+					parsing/map_check.c \
+					texturation/init_text.c \
+					other_functions/save_image.c \
+					parsing/height_count.c \
+					texturation/pixel_move.c \
+					other_functions/sort.c \
+					parsing/parsing.c \
+					other_functions/tools.c \
+					parsing/extra_cheking.c \
+					texturation/sprites.c \
+					other_functions/turns_moves.c	\
+					parsing/start_pos.c \
+
+SRCS_B			=	cub3d.c \
+					get_next_line/get_next_line_bonus.c \
+					get_next_line/get_next_line_utils_bonus.c \
+					bonus_f/init.c \
+					old_lib/ft_atoi.c \
+					old_lib/ft_split.c \
+					old_lib/ft_isdigit.c \
+					old_lib/ft_strlcpy.c \
+					texturation/draw.c \
+					bonus_f/ray_fun_bonus.c \
+					other_functions/errors_f.c \
+					parsing/map_check.c \
+					texturation/init_text.c \
+					other_functions/save_image.c \
+					parsing/height_count.c \
+					texturation/pixel_move.c \
+					other_functions/sort.c \
+					parsing/parsing.c \
+					other_functions/tools.c \
+					parsing/extra_cheking.c \
+					texturation/sprites.c \
+					other_functions/turns_moves.c	\
+					parsing/start_pos.c \
+					bonus_f/print_hud/print_minimap_bonus.c \
+					bonus_f/floor_tex/floor_bonus.c
 					
 
 OBJS			= $(SRCS:.c=.o)
+OBJS_B			= $(SRCS_B:.c=.o)
 
 CC				= gcc
 RM				= rm -f
-CFLAGS			= -O3 -Wall -Wextra -Werror -I. -D FLOOR=1
+CFLAGS			= -Wall -Wextra -Werror -I.
 LIBS			= -Lmlx -lmlx -framework OpenGL -framework AppKit -lm
 MLX				=  libmlx.a
 
 NAME			= cub3D
+BONUS			= bonus
 
-MAP	=	map.cub
+MAP	=	maps/map.cub
 
-all:			$(NAME)
+all:			$(NAME) $(BONUS)
 
 run:
-				gcc ${CFLAGS} -o ${NAME} ${OBJS} $(MLX) ${LIBS} && ./${NAME} $(MAP)
+				./${NAME} $(MAP)
 
-$(NAME):		$(OBJS)
-				gcc ${CFLAGS} -o ${NAME} ${OBJS} $(MLX) ${LIBS} 
+$(NAME):		$(OBJS) $(MLX)
+				gcc ${CFLAGS} -o ${NAME} ${OBJS} $(MLX) ${LIBS}
+
+$(BONUS):	$(OBJS_B) $(MLX)
+			gcc ${CFLAGS_B} -o ${BONUS} ${OBJS_B} $(MLX) ${LIBS}
+
+$(MLX):
+			cd mlx/ && $(MAKE) && mv $(MLX) ../
 
 clean:
 				@$(MAKE) -C mlx clean
-				$(RM) $(OBJS)
+				$(RM) $(OBJS) $(OBJS_B)
 
 fclean:			clean
-				$(RM) $(NAME)
+				$(RM) $(NAME) $(BONUS) $(MLX)
 
 re:				fclean $(NAME)
 

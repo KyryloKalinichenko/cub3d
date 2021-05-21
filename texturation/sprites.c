@@ -6,38 +6,38 @@
 /*   By: kkalinic <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/08 17:22:54 by kkalinic          #+#    #+#             */
-/*   Updated: 2021/05/08 17:36:26 by kkalinic         ###   ########.fr       */
+/*   Updated: 2021/05/13 16:51:02 by kkalinic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "headers/cub_head.h"
+#include "../headers/cub_head.h"
 
 static void	stripe_p(t_data *mlx_s, double *zbuffer, t_s *spr_s)
 {
-	int				texX;
-	int				texY;
-	int				y;
-	int				d;
+	t_on_map		tex;
+	t_on_map		tmp;
 	unsigned int	color;
 
-	while (++spr_s->stripe < spr_s->drawEndX)
+	while (spr_s->stripe < spr_s->drawEndX)
 	{
-		texX = (int )(256 * (spr_s->stripe - (-spr_s->spriteWidth / 2
-						+ spr_s->spriteScreenX)) * 64
+		tex.x = (int )(256 * (spr_s->stripe - (-spr_s->spriteWidth / 2
+						+ spr_s->spriteScreenX)) * 150
 				/ spr_s->spriteWidth) / 256;
 		if (spr_s->transformY > 0 && spr_s->stripe > 0 && spr_s->stripe
 			< mlx_s->width && spr_s->transformY < zbuffer[spr_s->stripe])
 		{
-			y = spr_s->drawStartY - 1;
-			while (++y < spr_s->drawEndY)
+			tmp.y = spr_s->drawStartY - 1;
+			while (++tmp.y < spr_s->drawEndY)
 			{
-				d = (y) * 256 - mlx_s->height * 128 + spr_s->spriteHeight * 128;
-				texY = ((d * 64) / spr_s->spriteHeight) / 256;
-				mlx_pixel_get(mlx_s->tex->sprite, texX, texY, &color);
+				tmp.x = (tmp.y) * 256 - mlx_s->height
+					* 128 + spr_s->spriteHeight * 128;
+				tex.y = ((tmp.x * 180) / spr_s->spriteHeight) / 256;
+				mlx_pixel_get(mlx_s->tex->sprite, tex.x, tex.y, &color);
 				if ((color & 0x00FFFFFF) != 0)
-					my_mlx_pixel_put(mlx_s, spr_s->stripe, y, color);
+					my_mlx_pixel_put(mlx_s, spr_s->stripe, tmp.y, color);
 			}
 		}
+		spr_s->stripe++;
 	}
 }
 
@@ -51,7 +51,7 @@ int	*sort_sp(t_data *mlx_s, t_ray *ray)
 	spOrder = malloc(sizeof(int) * mlx_s->spriteNum);
 	spDist = malloc(sizeof(double) * mlx_s->spriteNum);
 	if (!spOrder || !spDist)
-		malloc_error();
+		error(1);
 	while (++i < mlx_s->spriteNum)
 	{
 		spOrder[i] = i;
@@ -99,7 +99,7 @@ void	print_sprite(t_data *mlx_s, t_ray *ray, double *zbuffer)
 		spr_s.drawStartX = -spr_s.spriteWidth / 2 + spr_s.spriteScreenX;
 		spr_s.drawEndX = spr_s.spriteWidth / 2 + spr_s.spriteScreenX;
 		limits(&spr_s.drawStartX, &spr_s.drawEndX, mlx_s->width - 1);
-		spr_s.stripe = spr_s.drawStartX - 1;
+		spr_s.stripe = spr_s.drawStartX;
 		stripe_p(mlx_s, zbuffer, &spr_s);
 	}
 	free(spOrder);

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "headers/cub_head.h"
+#include "../headers/cub_head.h"
 
 static void	init_header(int fd, int size)
 {
@@ -89,14 +89,14 @@ void	save_image(t_data *mlx_s)
 		mod = mlx_s->width * 3;
 	if ((fd
 			= open("save.bmp", O_CREAT | O_WRONLY | O_TRUNC, 77777)) == -1)
-		no_file();
+		error(3);
 	init_header(fd, ((mlx_s->width * 3)
 			+ ((4 - (mlx_s->width * 3) % 4) % 4) * mlx_s->height));
 	init_infoheader(fd, mlx_s->height, mlx_s->width);
 	while (--i > 0)
 		cond(mlx_s, i, fd);
 	if (close(fd) < 0)
-		printf("Close fail\n");
+		error(4);
 	else
 		printf("BMP file saved!\n");
 	exit(EXIT_SUCCESS);

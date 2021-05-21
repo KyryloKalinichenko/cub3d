@@ -6,11 +6,11 @@
 /*   By: kkalinic <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/04 16:48:29 by kkalinic          #+#    #+#             */
-/*   Updated: 2021/05/08 16:36:08 by kkalinic         ###   ########.fr       */
+/*   Updated: 2021/05/19 11:54:34 by kkalinic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "headers/cub_head.h"
+#include "../headers/cub_head.h"
 
 /*
 ** init_mlx make a connection to the display and create 
@@ -23,17 +23,23 @@ static void	init_mlx(t_data *mlx_s)
 	int	i;
 
 	i = -1;
-	mlx_s->mlx = mlx_init();
-	mlx_s->mlx_win = mlx_new_window(mlx_s->mlx,
-			mlx_s->width, mlx_s->height, "The cub is here!");
-	mlx_s->img = mlx_new_image(mlx_s->mlx, mlx_s->width, mlx_s->height);
+	if (!(mlx_s->mlx
+			= mlx_init()))
+		error(1);
+	if (!(mlx_s->mlx_win
+			= mlx_new_window(mlx_s->mlx,
+				mlx_s->width, mlx_s->height, "The cub is here!")))
+		error(1);
+	if (!(mlx_s->img
+			= mlx_new_image(mlx_s->mlx, mlx_s->width, mlx_s->height)))
+		error(1);
 	mlx_s->addr = mlx_get_data_addr(mlx_s->img,
 			&mlx_s->bits_per_pixel, &mlx_s->line_length, &mlx_s->endian);
 	mlx_s->zbuffer = malloc(sizeof(double *) * mlx_s->width);
 	mlx_s->spriteNum = s_count(mlx_s->map_s->map);
 	mlx_s->sprite = malloc(sizeof(t_sprite *) * mlx_s->spriteNum);
 	if (!mlx_s->sprite || !mlx_s->zbuffer)
-		malloc_error();
+		error(1);
 	s_place(mlx_s->map_s->map, mlx_s->sprite);
 }
 
@@ -44,10 +50,10 @@ static void	init_mlx(t_data *mlx_s)
 
 static int	num(char *str)
 {
-	while (*str && ft_isdigit(*str))
+	while (*str && (ft_isdigit(*str) || ft_iswhitespace(*str)))
 		str++;
 	if (*str)
-		map_err();
+		error(2);
 	return (1);
 }
 
@@ -69,8 +75,8 @@ void	read_r(char **tab, t_data *mlx_s)
 {
 	int	i;
 
-	if (mlx_s->width != 0 || mlx_s->height != 0)
-		map_err();
+	if (!tab[1] || !tab[2] || mlx_s->width != 0 || mlx_s->height != 0)
+		error(2);
 	i = -1;
 	while (tab[++i])
 	{
@@ -80,11 +86,11 @@ void	read_r(char **tab, t_data *mlx_s)
 			mlx_s->height = ft_atoi(tab[i]);
 		free(tab[i]);
 		if (i > 2)
-			map_err();
+			error(2);
 	}
 	free(tab);
-	if (!mlx_s->width || !mlx_s->height)
-		map_err();
+	if (mlx_s->width <= 0 || mlx_s->height <= 0)
+		error(2);
 	res_test(mlx_s);
 }
 
@@ -98,17 +104,20 @@ int	init(t_data *mlx_s, char *file)
 	mlx_s->tex = malloc(sizeof(t_sides));
 	map_s->start = malloc(sizeof(t_point));
 	if (!map_s || !ray || !mlx_s->tex || !map_s->start)
-		malloc_error();
+		error(1);
 	map_s->start->y = -1;
 	map_s->start->x = -1;
 	mlx_s->map_s = map_s;
 	mlx_s->width = 0;
 	mlx_s->height = 0;
+	map_s->mapX = 0;
 	parsing_map(file, mlx_s);
-	check_map(mlx_s->map_s->map, mlx_s->map_s->mapY, mlx_s->map_s->start);
+	check_map(mlx_s->map_s->map, mlx_s->map_s->mapY,
+		mlx_s->map_s->start, mlx_s->map_s->mapX);
 	init_mlx(mlx_s);
 	mlx_s->ray = ray;
 	textures(mlx_s, mlx_s->tex);
 	init_ray(ray, map_s->start);
+	system("afplay sounds/frog.mp3 &>/dev/null &");
 	return (0);
 }

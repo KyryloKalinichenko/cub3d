@@ -6,9 +6,11 @@
 /*   By: kkalinic <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/12 14:01:16 by kkalinic          #+#    #+#             */
-/*   Updated: 2021/05/04 13:07:03 by kkalinic         ###   ########.fr       */
+/*   Updated: 2021/05/21 10:46:42 by kkalinic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "headers/cub_head.h"
 
 #include "headers/cub_head.h"
 
@@ -41,9 +43,9 @@ static void	check_type(char *filename)
 	i = -1;
 	tab = ft_split(filename, '.');
 	if (!tab)
-		malloc_error();
+		error(1);
 	if (!tab[1] || ft_strcmp("cub", tab[1]))
-		wrong_flag();
+		error(5);
 	tab_free(tab);
 }
 
@@ -66,7 +68,7 @@ int	main(int argc, char **argv)
 		if (!ft_strcmp("--save", argv[2]))
 			save_image(&mlx_s);
 		else
-			wrong_flag();
+			error(3);
 	}
 	mlx_hook (mlx_s.mlx_win, 2, 1L << 0, move, &mlx_s);
 	mlx_hook (mlx_s.mlx_win, 17, 1L << 17, just_exit, &mlx_s);

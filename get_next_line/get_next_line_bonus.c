@@ -6,7 +6,7 @@
 /*   By: kkalinic <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 11:19:31 by kkalinic          #+#    #+#             */
-/*   Updated: 2020/12/04 16:00:27 by kkalinic         ###   ########.fr       */
+/*   Updated: 2021/05/13 17:20:38 by kkalinic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 #include <fcntl.h>
 #include "../headers/cub_head.h"
 
-char				*ft_strcat(char *dest, const char *src)
+char	*ft_strcat(char *dest, const char *src)
 {
 	char	*a;
 	int		i;
 	int		p;
 
 	i = 0;
-	a = (char*)src;
+	a = (char *)src;
 	p = ft_strlen(a) + 1;
 	while (dest[i] != '\0')
 		i++;
@@ -35,12 +35,12 @@ char				*ft_strcat(char *dest, const char *src)
 	return (dest);
 }
 
-char				*ft_strncpy(char *dest, const char *src, size_t n)
+char	*ft_strncpy(char *dest, const char *src, size_t n)
 {
 	int				i;
 	const char		*b;
 
-	b = (char*)src;
+	b = (char *)src;
 	i = 0;
 	while (b[i] != '\0' && n)
 	{
@@ -57,19 +57,17 @@ char				*ft_strncpy(char *dest, const char *src, size_t n)
 	return (dest);
 }
 
-static int			ft_skip(size_t i, t_list *list, char **line, int r)
+static int	ft_skip(size_t i, t_list *list, char **line, int r)
 {
 	if (i < ft_strlen(list->con))
 	{
-		if (!(*line = ft_substr(list->con, 0, i)))
-			return (-1);
-		if (!(list->tmp = ft_substr(list->con, i + 1, ft_strlen(list->con))))
-		{
-			free(*line);
-			return (-1);
-		}
+		*line = ft_substr(list->con, 0, i);
+		list->tmp = ft_substr(list->con, i + 1, ft_strlen(list->con));
+		if (!line || !list->tmp)
+			exit (EXIT_FAILURE);
 		free(list->con);
-		if (!(list->con = ft_strdup(list->tmp)))
+		if (!(list->con
+				= ft_strdup(list->tmp)))
 		{
 			free(*line);
 			free(list->tmp);
@@ -86,16 +84,19 @@ static int			ft_skip(size_t i, t_list *list, char **line, int r)
 	return (1);
 }
 
-static int			ft_gnl_cond(char *content, t_list *list, char **line, int i)
+static int	ft_gnl_cond(char *content, t_list *list, char **line, int i)
 {
 	unsigned int	j;
 
 	j = 0;
+	if (i == -1)
+		return (-1);
 	if (i <= 0 && !content)
 	{
 		if (i == 0)
 		{
-			if (!(*line = ft_strdup("")))
+			if (!(*line
+					= ft_strdup("")))
 				return (-1);
 		}
 		return (i);
@@ -108,35 +109,33 @@ static int			ft_gnl_cond(char *content, t_list *list, char **line, int i)
 	return (ft_skip(j, list, line, i));
 }
 
-int					get_next_line(int fd, char **line)
+int	get_next_line(int fd, char **line)
 {
 	static t_list	list[FOPEN_MAX];
 	char			*buff;
 	int				i;
 
-	if ((BUFFER_SIZE + 1) <= 1 || !line ||
-			!(buff = malloc(sizeof(char) * BUFFER_SIZE + 1)))
+	if ((BUFFER_SIZE + 1) <= 1 || !line
+		|| !(buff = malloc(sizeof(char) * BUFFER_SIZE + 1)))
 		return (-1);
-	while ((i = read(fd, buff, BUFFER_SIZE)) > 0)
+	while (reading(fd, buff, &i))
 	{
-		
-		buff[i] = '\0';
-		//printf("%d\n", i);
 		if (list[fd].con != NULL)
 		{
-			if (!(list[fd].tmp = ft_strjoin(list[fd].con, buff)))
+			if (!(list[fd].tmp
+					= ft_strjoin(list[fd].con, buff)))
 				i = -1;
 			free(list[fd].con);
 			list[fd].con = list[fd].tmp;
 		}
-		else if (NULL == (list[fd].con = ft_strdup(buff)))
+		else if (NULL == (list[fd].con
+				= ft_strdup(buff)))
 			i = -1;
 		if (ft_strchr(buff, '\n') || i == -1)
 			break ;
 	}
-	//printf("%i\n", i);
 	free(buff);
-	return (i == -1 ? -1 : ft_gnl_cond(list[fd].con, &list[fd], line, i));
+	return (ft_gnl_cond(list[fd].con, &list[fd], line, i));
 }
 /*
 **int main()

@@ -6,11 +6,11 @@
 /*   By: kkalinic <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/12 14:01:30 by kkalinic          #+#    #+#             */
-/*   Updated: 2021/05/08 17:51:28 by kkalinic         ###   ########.fr       */
+/*   Updated: 2021/05/14 14:04:33 by kkalinic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "headers/cub_head.h"
+#include "../headers/cub_head.h"
 
 static void	check_first_last(char *line)
 {
@@ -22,10 +22,10 @@ static void	check_first_last(char *line)
 		while (line[++i] && (line[i] == '1' || line[i] == ' '))
 			;
 		if (line[i])
-			map_err();
+			error(2);
 	}
 	else
-		map_err();
+		error(2);
 }
 
 static void	start_ver(int i, int j, t_point *start, char **map)
@@ -38,7 +38,7 @@ static void	start_ver(int i, int j, t_point *start, char **map)
 		map[i][j] = '0';
 	}
 	else
-		map_err();
+		error(2);
 }
 
 static void	point_check(char **map, t_on_map pos, t_point *start, int len)
@@ -50,44 +50,41 @@ static void	point_check(char **map, t_on_map pos, t_point *start, int len)
 		if (map[pos.x][pos.y] != '2' && map[pos.x][pos.y] != '0')
 			start_ver(pos.x, pos.y, start, map);
 		if (pos.y == 0 || pos.y == (len - 1))
-			map_err();
+			error(2);
 		if (map[pos.x][pos.y + 1] == ' ' || map[pos.x][pos.y - 1] == ' ')
-			map_err();
+			error(2);
 		if (map[pos.x + 1][pos.y + 1] == ' '
 		|| map[pos.x - 1][pos.y - 1] == ' ')
-			map_err();
+			error(2);
 		if (map[pos.x - 1][pos.y + 1] == ' '
 		|| map[pos.x + 1][pos.y - 1] == ' ')
-			map_err();
+			error(2);
 		if (map[pos.x + 1][pos.y] == ' ' || map[pos.x - 1][pos.y] == ' ')
-			map_err();
+			error(2);
 	}
 }
 
-void	check_map(char **map, int last, t_point *start)
+void	check_map(char **map, int last, t_point *start, int len)
 {
 	t_on_map	pos;
-	int			len;
 	short		fl;
 
 	pos.x = -1;
 	pos.y = 0;
 	fl = 0;
 	check_first_last(map[++pos.x]);
-	while (map[++pos.x] != '\0' && map[pos.x] && pos.x < last)
+	while (map[++pos.x] != NULL && pos.x <= (last - 2))
 	{
-		len = ft_strlen(map[pos.x]);
 		while (map[pos.x][pos.y])
 		{
 			point_check(map, pos, start, len);
 			pos.y++;
 		}
-		if (!ft_strcmp(map[pos.x], ""))
-			check_first_last(map[pos.x - 1]);
 		pos.y = 0;
 	}
+	check_first_last(map[pos.x - 1]);
 	if (start->x < 0 || start->y < 0)
-		map_err();
+		error(2);
 }
 
 t_sprite	*put_s_place(int i, int j)
@@ -96,7 +93,7 @@ t_sprite	*put_s_place(int i, int j)
 
 	here = malloc(sizeof(t_sprite));
 	if (!here)
-		malloc_error();
+		error(1);
 	here->x = j + 0.5;
 	here->y = i + 0.5;
 	here->tex = NULL;

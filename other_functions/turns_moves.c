@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "headers/cub_head.h"
+#include "../headers/cub_head.h"
 
 void	turn_l(t_ray *ray)
 {
@@ -55,7 +55,7 @@ void	back_forth(t_data *mlx_s, int keycode)
 			(mlx_s->ray->pos->x + mlx_s->ray->dir->x * (MSPEED + 0.1))] == '0')
 			mlx_s->ray->pos->x += mlx_s->ray->dir->x * MSPEED;
 	}
-	else if (keycode == BACK)
+	if (keycode == BACK)
 	{
 		if (mlx_s->map_s->map[(int)(mlx_s->ray->pos->y - mlx_s->ray->dir->y
 				* (MSPEED + 0.1))][(int)(mlx_s->ray->pos->x)] == '0')
@@ -79,18 +79,18 @@ void	left_right(t_data *mlx_s, int keycode, char **map)
 	r_p_y = mlx_s->ray->pos->y;
 	if (keycode == LEFT)
 	{
-		if (map[(int)(r_p_y + r_d_x * (MSPEED))][(int)(r_p_x)] == '0')
+		if (map[(int)(r_p_y + r_d_x * (MSPEED + 0.1))][(int)(r_p_x)] == '0')
 			mlx_s->ray->pos->y += r_d_x * MSPEED;
 		if (map[(int)(r_p_y)]
-				[(int)(r_p_x - r_d_y * (MSPEED))] == '0')
+				[(int)(r_p_x - r_d_y * (MSPEED + 0.1))] == '0')
 			mlx_s->ray->pos->x -= r_d_y * MSPEED;
 	}
-	else if (keycode == RIGHT)
+	if (keycode == RIGHT)
 	{
 		if (map[(int)(r_p_y - r_d_x * (MSPEED + 0.1))]
 			[(int)(r_p_x)] == '0')
 			mlx_s->ray->pos->y -= r_d_x * MSPEED;
-		if (map[(int)(r_p_y)][(int)(r_p_x + r_d_y * (MSPEED))] == '0')
+		if (map[(int)(r_p_y)][(int)(r_p_x + r_d_y * (MSPEED + 0.1))] == '0')
 			mlx_s->ray->pos->x += r_d_y * MSPEED;
 	}
 }
@@ -108,7 +108,7 @@ void	init_ray(t_ray *ray, t_point *start)
 	if (!ray->ray_dir || !ray->dir || !ray->on_map
 		|| !ray->step || !ray->side_dist || !ray->delta_dist
 		|| !ray->plane || !ray->pos)
-		malloc_error();
+		error(1);
 	load(ray, start);
 	turn_start(ray, start->point);
 }

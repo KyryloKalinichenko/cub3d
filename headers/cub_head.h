@@ -6,7 +6,7 @@
 /*   By: kkalinic <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/07 15:24:06 by kkalinic          #+#    #+#             */
-/*   Updated: 2021/05/08 17:56:46 by kkalinic         ###   ########.fr       */
+/*   Updated: 2021/05/19 12:24:28 by kkalinic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -216,6 +216,7 @@ typedef struct s_s
 	int		drawEndX;
 	int		stripe;
 }				t_s;
+
 /*
 ** The main structure to store all necessary data for displaying an image.
 */
@@ -233,13 +234,12 @@ typedef struct s_data
 	int			height;
 	int			width;
 	t_map		*map_s;
-	t_pl		player;
 	t_ray		*ray;
 	t_ray		ray_s;
 	char		**side[8];
 	int			cel;
 	int			floor;
-	double		**zbuffer;
+	double		*zbuffer;
 	short		spriteNum;
 	t_sprite	**sprite;
 }					t_data;
@@ -279,8 +279,7 @@ void				print_back(int drawStart, int drawEnd,
 void				malloc_error(void);
 int					just_exit(void);
 void				no_file(void);
-void				check_map(char **map, int last, t_point *start);
-void				map_err(void);
+void				check_map(char **map, int last, t_point *start, int len);
 t_tex				*init_text(t_data *mlx_s, char *path, t_tex *tex);
 void				put_text(int i, t_data *mlx_s, t_wall *wall_s, t_tex *tex);
 void				mlx_pixel_get(t_tex *data, int x,
@@ -298,7 +297,6 @@ int					height_count(char *file, t_data *mlx_s);
 void				read_r(char **tab, t_data *mlx_s);
 int					line_check(char *line);
 int					char_check(char c);
-void				wrong_flag(void);
 
 void				bubbleSort(double *arr, int *ord, int n);
 void				parsing_map(char *file, t_data *mlx_s);
@@ -315,5 +313,15 @@ void				turn_start2(t_ray *ray, char c);
 void				load(t_ray *ray, t_point *start);
 void				back_forth(t_data *mlx_s, int keycode);
 void				left_right(t_data *mlx_s, int keycode, char **map);
+int					ft_iswhitespace(char c);
+int					ft_isstrwhitespace(char c);
+int					ft_isotherwhitespace(char c);
+void				error(int code);
+void				print_pl(t_data *mlx_s, int x, int y, int color);
+void				print_line(t_data *mlx_s, int x, int y, int color);
+void				print_string(t_data *mlx_s, char *s, int y);
+int					reading(int fd, char *buff, int *i);
+int					find_max(char **map);
+char				*fill_line(char *line, int max);
 
 #endif 

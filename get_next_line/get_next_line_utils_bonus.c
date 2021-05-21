@@ -6,14 +6,14 @@
 /*   By: kkalinic <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:47:09 by kkalinic          #+#    #+#             */
-/*   Updated: 2020/12/04 14:48:07 by kkalinic         ###   ########.fr       */
+/*   Updated: 2021/05/13 17:21:49 by kkalinic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headers/cub_head.h"
 #include <unistd.h>
 
-char		*ft_substr(char const *s, unsigned int start, size_t len)
+char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
 	size_t	i;
 	size_t	j;
@@ -41,7 +41,7 @@ char		*ft_substr(char const *s, unsigned int start, size_t len)
 	return (NULL);
 }
 
-char		*ft_strdup(const char *s)
+char	*ft_strdup(const char *s)
 {
 	char	*dup;
 	int		i;
@@ -49,7 +49,7 @@ char		*ft_strdup(const char *s)
 	i = -1;
 	if (s)
 	{
-		dup = malloc(sizeof(char) * (ft_strlen((char*)s) + 1));
+		dup = malloc(sizeof(char) * (ft_strlen((char *)s) + 1));
 		if (dup == NULL)
 			return (NULL);
 		while (s[++i])
@@ -60,7 +60,7 @@ char		*ft_strdup(const char *s)
 	return (NULL);
 }
 
-char		*ft_strchr(const char *s, int c)
+char	*ft_strchr(const char *s, int c)
 {
 	if (s)
 	{
@@ -76,9 +76,9 @@ char		*ft_strchr(const char *s, int c)
 	return (NULL);
 }
 
-char		*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin(char const *s1, char const *s2)
 {
-	char *a;
+	char	*a;
 
 	if (s1 && s2)
 	{
@@ -93,12 +93,14 @@ char		*ft_strjoin(char const *s1, char const *s2)
 	return (NULL);
 }
 
-size_t		ft_strlen(const char *s)
+int	reading(int fd, char *buff, int *i)
 {
-	int i;
-
-	i = 0;
-	while (s[i] != '\0')
-		i++;
-	return (i);
+	*i = read(fd, buff, BUFFER_SIZE);
+	if (*i > 0)
+	{
+		buff[*i] = '\0';
+		return (1);
+	}
+	else
+		return (0);
 }

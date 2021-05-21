@@ -6,7 +6,7 @@
 /*   By: kkalinic <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/07 15:26:48 by kkalinic          #+#    #+#             */
-/*   Updated: 2021/05/07 15:51:35 by kkalinic         ###   ########.fr       */
+/*   Updated: 2021/05/13 16:27:46 by kkalinic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 # define F 32
 # define S 64
 # define BUFFER_SIZE 10
-# define SPEED 0.2
+# define SPEED 0.1
 # define MSPEED 0.1
 # define MINIMAP_S 5
 # define ESC 53

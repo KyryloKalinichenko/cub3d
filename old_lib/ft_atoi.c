@@ -12,17 +12,17 @@
 
 #include "../headers/cub_head.h"
 
-static int	ft_isotherwhitespace(char c)
+int	ft_isotherwhitespace(char c)
 {
 	return (c == '\v' || c == '\f' || c == '\r');
 }
 
-static int	ft_isstrwhitespace(char c)
+int	ft_isstrwhitespace(char c)
 {
 	return (c == ' ' || c == '\t' || c == '\n');
 }
 
-static int	ft_iswhitespace(char c)
+int	ft_iswhitespace(char c)
 {
 	return (ft_isstrwhitespace(c) || ft_isotherwhitespace(c));
 }
