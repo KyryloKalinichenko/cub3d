@@ -23,15 +23,15 @@ static void	init_mlx(t_data *mlx_s)
 	int	i;
 
 	i = -1;
-	if (!(mlx_s->mlx
-			= mlx_init()))
+	mlx_s->mlx = mlx_init();
+	if (!mlx_s->mlx)
 		error(1);
-	if (!(mlx_s->mlx_win
-			= mlx_new_window(mlx_s->mlx,
-				mlx_s->width, mlx_s->height, "The cub is here!")))
+	mlx_s->mlx_win = mlx_new_window(mlx_s->mlx,
+				mlx_s->width, mlx_s->height, "The cub is here!");
+	if (!mlx_s->mlx_win)
 		error(1);
-	if (!(mlx_s->img
-			= mlx_new_image(mlx_s->mlx, mlx_s->width, mlx_s->height)))
+	mlx_s->img = mlx_new_image(mlx_s->mlx, mlx_s->width, mlx_s->height);
+	if (!mlx_s->img)
 		error(1);
 	mlx_s->addr = mlx_get_data_addr(mlx_s->img,
 			&mlx_s->bits_per_pixel, &mlx_s->line_length, &mlx_s->endian);

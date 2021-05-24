@@ -95,8 +95,8 @@ static int	ft_gnl_cond(char *content, t_list *list, char **line, int i)
 	{
 		if (i == 0)
 		{
-			if (!(*line
-					= ft_strdup("")))
+			*line = ft_strdup("");
+			if (!*line)
 				return (-1);
 		}
 		return (i);
@@ -115,15 +115,15 @@ int	get_next_line(int fd, char **line)
 	char			*buff;
 	int				i;
 
-	if ((BUFFER_SIZE + 1) <= 1 || !line
-		|| !(buff = malloc(sizeof(char) * BUFFER_SIZE + 1)))
+	buff = malloc(sizeof(char) * BUFFER_SIZE + 1);
+	if ((BUFFER_SIZE + 1) <= 1 || !line || !buff)
 		return (-1);
 	while (reading(fd, buff, &i))
 	{
 		if (list[fd].con != NULL)
 		{
-			if (!(list[fd].tmp
-					= ft_strjoin(list[fd].con, buff)))
+			list[fd].tmp = ft_strjoin(list[fd].con, buff);
+			if (!list[fd].tmp)
 				i = -1;
 			free(list[fd].con);
 			list[fd].con = list[fd].tmp;

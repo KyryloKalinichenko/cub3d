@@ -71,7 +71,7 @@ void	print_string(t_data *mlx_s, char *s, int y)
 			print_sq(mlx_s, x, y, create_trgb(0, 214, 137, 16));
 		else if (*s == '2')
 			print_sq(mlx_s, x, y, 0x0F0000FF);
-		else
+		else if (*s == '0')
 			print_sq(mlx_s, x, y, create_trgb(0, 31, 97, 141));
 		s++;
 		x += mlx_s->map_s->width;

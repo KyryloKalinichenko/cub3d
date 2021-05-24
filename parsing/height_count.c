@@ -49,8 +49,8 @@ static int	cond(char *buff, t_data *mlx_s, int *i)
 	}
 	if (line_check(buff))
 		return (1);
-	if (!(tab
-			= ft_split(buff, ' ')))
+	tab = ft_split(buff, ' ');
+	if (!(tab))
 		error(1);
 	if (!ft_strcmp(tab[0], "R"))
 		read_r(tab, mlx_s);

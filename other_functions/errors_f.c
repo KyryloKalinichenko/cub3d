@@ -55,8 +55,8 @@ int	find_max(char **map)
 	max = ft_strlen(map[++i]);
 	while (map[++i])
 	{
-		if (max
-			< (tmp = ft_strlen(map[i])))
+		tmp = ft_strlen(map[i]);
+		if (max < tmp)
 			max = tmp;
 	}
 	return (max);
@@ -73,6 +73,8 @@ char	*fill_line(char *line, int max)
 	limit = ft_strlen(line);
 	tmp = line;
 	point = malloc(sizeof(char) * (max + 1));
+	if (!point)
+		error(1);
 	while (++i < max)
 	{
 		if (i < limit)

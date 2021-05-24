@@ -87,8 +87,8 @@ void	save_image(t_data *mlx_s)
 		mod = (mlx_s->width * 3) + (4 - ((mlx_s->width * 3) % 4));
 	else
 		mod = mlx_s->width * 3;
-	if ((fd
-			= open("save.bmp", O_CREAT | O_WRONLY | O_TRUNC, 77777)) == -1)
+	fd = open("save.bmp", O_CREAT | O_WRONLY | O_TRUNC, 77777);
+	if (fd  == -1)
 		error(3);
 	init_header(fd, ((mlx_s->width * 3)
 			+ ((4 - (mlx_s->width * 3) % 4) % 4) * mlx_s->height));

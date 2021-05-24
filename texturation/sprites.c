@@ -105,6 +105,11 @@ void	print_sprite(t_data *mlx_s, t_ray *ray, double *zbuffer)
 	free(spOrder);
 }
 
+/*
+**
+**
+*/
+
 void	s_place(char **map, t_sprite **sprites)
 {
 	int			i;

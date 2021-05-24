@@ -12,6 +12,12 @@
 
 #include "../headers/cub_head.h"
 
+/*
+** The following functions help me extract the color 
+** of particular pixel or put the color to a particular 
+** pixel.
+*/
+
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 {
 	char	*dst;
