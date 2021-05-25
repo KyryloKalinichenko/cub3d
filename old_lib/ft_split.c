@@ -80,7 +80,8 @@ char	**ft_split(char const *s, char c)
 	unsigned int	nb_strs;
 	unsigned int	i;
 
-	tab = (char **)malloc(sizeof(char *) * ((nb_strs = ft_get_nb_strs(s, c)) + 1));
+	tab = (char **)malloc(sizeof(char *)
+			* ((nb_strs = ft_get_nb_strs(s, c)) + 1));
 	if (!s || !tab)
 		return (NULL);
 	i = 0;

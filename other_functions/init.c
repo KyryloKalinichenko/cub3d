@@ -27,7 +27,7 @@ static void	init_mlx(t_data *mlx_s)
 	if (!mlx_s->mlx)
 		error(1);
 	mlx_s->mlx_win = mlx_new_window(mlx_s->mlx,
-				mlx_s->width, mlx_s->height, "The cub is here!");
+			mlx_s->width, mlx_s->height, "The cub is here!");
 	if (!mlx_s->mlx_win)
 		error(1);
 	mlx_s->img = mlx_new_image(mlx_s->mlx, mlx_s->width, mlx_s->height);
